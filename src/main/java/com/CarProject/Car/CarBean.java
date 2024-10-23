@@ -30,7 +30,7 @@ public class CarBean {
 	private String grade ; // 등급
 	
 	
-//	 cardetail1
+//	 cardetail2
 	private int cd2Idx ; //
 	private String trim ; // 트림
 	private String price ; // 가격
