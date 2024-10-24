@@ -12,6 +12,10 @@ public class MemberBean {
 	private String password ; // 비밀번호
 	
 	
+	public MemberBean() {
+	}
+	
+
 	public int getmIdx() {
 		return mIdx;
 	}
@@ -65,6 +69,12 @@ public class MemberBean {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	@Override
+	public String toString() {
+		return "MemberBean [mIdx=" + mIdx + ", name=" + name + ", age=" + age + ", gender=" + gender + ", address="
+				+ address + ", phone=" + phone + ", mail=" + mail + ", id=" + id + ", password=" + password + "]";
 	}
 	
 }

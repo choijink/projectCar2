@@ -11,6 +11,9 @@ public class BoardBean {
 	private String announcement ; // 공지사항
 	
 	
+	public BoardBean() {
+	}
+	
 	public int getbIdx() {
 		return bIdx;
 	}
@@ -60,5 +63,10 @@ public class BoardBean {
 		this.announcement = announcement;
 	}
 	
+	@Override
+	public String toString() {
+		return "BoardBean [bIdx=" + bIdx + ", mIdx=" + mIdx + ", title=" + title + ", content=" + content + ", image1="
+				+ image1 + ", image2=" + image2 + ", image3=" + image3 + ", announcement=" + announcement + "]";
+	}
 	
 }

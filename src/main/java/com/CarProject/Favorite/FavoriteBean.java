@@ -6,6 +6,10 @@ public class FavoriteBean {
 	private int cd2Idx ; // 상세보기2 식별번호
 	
 	
+	public FavoriteBean() {
+	}
+	
+	
 	public int getCfIdx() {
 		return cfIdx;
 	}
@@ -23,5 +27,9 @@ public class FavoriteBean {
 	}
 	public void setCd2Idx(int cd2Idx) {
 		this.cd2Idx = cd2Idx;
+	}
+	@Override
+	public String toString() {
+		return "FavoriteBean [cfIdx=" + cfIdx + ", mIdx=" + mIdx + ", cd2Idx=" + cd2Idx + "]";
 	}
 }
