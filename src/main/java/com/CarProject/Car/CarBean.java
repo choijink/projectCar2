@@ -37,8 +37,12 @@ public class CarBean {
 	
 	
 	
+	public CarBean() {
+		
+	}
 	
 	
+
 	public int getcIdx() {
 		return cIdx;
 	}
@@ -195,7 +199,22 @@ public class CarBean {
 	public void setPrice(String price) {
 		this.price = price;
 	}
+	
+	
+	@Override
+	public String toString() {
+		return "CarBean [cIdx=" + cIdx + ", domesticImport=" + domesticImport + ", brand=" + brand + ", vehicleSize="
+				+ vehicleSize + ", carModel=" + carModel + ", carName=" + carName + ", brandMark=" + brandMark
+				+ ", carImage=" + carImage + ", cd1Idx=" + cd1Idx + ", fuelType=" + fuelType + ", displacement="
+				+ displacement + ", fuelEfficiency=" + fuelEfficiency + ", seatingCapacity=" + seatingCapacity
+				+ ", engineType=" + engineType + ", driveType=" + driveType + ", maxPower=" + maxPower + ", maxTorque="
+				+ maxTorque + ", length=" + length + ", width=" + width + ", height=" + height + ", wheelBase="
+				+ wheelBase + ", curbWeight=" + curbWeight + ", grade=" + grade + ", cd2Idx=" + cd2Idx + ", trim="
+				+ trim + ", price=" + price + "]";
+	}
 
+	
+	
 	
 	
 }
