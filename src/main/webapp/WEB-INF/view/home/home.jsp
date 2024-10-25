@@ -2,6 +2,13 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
+<head>
+<title>Carbook - Free Bootstrap 4 Template by Colorlib</title>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<%@ include file="/WEB-INF/view/common/css.jsp"%>
+</head>
 <style>
 .request-form.ftco-animate.bg-primary.fadeInUp.ftco-animated {
 	width: 100%;
@@ -29,8 +36,14 @@
 .ftco-section {
 	padding: 2em 0;
 }
+
+.ftco-footer {
+	height: 350px;
+}
 </style>
 <body>
+
+
 	<%@ include file="/WEB-INF/view/common/header.jsp"%>
 	<!-- END nav -->
 
@@ -73,9 +86,7 @@
 								</div>
 							</form>
 						</div>
-						<div class="testClass" style="width: 100%;">
-							<a>123123123</a>
-						</div>
+
 					</div>
 				</div>
 			</div>
@@ -93,5 +104,8 @@
 				stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" />
     </svg>
 	</div>
+
+
+	<%@ include file="/WEB-INF/view/common/js.jsp"%>
 </body>
 </html>
