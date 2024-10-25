@@ -9,6 +9,27 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <%@ include file="/WEB-INF/view/common/css.jsp"%>
 </head>
+<style>
+.d-block {
+    width: 100%;
+    justify-content: center;
+    gap:10px;
+}
+.btn-danger{
+	font-size: 0.8rem !important;
+    border: 1px solid !important;
+    border-width: 0px !important;
+    line-height: 3.5;
+    width:30% !important;
+}
+.mr-1{
+	color: black !important;
+    line-height: 2.5;
+}
+.car-wrap .text p.d-block a {
+    width: 78%;
+}
+</style>
 <body>
 
 	<%@ include file="/WEB-INF/view/common/header.jsp"%>
@@ -21,14 +42,37 @@
 		<div class="container">
 			<div
 				class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
-				<div class="col-md-9 ftco-animate pb-5">
-					<p class="breadcrumbs">
-						<span class="mr-2"><a href="index.html">Home <i
-								class="ion-ios-arrow-forward"></i></a></span> <span>Cars <i
-							class="ion-ios-arrow-forward"></i></span>
-					</p>
-					<h1 class="mb-3 bread">Choose Your Car</h1>
-				</div>
+				<div class="col-md-4 d-flex align-items-center">
+							<form action="#" class="request-form ftco-animate bg-primary">
+								<h2>조건 차량 검색</h2>
+								<div class="form-group">
+									<label for="" class="label">차량 브랜드</label> <input type="text"
+										class="form-control" placeholder="현대, 기아, 벤츠 등등..">
+								</div>
+								<div class="form-group">
+									<label for="" class="label">차량 크기</label> <input type="text"
+										class="form-control" placeholder="중형, 준중형, 대형 등등..">
+								</div>
+								<div class="d-flex">
+									<div class="form-group mr-2">
+										<label for="" class="label">차량 종류</label> <input type="text"
+											class="form-control" placeholder="세단, SUV 등등..">
+									</div>
+									<div class="form-group ml-2">
+										<label for="" class="label">어쩌구 저쩌구</label> <input type="text"
+											class="form-control" placeholder="어쩌구, 저쩌구 등등..">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="" class="label">차량 이름</label> <input type="text"
+										class="form-control" placeholder="아반떼, 소나타, K5 등등..">
+								</div>
+								<div class="form-group">
+									<input type="submit" value="해당 조건 차량 검색"
+										class="btn btn-secondary py-3 px-4">
+								</div>
+							</form>
+						</div>
 			</div>
 		</div>
 	</section>
@@ -42,256 +86,210 @@
 						<div class="img rounded d-flex align-items-end"
 							style="background-image: url(images/car-1.jpg);"></div>
 						<div class="text">
-							<h2 class="mb-0">
-								<a href="carView">Mercedes Grand Sedan</a>
-							</h2>
+							<div class="d-flex align-items-center mb-3">
+								<h2 class="mb-0">
+									<a href="carView">S Class AMG63(모델명)</a>
+								</h2>
+							</div>
 							<div class="d-flex mb-3">
-								<span class="cat">Cheverolet</span>
 								<p class="price ml-auto">
-									$500 <span>/day</span>
+									Benz(브랜드명)
 								</p>
 							</div>
 							<p class="d-flex mb-0 d-block">
-								<a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a
-									href="carView" class="btn btn-secondary py-2 ml-1">상세보기</a>
-							</p>
+								<a href="#" class="btn btn-light py-2 mr-1" style="color: black !important;">상세보기</a>
+								 <a href="carView" class="btn btn-danger" style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>
+								</p>
 						</div>
 					</div>
 				</div>
+				
 				<div class="col-md-4">
 					<div class="car-wrap rounded ftco-animate">
 						<div class="img rounded d-flex align-items-end"
-							style="background-image: url(images/car-2.jpg);"></div>
+							style="background-image: url(images/car-1.jpg);"></div>
 						<div class="text">
-							<h2 class="mb-0">
-								<a href="car-single.html">Range Rover</a>
-							</h2>
+							<div class="d-flex align-items-center mb-3">
+								<h2 class="mb-0">
+									<a href="carView">S Class AMG63(모델명)</a>
+								</h2>
+							</div>
 							<div class="d-flex mb-3">
-								<span class="cat">Subaru</span>
 								<p class="price ml-auto">
-									$500 <span>/day</span>
+									Benz(브랜드명)
 								</p>
 							</div>
 							<p class="d-flex mb-0 d-block">
-								<a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a
-									href="car-single.html" class="btn btn-secondary py-2 ml-1">상세보기</a>
-							</p>
+								<a href="#" class="btn btn-light py-2 mr-1" style="color: black !important;">상세보기</a>
+								 <a href="carView" class="btn btn-danger" style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>
+								</p>
 						</div>
 					</div>
 				</div>
+				
 				<div class="col-md-4">
 					<div class="car-wrap rounded ftco-animate">
 						<div class="img rounded d-flex align-items-end"
-							style="background-image: url(images/car-3.jpg);"></div>
+							style="background-image: url(images/car-1.jpg);"></div>
 						<div class="text">
-							<h2 class="mb-0">
-								<a href="car-single.html">Mercedes Grand Sedan</a>
-							</h2>
+							<div class="d-flex align-items-center mb-3">
+								<h2 class="mb-0">
+									<a href="carView">S Class AMG63(모델명)</a>
+								</h2>
+							</div>
 							<div class="d-flex mb-3">
-								<span class="cat">Cheverolet</span>
 								<p class="price ml-auto">
-									$500 <span>/day</span>
+									Benz(브랜드명)
 								</p>
 							</div>
 							<p class="d-flex mb-0 d-block">
-								<a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a
-									href="car-single.html" class="btn btn-secondary py-2 ml-1">상세보기</a>
-							</p>
+								<a href="#" class="btn btn-light py-2 mr-1" style="color: black !important;">상세보기</a>
+								 <a href="carView" class="btn btn-danger" style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>
+								</p>
 						</div>
 					</div>
 				</div>
-
+				
 				<div class="col-md-4">
 					<div class="car-wrap rounded ftco-animate">
 						<div class="img rounded d-flex align-items-end"
-							style="background-image: url(images/car-4.jpg);"></div>
+							style="background-image: url(images/car-1.jpg);"></div>
 						<div class="text">
-							<h2 class="mb-0">
-								<a href="car-single.html">Mercedes Grand Sedan</a>
-							</h2>
+							<div class="d-flex align-items-center mb-3">
+								<h2 class="mb-0">
+									<a href="carView">S Class AMG63(모델명)</a>
+								</h2>
+							</div>
 							<div class="d-flex mb-3">
-								<span class="cat">Cheverolet</span>
 								<p class="price ml-auto">
-									$500 <span>/day</span>
+									Benz(브랜드명)
 								</p>
 							</div>
 							<p class="d-flex mb-0 d-block">
-								<a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a
-									href="car-single.html" class="btn btn-secondary py-2 ml-1">상세보기</a>
-							</p>
+								<a href="#" class="btn btn-light py-2 mr-1" style="color: black !important;">상세보기</a>
+								 <a href="carView" class="btn btn-danger" style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>
+								</p>
 						</div>
 					</div>
 				</div>
+				
 				<div class="col-md-4">
 					<div class="car-wrap rounded ftco-animate">
 						<div class="img rounded d-flex align-items-end"
-							style="background-image: url(images/car-5.jpg);"></div>
+							style="background-image: url(images/car-1.jpg);"></div>
 						<div class="text">
-							<h2 class="mb-0">
-								<a href="car-single.html">Range Rover</a>
-							</h2>
+							<div class="d-flex align-items-center mb-3">
+								<h2 class="mb-0">
+									<a href="carView">S Class AMG63(모델명)</a>
+								</h2>
+							</div>
 							<div class="d-flex mb-3">
-								<span class="cat">Subaru</span>
 								<p class="price ml-auto">
-									$500 <span>/day</span>
+									Benz(브랜드명)
 								</p>
 							</div>
 							<p class="d-flex mb-0 d-block">
-								<a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a
-									href="car-single.html" class="btn btn-secondary py-2 ml-1">상세보기</a>
-							</p>
+								<a href="#" class="btn btn-light py-2 mr-1" style="color: black !important;">상세보기</a>
+								 <a href="carView" class="btn btn-danger" style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>
+								</p>
 						</div>
 					</div>
 				</div>
+				
 				<div class="col-md-4">
 					<div class="car-wrap rounded ftco-animate">
 						<div class="img rounded d-flex align-items-end"
-							style="background-image: url(images/car-6.jpg);"></div>
+							style="background-image: url(images/car-1.jpg);"></div>
 						<div class="text">
-							<h2 class="mb-0">
-								<a href="car-single.html">Mercedes Grand Sedan</a>
-							</h2>
+							<div class="d-flex align-items-center mb-3">
+								<h2 class="mb-0">
+									<a href="carView">S Class AMG63(모델명)</a>
+								</h2>
+							</div>
 							<div class="d-flex mb-3">
-								<span class="cat">Cheverolet</span>
 								<p class="price ml-auto">
-									$500 <span>/day</span>
+									Benz(브랜드명)
 								</p>
 							</div>
 							<p class="d-flex mb-0 d-block">
-								<a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a
-									href="car-single.html" class="btn btn-secondary py-2 ml-1">상세보기</a>
-							</p>
+								<a href="#" class="btn btn-light py-2 mr-1" style="color: black !important;">상세보기</a>
+								 <a href="carView" class="btn btn-danger" style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>
+								</p>
 						</div>
 					</div>
 				</div>
-
+				
 				<div class="col-md-4">
 					<div class="car-wrap rounded ftco-animate">
 						<div class="img rounded d-flex align-items-end"
-							style="background-image: url(images/car-7.jpg);"></div>
+							style="background-image: url(images/car-1.jpg);"></div>
 						<div class="text">
-							<h2 class="mb-0">
-								<a href="car-single.html">Mercedes Grand Sedan</a>
-							</h2>
+							<div class="d-flex align-items-center mb-3">
+								<h2 class="mb-0">
+									<a href="carView">S Class AMG63(모델명)</a>
+								</h2>
+							</div>
 							<div class="d-flex mb-3">
-								<span class="cat">Cheverolet</span>
 								<p class="price ml-auto">
-									$500 <span>/day</span>
+									Benz(브랜드명)
 								</p>
 							</div>
 							<p class="d-flex mb-0 d-block">
-								<a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a
-									href="car-single.html" class="btn btn-secondary py-2 ml-1">상세보기</a>
-							</p>
+								<a href="#" class="btn btn-light py-2 mr-1" style="color: black !important;">상세보기</a>
+								 <a href="carView" class="btn btn-danger" style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>
+								</p>
 						</div>
 					</div>
 				</div>
+				
 				<div class="col-md-4">
 					<div class="car-wrap rounded ftco-animate">
 						<div class="img rounded d-flex align-items-end"
-							style="background-image: url(images/car-8.jpg);"></div>
+							style="background-image: url(images/car-1.jpg);"></div>
 						<div class="text">
-							<h2 class="mb-0">
-								<a href="car-single.html">Range Rover</a>
-							</h2>
+							<div class="d-flex align-items-center mb-3">
+								<h2 class="mb-0">
+									<a href="carView">S Class AMG63(모델명)</a>
+								</h2>
+							</div>
 							<div class="d-flex mb-3">
-								<span class="cat">Subaru</span>
 								<p class="price ml-auto">
-									$500 <span>/day</span>
+									Benz(브랜드명)
 								</p>
 							</div>
 							<p class="d-flex mb-0 d-block">
-								<a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a
-									href="car-single.html" class="btn btn-secondary py-2 ml-1">상세보기</a>
-							</p>
+								<a href="#" class="btn btn-light py-2 mr-1" style="color: black !important;">상세보기</a>
+								 <a href="carView" class="btn btn-danger" style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>
+								</p>
 						</div>
 					</div>
 				</div>
+				
 				<div class="col-md-4">
 					<div class="car-wrap rounded ftco-animate">
 						<div class="img rounded d-flex align-items-end"
-							style="background-image: url(images/car-9.jpg);"></div>
+							style="background-image: url(images/car-1.jpg);"></div>
 						<div class="text">
-							<h2 class="mb-0">
-								<a href="car-single.html">Mercedes Grand Sedan</a>
-							</h2>
+							<div class="d-flex align-items-center mb-3">
+								<h2 class="mb-0">
+									<a href="carView">S Class AMG63(모델명)</a>
+								</h2>
+							</div>
 							<div class="d-flex mb-3">
-								<span class="cat">Cheverolet</span>
 								<p class="price ml-auto">
-									$500 <span>/day</span>
+									Benz(브랜드명)
 								</p>
 							</div>
 							<p class="d-flex mb-0 d-block">
-								<a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a
-									href="car-single.html" class="btn btn-secondary py-2 ml-1">상세보기</a>
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-md-4">
-					<div class="car-wrap rounded ftco-animate">
-						<div class="img rounded d-flex align-items-end"
-							style="background-image: url(images/car-10.jpg);"></div>
-						<div class="text">
-							<h2 class="mb-0">
-								<a href="car-single.html">Mercedes Grand Sedan</a>
-							</h2>
-							<div class="d-flex mb-3">
-								<span class="cat">Cheverolet</span>
-								<p class="price ml-auto">
-									$500 <span>/day</span>
+								<a href="#" class="btn btn-light py-2 mr-1" style="color: black !important;">상세보기</a>
+								 <a href="carView" class="btn btn-danger" style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>
 								</p>
-							</div>
-							<p class="d-flex mb-0 d-block">
-								<a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a
-									href="car-single.html" class="btn btn-secondary py-2 ml-1">상세보기</a>
-							</p>
 						</div>
 					</div>
 				</div>
-				<div class="col-md-4">
-					<div class="car-wrap rounded ftco-animate">
-						<div class="img rounded d-flex align-items-end"
-							style="background-image: url(images/car-11.jpg);"></div>
-						<div class="text">
-							<h2 class="mb-0">
-								<a href="car-single.html">Range Rover</a>
-							</h2>
-							<div class="d-flex mb-3">
-								<span class="cat">Subaru</span>
-								<p class="price ml-auto">
-									$500 <span>/day</span>
-								</p>
-							</div>
-							<p class="d-flex mb-0 d-block">
-								<a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a
-									href="car-single.html" class="btn btn-secondary py-2 ml-1">상세보기</a>
-							</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="car-wrap rounded ftco-animate">
-						<div class="img rounded d-flex align-items-end"
-							style="background-image: url(images/car-12.jpg);"></div>
-						<div class="text">
-							<h2 class="mb-0">
-								<a href="car-single.html">Mercedes Grand Sedan</a>
-							</h2>
-							<div class="d-flex mb-3">
-								<span class="cat">Cheverolet</span>
-								<p class="price ml-auto">
-									$500 <span>/day</span>
-								</p>
-							</div>
-							<p class="d-flex mb-0 d-block">
-								<a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a
-									href="car-single.html" class="btn btn-secondary py-2 ml-1">상세보기</a>
-							</p>
-						</div>
-					</div>
-				</div>
+				
+				
+						
 			</div>
 			<div class="row mt-5">
 				<div class="col text-center">

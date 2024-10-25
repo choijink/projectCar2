@@ -186,6 +186,7 @@ function init() {
             // 차 이름
             var html =[];
             var nameArray = Array.from(carNames); // Set을 배열로 변환
+            nameArray.sort(); 
             for (var i = 0; i < nameArray.length; i++) {
             	html.push('<option value="' + nameArray[i] + '">' + nameArray[i] + '</option>');
             }
