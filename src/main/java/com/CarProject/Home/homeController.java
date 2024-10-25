@@ -1,5 +1,5 @@
 // src/com/CarProject/testController.java
-package com.CarProject;
+package com.CarProject.Home;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
