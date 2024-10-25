@@ -54,8 +54,7 @@
 		data-stellar-background-ratio="0.5">
 		<div class="overlay"></div>
 		<div class="container">
-			<div
-				class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+			<divzclass="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
 				<div class="col-md-4 d-flex align-items-center">
 							<form action="#" class="request-form ftco-animate bg-primary">
 								<h2>조건 차량 검색</h2>
