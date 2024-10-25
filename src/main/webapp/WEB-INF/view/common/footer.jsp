@@ -66,7 +66,7 @@
 	</div>
 </footer>
 <script>
-$(document).ready(function() {
+	$(document).ready(function() {
 		// 현재 페이지의 URL을 가져옵니다.
 		var currentUrl = window.location.href; // 예: 'http://localhost:8080/test'
 

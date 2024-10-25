@@ -40,6 +40,29 @@
 .ftco-footer {
 	height: 350px;
 }
+.form-group.main{
+	display: grid;
+    grid-template-columns: 80px 1fr 80px 1fr 80px 1fr 80px 1fr;
+    gap: 15px;
+}
+
+.form-group.search{
+	justify-content: center;
+    display: flex;
+    margin-top: 2rem;
+}
+.form-group.search .btn {
+    width: unset;
+}
+
+.request-form label.label {
+    text-align: center;
+    font-size: 15px;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: unset;
 </style>
 <body>
 
@@ -56,31 +79,34 @@
 				<div class="col-md-12   featured-top">
 					<div class="row no-gutters">
 						<div class="col-md-4 d-flex align-items-center">
-							<form action="#" class="request-form ftco-animate bg-primary">
+							<form action="javascript:test();"
+								class="request-form ftco-animate bg-primary">
 								<h2>조건 차량 검색</h2>
-								<div class="form-group">
-									<label for="" class="label">차량 브랜드</label> <input type="text"
-										class="form-control" placeholder="현대, 기아, 벤츠 등등..">
+								<div class="form-group main">
+									<label for="" class="label">국산 / 수입</label>
+									<select id="domesticImportSelectBox">
+										<option value="">국산 / 수입</option>
+									</select>
+								<!-- </div>
+								<div class="form-group"> -->
+									<label for="" class="label">차 브랜드</label>
+									<select id="brandSelectBox">
+										<option value="">차 브랜드</option>
+									</select>
+								<!-- </div>
+								<div class="form-group"> -->
+									<label for="" class="label">차 종류</label> 
+									<select id="modelSelectBox">
+										<option value="">차 종류</option>
+									</select>
+								<!-- </div>
+								<div class="form-group"> -->
+									<label for="" class="label">차</label> 
+									<select id="nameSelectBox">
+										<option value="">차</option>
+									</select>
 								</div>
-								<div class="form-group">
-									<label for="" class="label">차량 크기</label> <input type="text"
-										class="form-control" placeholder="중형, 준중형, 대형 등등..">
-								</div>
-								<div class="d-flex">
-									<div class="form-group mr-2">
-										<label for="" class="label">차량 종류</label> <input type="text"
-											class="form-control" placeholder="세단, SUV 등등..">
-									</div>
-									<div class="form-group ml-2">
-										<label for="" class="label">어쩌구 저쩌구</label> <input type="text"
-											class="form-control" placeholder="어쩌구, 저쩌구 등등..">
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="" class="label">차량 이름</label> <input type="text"
-										class="form-control" placeholder="아반떼, 소나타, K5 등등..">
-								</div>
-								<div class="form-group">
+								<div class="form-group search">
 									<input type="submit" value="해당 조건 차량 검색"
 										class="btn btn-secondary py-3 px-4">
 								</div>
@@ -108,4 +134,74 @@
 
 	<%@ include file="/WEB-INF/view/common/js.jsp"%>
 </body>
+<script>
+function init() {
+    $.ajax({
+        url: "ajaxController", // 서버 서블릿 경로
+        method: "GET", // 요청 방식
+        success: function (response) {
+        	console.log(response);
+            // 중복을 제거할 Set 생성
+            const domesticImports = new Set();
+            const brands = new Set();
+            const carModels = new Set();
+            const vehicleSizes = new Set();
+            const carNames = new Set();
+
+         	// 응답 데이터를 순회하여 중복 제거
+            for (var i = 0; i < response.length; i++) {
+            	domesticImports.add(response[i].domesticImport);             // 브랜드 추가
+                brands.add(response[i].brand);             // 브랜드 추가
+                carModels.add(response[i].carModel);       // 차종 추가
+                vehicleSizes.add(response[i].vehicleSize); // 사이즈 추가
+                carNames.add(response[i].carName);         // 모델 이름 추가
+            }
+
+            // 국산/수입
+            var html =[];
+            var domesticImportsArray = Array.from(domesticImports); // Set을 배열로 변환
+            for (var i = 0; i < domesticImportsArray.length; i++) {
+                // 각 브랜드에 대한 HTML 요소 추가
+                html.push('<option value="' + domesticImportsArray[i] + '">' + domesticImportsArray[i] + '</option>');
+            }
+            $('#domesticImportSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+            
+            // 브랜드
+            var html =[];
+            var brandArray = Array.from(brands); // Set을 배열로 변환
+            for (var i = 0; i < brandArray.length; i++) {
+                // 각 브랜드에 대한 HTML 요소 추가
+                html.push('<option value="' + brandArray[i] + '">' + brandArray[i] + '</option>');
+            }
+            $('#brandSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+
+            // 차량 종류
+            var html =[];
+            var modelArray = Array.from(carModels); // Set을 배열로 변환
+            for (var i = 0; i < modelArray.length; i++) {
+            	html.push('<option value="' + modelArray[i] + '">' + modelArray[i] + '</option>');
+            }
+            $('#modelSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+
+            // 차 이름
+            var html =[];
+            var nameArray = Array.from(carNames); // Set을 배열로 변환
+            for (var i = 0; i < nameArray.length; i++) {
+            	html.push('<option value="' + nameArray[i] + '">' + nameArray[i] + '</option>');
+            }
+            $('#nameSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+        },
+        error: function (xhr, status, error) {
+            console.error('요청 실패: ' + error); // 에러 출력
+        }
+    });
+}
+
+$(document).ready(function() {
+    init();
+});
+
+	
+	
+</script>
 </html>
