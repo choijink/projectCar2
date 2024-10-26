@@ -150,6 +150,8 @@ label {
 						"brand" : brand,
 						"model" : model,
 						"name" : name,
+						"page" : "",
+						"pageSize" : ""
 					},
 					success : function(response) {
 						// 중복을 제거할 Set 생성
