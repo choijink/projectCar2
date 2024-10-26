@@ -9,18 +9,29 @@ import com.CarProject.SuperDao;
 import com.CarProject.Car.CarBean;
 
 public class CarDao extends SuperDao {
-	public List<CarBean> selectAll() {
+	public List<CarBean> selectAll(String domestic, String brand, String model, String name) {
 		List<CarBean> lists = new ArrayList<CarBean>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
 		// 게시물 번호 역순으로 정렬
 		String sql = " select * from carmain";
+		sql += " WHERE 1=1";
+		if(!domestic.equals("")) { sql+=" AND DomesticImport = ?"; }
+		if(!brand.equals("")) { sql+=" AND Brand = ?"; }
+		if(!model.equals("")) { sql+=" AND CarModel = ?"; }
+		if(!name.equals("")) { sql+=" AND CarName = ?"; }
 		sql += " order by c_idx desc";
 
+		
 		try {
 			conn = super.getConnection();
 			pstmt = conn.prepareStatement(sql);
+			int paramIndex = 1;
+			if (!domestic.equals("")) { pstmt.setString(paramIndex++, domestic); }
+	        if (!brand.equals("")) { pstmt.setString(paramIndex++, brand); }
+	        if (!model.equals("")) { pstmt.setString(paramIndex++, model); }
+	        if (!name.equals("")) { pstmt.setString(paramIndex++, name); }
 
 			rs = pstmt.executeQuery();
 

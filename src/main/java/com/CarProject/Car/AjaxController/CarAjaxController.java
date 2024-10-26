@@ -24,11 +24,15 @@ public class CarAjaxController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	String domestic = request.getParameter("domestic");
+        String brand = request.getParameter("brand");
+        String model = request.getParameter("model");
+        String name = request.getParameter("name");
         response.setContentType("application/json; charset=UTF-8"); // JSON 형식으로 응답
         PrintWriter out = response.getWriter();
 
         try {
-            List<CarBean> carList = carDao.selectAll(); // DAO에서 차량 목록 가져오기
+            List<CarBean> carList = carDao.selectAll(domestic,brand,model,name); // DAO에서 차량 목록 가져오기
 
             // Gson 라이브러리를 사용하여 객체를 JSON으로 변환
             Gson gson = new Gson();
