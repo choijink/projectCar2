@@ -149,7 +149,7 @@ label {
 						"domestic" : domestic,
 						"brand" : brand,
 						"model" : model,
-						"name" : name
+						"name" : name,
 					},
 					success : function(response) {
 						// 중복을 제거할 Set 생성
@@ -274,12 +274,12 @@ label {
 		var brand = document.getElementById("brandSelectBox").value;
 		var model = document.getElementById("modelSelectBox").value;
 		var name = document.getElementById("nameSelectBox").value;
-
-		var url = window.location.origin + "/carList?" + "domestic="
-				+ encodeURIComponent(domestic) + "&brand="
-				+ encodeURIComponent(brand) + "&model="
-				+ encodeURIComponent(model) + "&name="
-				+ encodeURIComponent(name);
+		
+		var url = window.location.origin + "/carList";
+		if(domestic != "") url += "?domestic=" + encodeURIComponent(domestic);
+		if(brand != "") url += "&brand=" + encodeURIComponent(brand);
+		if(model != "") url += "&model=" + encodeURIComponent(model);
+		if(name != "") url += "&name=" + encodeURIComponent(name);
 		window.location.href = url; // 쿼리 문자열이 포함된 URL로 이동
 	}
 

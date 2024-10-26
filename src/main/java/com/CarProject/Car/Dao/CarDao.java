@@ -9,76 +9,98 @@ import com.CarProject.SuperDao;
 import com.CarProject.Car.CarBean;
 
 public class CarDao extends SuperDao {
-	public List<CarBean> selectAll(String domestic, String brand, String model, String name) {
-		List<CarBean> lists = new ArrayList<CarBean>();
+	public List<CarBean> selectAll(String domestic, String brand, String model, String name, String pageString, String pageSizeString) {
+		List<CarBean> lists = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 
-		// 게시물 번호 역순으로 정렬
-		String sql = " select * from carmain";
-		sql += " WHERE 1=1";
-		if(!domestic.equals("")) { sql+=" AND DomesticImport = ?"; }
-		if(!brand.equals("")) { sql+=" AND Brand = ?"; }
-		if(!model.equals("")) { sql+=" AND CarModel = ?"; }
-		if(!name.equals("")) { sql+=" AND CarName = ?"; }
-		sql += " order by c_idx desc";
+		// 기본 쿼리
+		String sql = "SELECT * FROM carmain WHERE 1=1";
 
+		// 필터링 조건 추가
+		if (!domestic.isEmpty()) {
+			sql += " AND DomesticImport = ?";
+		}
+		if (!brand.isEmpty()) {
+			sql += " AND Brand = ?";
+		}
+		if (!model.isEmpty()) {
+			sql += " AND CarModel = ?";
+		}
+		if (!name.isEmpty()) {
+			sql += " AND CarName = ?";
+		}
+
+		int page = 0;
+		int pageSize = 0;
+		if(pageString != null) { page = Integer.parseInt(pageString); }
+		if(pageSizeString != null) { pageSize = Integer.parseInt(pageSizeString); }
 		
+		// 페이징 처리
+		if (pageSize > 0) {
+			sql += " LIMIT ?, ?";
+		}
+
+		System.out.println(sql);
 		try {
 			conn = super.getConnection();
 			pstmt = conn.prepareStatement(sql);
+
 			int paramIndex = 1;
-			if (!domestic.equals("")) { pstmt.setString(paramIndex++, domestic); }
-	        if (!brand.equals("")) { pstmt.setString(paramIndex++, brand); }
-	        if (!model.equals("")) { pstmt.setString(paramIndex++, model); }
-	        if (!name.equals("")) { pstmt.setString(paramIndex++, name); }
+
+			// 조건에 맞는 값 세팅
+			if (!domestic.isEmpty()) {
+				pstmt.setString(paramIndex++, domestic);
+			}
+			if (!brand.isEmpty()) {
+				pstmt.setString(paramIndex++, brand);
+			}
+			if (!model.isEmpty()) {
+				pstmt.setString(paramIndex++, model);
+			}
+			if (!name.isEmpty()) {
+				pstmt.setString(paramIndex++, name);
+			}
+
+			// 페이징 값 세팅
+			if (pageSize > 0) {
+				pstmt.setInt(paramIndex++, (page - 1) * pageSize); // 시작 인덱스
+				pstmt.setInt(paramIndex++, pageSize); // 페이지 사이즈
+			}
 
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				lists.add(getBeanData(rs));
 			}
-
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
+			// 리소스 정리
 		}
 
 		return lists;
 	}
-	
+
 	private CarBean getBeanData(ResultSet rs) {
 		CarBean bean = null;
-		
+
 		try {
-			bean = new CarBean() ;
+			bean = new CarBean();
 			bean.setcIdx(rs.getInt("c_idx"));
 			bean.setDomesticImport(rs.getString("DomesticImport"));
 			bean.setBrand(rs.getString("Brand"));
-			bean.setVehicleSize(rs.getString("VehicleSize"));  // 차량크기(대형, 중형, 등등...)
-			bean.setCarModel(rs.getString("CarModel"));  // 차종(세단, 스포, 등등...)
+			bean.setVehicleSize(rs.getString("VehicleSize")); // 차량크기(대형, 중형, 등등...)
+			bean.setCarModel(rs.getString("CarModel")); // 차종(세단, 스포, 등등...)
 			bean.setCarName(rs.getString("CarName")); // 모델명(k5, AMG A클래스, 등등...)
 			bean.setBrandMark(rs.getString("BrandMark")); // 브랜드 로고 이미
 			bean.setCarImage(rs.getString("CarImage"));
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null ;
+			return null;
 		}
-		
-		return bean ;
+
+		return bean;
 	}
 }

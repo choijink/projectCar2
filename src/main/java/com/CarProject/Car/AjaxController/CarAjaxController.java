@@ -24,26 +24,34 @@ public class CarAjaxController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	String domestic = request.getParameter("domestic");
+        String domestic = request.getParameter("domestic");
         String brand = request.getParameter("brand");
         String model = request.getParameter("model");
         String name = request.getParameter("name");
-        response.setContentType("application/json; charset=UTF-8"); // JSON 형식으로 응답
+        
+        // 페이징 정보
+        String pageString = request.getParameter("page");
+        String pageSizeString = request.getParameter("pageSize");
+        if(pageString.equals(""))pageString = null;
+        if(pageSizeString.equals(""))pageSizeString = null;
+        
+
+        response.setContentType("application/json; charset=UTF-8");
         PrintWriter out = response.getWriter();
 
         try {
-            List<CarBean> carList = carDao.selectAll(domestic,brand,model,name); // DAO에서 차량 목록 가져오기
-
-            // Gson 라이브러리를 사용하여 객체를 JSON으로 변환
+            List<CarBean> carList = carDao.selectAll(domestic, brand, model, name, pageString, pageSizeString); // DAO에서 차량 목록 가져오기
+            
             Gson gson = new Gson();
             String jsonResponse = gson.toJson(carList);
             
             out.print(jsonResponse); // JSON 응답 보내기
         } catch (Exception e) {
             e.printStackTrace();
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 서버 오류 상태 코드
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } finally {
-            out.close(); // PrintWriter 닫기
+            out.close();
         }
     }
+
 }
