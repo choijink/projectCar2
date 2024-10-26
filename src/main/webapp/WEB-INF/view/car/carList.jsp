@@ -137,8 +137,8 @@ label {
 
 	<section class="ftco-section bg-light">
 		<div class="container">
-			<div class="row"></div>
-			<!-- <div class="row mt-5">
+			<div class="row list"></div>
+			<div class="row mt-5">
 				<div class="col text-center">
 					<div class="block-27">
 						<ul>
@@ -152,7 +152,7 @@ label {
 						</ul>
 					</div>
 				</div>
-			</div> -->
+			</div>
 		</div>
 	</section>
 
@@ -207,7 +207,8 @@ label {
 			name = nameParam;
 			check = 1;
 		}
-		ajaxController(domestic, brand, model, name, null,null, function(response) {
+		ajaxController(domestic, brand, model, name, null, null, function(
+				response) {
 			// 중복을 제거할 Set 생성
 			const domesticImports = new Set();
 			const brands = new Set();
@@ -335,50 +336,42 @@ label {
 				model,
 				name,
 				"1",
-				"6",
+				"9",
 				function(response) {
 					var html = [];
-					$(".ftco-section.bg-light .container .row").empty();
+					$(".ftco-section.bg-light .container .row.list").empty();
 					for (var i = 0; i < response.length; i++) {
 						html.push('<div class="col-md-4">');
-						html
-								.push('	<div class="car-wrap rounded ftco-animate fadeInUp ftco-animated">');
-						html
-								.push('		<div class="img rounded d-flex align-items-end"');
-						html.push('			style="background-image: url(carImage/'
-								+ response[i].carImage + ');"></div>');
+						html.push('	<div class="car-wrap rounded ftco-animate fadeInUp ftco-animated">');
+						html.push('		<div class="img rounded d-flex align-items-end"');
+						html.push('			style="background-image: url(carImage/'+ response[i].carImage + ');"></div>');
 						html.push('		<div class="text">');
-						html
-								.push('			<div class="d-flex align-items-center mb-3">');
+						html.push('			<div class="d-flex align-items-center mb-3">');
 						html.push('				<h2 class="mb-0">');
-						html.push('					<a href="carView">'
-								+ response[i].carName + '</a>');
+						html.push('					<a href="carView">'+ response[i].carName + '</a>');
 						html.push('				</h2>');
 						html.push('			</div>');
 						html.push('			<div class="d-flex mb-3">');
-						html.push('				<p class="price ml-auto">'
-								+ response[i].brand + '</p>');
+						html.push('				<p class="price ml-auto">'+ response[i].brand + '</p>');
 						html.push('			</div>');
 						html.push('			<p class="d-flex mb-0 d-block">');
-						html
-								.push('				<a href="#" class="btn btn-light py-2 mr-1"');
-						html
-								.push('					style="color: black !important;">상세보기</a> <a href="carView"');
+						html.push('				<a href="#" class="btn btn-light py-2 mr-1"');
+						html.push('					style="color: black !important;">상세보기</a> <a href="carView"');
 						html.push('					class="btn btn-danger"');
-						html
-								.push('					style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>');
+						html.push('					style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>');
 						html.push('			</p>');
 						html.push('		</div>');
 						html.push('	</div>');
 						html.push('</div>');
 					}
-					$(".ftco-section.bg-light .container .row").append(
+					$(".ftco-section.bg-light .container .row.list").append(
 							html.join(''));
 				});
 
 	}
 
-	function ajaxController(domestic, brand, model, name , page, pageSize, callback) {
+	function ajaxController(domestic, brand, model, name, page, pageSize,
+			callback) {
 		$.ajax({
 			url : "ajaxController", // 서버 서블릿 경로
 			method : "GET", // 요청 방식
