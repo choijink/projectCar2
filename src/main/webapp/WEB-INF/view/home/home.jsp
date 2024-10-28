@@ -139,119 +139,147 @@ label {
 	var select2 = "";
 	var select3 = "";
 	var select4 = "";
+	
+	function init(){
+		ajaxController("", "", "", "", function(response){
+			// 중복을 제거할 Set 생성
+			const domesticImports = new Set();
+			const brands = new Set();
+			const carModels = new Set();
+			const vehicleSizes = new Set();
+			const carNames = new Set();
 
-	function init(domestic, brand, model, name) {
-		$
-				.ajax({
-					url : "ajaxController", // 서버 서블릿 경로
-					method : "GET", // 요청 방식
-					data : {
-						"domestic" : domestic,
-						"brand" : brand,
-						"model" : model,
-						"name" : name,
-						"page" : "",
-						"pageSize" : ""
-					},
-					success : function(response) {
-						// 중복을 제거할 Set 생성
-						const domesticImports = new Set();
-						const brands = new Set();
-						const carModels = new Set();
-						const vehicleSizes = new Set();
-						const carNames = new Set();
+			// 응답 데이터를 순회하여 중복 제거
+			for (var i = 0; i < response.length; i++) {
+				domesticImports.add(response[i].domesticImport); // 브랜드 추가
+				brands.add(response[i].brand); // 브랜드 추가
+				carModels.add(response[i].carModel); // 차종 추가
+				vehicleSizes.add(response[i].vehicleSize); // 사이즈 추가
+				carNames.add(response[i].carName); // 모델 이름 추가
+			}
 
-						// 응답 데이터를 순회하여 중복 제거
-						for (var i = 0; i < response.length; i++) {
-							domesticImports.add(response[i].domesticImport); // 브랜드 추가
-							brands.add(response[i].brand); // 브랜드 추가
-							carModels.add(response[i].carModel); // 차종 추가
-							vehicleSizes.add(response[i].vehicleSize); // 사이즈 추가
-							carNames.add(response[i].carName); // 모델 이름 추가
-						}
-
-						// 국산/수입
-						if (domestic != "") {
-							$('#domesticImportSelectBox').empty();
-						}
-						var html = [];
-						var domesticImportsArray = Array.from(domesticImports); // Set을 배열로 변환
-						for (var i = 0; i < domesticImportsArray.length; i++) {
-							// 각 브랜드에 대한 HTML 요소 추가
-							html
-									.push('<option value="' + domesticImportsArray[i] + '">'
-											+ domesticImportsArray[i]
-											+ '</option>');
-						}
-						$('#domesticImportSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
-
-						// 브랜드
-						var html = [];
-						$('#brandSelectBox').empty();
-						if (brand == "") {
-							html.push('<option value="">브랜드</option>');
-						}
-						var brandArray = Array.from(brands); // Set을 배열로 변환
-						for (var i = 0; i < brandArray.length; i++) {
-							// 각 브랜드에 대한 HTML 요소 추가
-							html.push('<option value="' + brandArray[i] + '">'
-									+ brandArray[i] + '</option>');
-						}
-						$('#brandSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
-						if (domestic == "") {
-							$('#brandSelectBox').hide();
-							$('.label.brand').hide();
-						}
-
-						// 차량 종류
-						var html = [];
-						$('#modelSelectBox').empty();
-						if (model == "") {
-							html.push('<option value="">차량 종류</option>');
-						}
-						var modelArray = Array.from(carModels); // Set을 배열로 변환
-						for (var i = 0; i < modelArray.length; i++) {
-							html.push('<option value="' + modelArray[i] + '">'
-									+ modelArray[i] + '</option>');
-						}
-						$('#modelSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
-						if (brand == "") {
-							$('#modelSelectBox').hide();
-							$('.label.model').hide();
-						}
-						// 차 이름
-						var html = [];
-						$('#nameSelectBox').empty();
-						if (name == "") {
-							html.push('<option value="">차</option>');
-						}
-						var nameArray = Array.from(carNames); // Set을 배열로 변환
-						nameArray.sort();
-						for (var i = 0; i < nameArray.length; i++) {
-							html.push('<option value="' + nameArray[i] + '">'
-									+ nameArray[i] + '</option>');
-						}
-						$('#nameSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
-						if (model == "") {
-							$('#nameSelectBox').hide();
-							$('.label.name').hide();
-						}
-					},
-					error : function(xhr, status, error) {
-						console.error('요청 실패: ' + error); // 에러 출력
-					}
-				});
+			// 국산 / 수입
+			var html = [];
+			$('#domesticImportSelectBox').empty();
+			var html = [];
+			html.push('<option value="">국산 / 수입</option>');
+			var domesticImportsArray = Array.from(domesticImports); // Set을 배열로 변환
+			for (var i = 0; i < domesticImportsArray.length; i++) {
+				// 각 브랜드에 대한 HTML 요소 추가
+				html.push('<option value="' + domesticImportsArray[i] + '">'
+						+ domesticImportsArray[i] + '</option>');
+			}
+			$('#domesticImportSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+			
+			// 브랜드
+			var html = [];
+			$('#brandSelectBox').empty();
+			html.push('<option value="">차 브랜드</option>');
+			var brandArray = Array.from(brands); // Set을 배열로 변환
+			for (var i = 0; i < brandArray.length; i++) {
+				// 각 브랜드에 대한 HTML 요소 추가
+				html.push('<option value="' + brandArray[i] + '">' + brandArray[i] + '</option>');
+			}
+			$('#brandSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+			
+			// 차량 종류
+			var html = [];
+			$('#modelSelectBox').empty();
+			html.push('<option value="">차 종류</option>');
+			var modelArray = Array.from(carModels); // Set을 배열로 변환
+			for (var i = 0; i < modelArray.length; i++) {
+				html.push('<option value="' + modelArray[i] + '">' + modelArray[i] + '</option>');
+			}
+			$('#modelSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+			
+			// 차 이름
+			var html = [];
+			$('#nameSelectBox').empty();
+			html.push('<option value="">차</option>');
+			var nameArray = Array.from(carNames); // Set을 배열로 변환
+			nameArray.sort();
+			for (var i = 0; i < nameArray.length; i++) {
+				html.push('<option value="' + nameArray[i] + '">' + nameArray[i] + '</option>');
+			}
+			$('#nameSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+		});
+	}
+	
+	function ajaxController(domestic, brand, model, name, callback) {
+		$.ajax({
+			url : "ajaxController", // 서버 서블릿 경로
+			method : "GET", // 요청 방식
+			data : {
+				"domestic" : domestic,
+				"brand" : brand,
+				"model" : model,
+				"name" : name,
+				"page" : "",
+				"pageSize" : ""
+			},
+			success : function(response) {
+				callback(response);
+			},
+			error : function(xhr, status, error) {
+				console.error('요청 실패: ' + error); // 에러 출력
+			}
+		});
 	}
 
 	function selectNum(i) {
 		if (i == 1) {
 			$('#brandSelectBox').show();
 			$('.label.brand').show();
-			var selectElement = document
-					.getElementById("domesticImportSelectBox");
+			var selectElement = document.getElementById("domesticImportSelectBox");
 			var selectedValue = selectElement.value;
+			console.log(selectedValue);
 			select1 = selectedValue;
-			init(select1, "", "", "");
+			ajaxController(select1, "", "", "", function(response){
+				// 중복을 제거할 Set 생성
+				const brands = new Set();
+				const carModels = new Set();
+				const carNames = new Set();
+
+				// 응답 데이터를 순회하여 중복 제거
+				for (var i = 0; i < response.length; i++) {
+					brands.add(response[i].brand); // 브랜드 추가
+					carModels.add(response[i].carModel); // 차종 추가
+					carNames.add(response[i].carName); // 모델 이름 추가
+				}
+
+				// 브랜드
+				var html = [];
+				$('#brandSelectBox').empty();
+				html.push('<option value="">차 브랜드</option>');
+				var brandArray = Array.from(brands); // Set을 배열로 변환
+				for (var i = 0; i < brandArray.length; i++) {
+					// 각 브랜드에 대한 HTML 요소 추가
+					html.push('<option value="' + brandArray[i] + '">' + brandArray[i] + '</option>');
+				}
+				$('#brandSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+				
+				// 차량 종류
+				var html = [];
+				$('#modelSelectBox').empty();
+				html.push('<option value="">차 종류</option>');
+				var modelArray = Array.from(carModels); // Set을 배열로 변환
+				for (var i = 0; i < modelArray.length; i++) {
+					html.push('<option value="' + modelArray[i] + '">' + modelArray[i] + '</option>');
+				}
+				$('#modelSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+				
+				// 차 이름
+				var html = [];
+				$('#nameSelectBox').empty();
+				html.push('<option value="">차</option>');
+				var nameArray = Array.from(carNames); // Set을 배열로 변환
+				nameArray.sort();
+				for (var i = 0; i < nameArray.length; i++) {
+					html.push('<option value="' + nameArray[i] + '">' + nameArray[i] + '</option>');
+				}
+				$('#nameSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+			});
+			
 		}
 		if (i == 2) {
 			$('#modelSelectBox').show();
@@ -259,7 +287,38 @@ label {
 			var selectElement = document.getElementById("brandSelectBox");
 			var selectedValue = selectElement.value;
 			select2 = selectedValue;
-			init(select1, select2, "", "");
+			ajaxController("", select2, "", "", function(response){
+				// 중복을 제거할 Set 생성
+				const carModels = new Set();
+				const carNames = new Set();
+
+				// 응답 데이터를 순회하여 중복 제거
+				for (var i = 0; i < response.length; i++) {
+					carModels.add(response[i].carModel); // 차종 추가
+					carNames.add(response[i].carName); // 모델 이름 추가
+				}
+
+				// 차량 종류
+				var html = [];
+				$('#modelSelectBox').empty();
+				html.push('<option value="">차 종류</option>');
+				var modelArray = Array.from(carModels); // Set을 배열로 변환
+				for (var i = 0; i < modelArray.length; i++) {
+					html.push('<option value="' + modelArray[i] + '">' + modelArray[i] + '</option>');
+				}
+				$('#modelSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+				
+				// 차 이름
+				var html = [];
+				$('#nameSelectBox').empty();
+				html.push('<option value="">차</option>');
+				var nameArray = Array.from(carNames); // Set을 배열로 변환
+				nameArray.sort();
+				for (var i = 0; i < nameArray.length; i++) {
+					html.push('<option value="' + nameArray[i] + '">' + nameArray[i] + '</option>');
+				}
+				$('#nameSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+			});
 		}
 		if (i == 3) {
 			$('#nameSelectBox').show();
@@ -267,7 +326,25 @@ label {
 			var selectElement = document.getElementById("modelSelectBox");
 			var selectedValue = selectElement.value;
 			select3 = selectedValue;
-			init(select1, select2, select3, "");
+			ajaxController("", select2, select3, "", function(response){
+				// 중복을 제거할 Set 생성
+				const carNames = new Set();
+
+				// 응답 데이터를 순회하여 중복 제거
+				for (var i = 0; i < response.length; i++) {
+					carNames.add(response[i].carName); // 모델 이름 추가
+				}
+				// 차 이름
+				var html = [];
+				$('#nameSelectBox').empty();
+				html.push('<option value="">차</option>');
+				var nameArray = Array.from(carNames); // Set을 배열로 변환
+				nameArray.sort();
+				for (var i = 0; i < nameArray.length; i++) {
+					html.push('<option value="' + nameArray[i] + '">' + nameArray[i] + '</option>');
+				}
+				$('#nameSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+			});
 		}
 	}
 
@@ -278,15 +355,22 @@ label {
 		var name = document.getElementById("nameSelectBox").value;
 		
 		var url = window.location.origin + "/carList";
-		if(domestic != "") url += "?domestic=" + encodeURIComponent(domestic);
-		if(brand != "") url += "&brand=" + encodeURIComponent(brand);
-		if(model != "") url += "&model=" + encodeURIComponent(model);
-		if(name != "") url += "&name=" + encodeURIComponent(name);
-		window.location.href = url; // 쿼리 문자열이 포함된 URL로 이동
+		var params = [];
+
+		if (domestic) params.push("domestic=" + encodeURIComponent(domestic));
+		if (brand) params.push("brand=" + encodeURIComponent(brand));
+		if (model) params.push("model=" + encodeURIComponent(model));
+		if (name) params.push("name=" + encodeURIComponent(name));
+
+		if (params.length > 0) {
+		    url += "?" + params.join("&");
+		}
+
+		window.location.href = url;
 	}
 
 	$(document).ready(function() {
-		init("", "", "", "");
+		init();
 	});
 </script>
 </html>
