@@ -18,7 +18,7 @@
 
 .btn-danger {
 	font-size: 0.8rem !important;
-	border: 1px solid !important; 
+	border: 1px solid !important;
 	border-width: 0px !important;
 	line-height: 3.5;
 	width: 30% !important;
@@ -103,7 +103,7 @@ label {
 		<div class="overlay"></div>
 		<div class="container">
 			<div class="col-md-15 d-flex align-items-center">
-				<form action="javascript:searchWithAjax();"
+				<form action="javascript:search();"
 					class="request-form ftco-animate bg-primary">
 					<h2>조건 차량 검색</h2>
 					<div class="form-group main">
@@ -135,7 +135,7 @@ label {
 	</section>
 
 
-	<section class="ftco-section bg-light">
+	<!-- <section class="ftco-section bg-light">
 		<div class="container">
 			<div class="row list"></div>
 			<div class="row mt-5">
@@ -151,6 +151,18 @@ label {
 							<li><a href="#">&gt;</a></li>
 						</ul>
 					</div>
+				</div>
+			</div>
+		</div>
+	</section> -->
+	<section class="ftco-section bg-light">
+		<div class="container">
+			<div class="row list"></div>
+			<!-- "더보기" 버튼 -->
+			<div class="row mt-5">
+				<div class="col text-center">
+					<button id="loadMoreBtn" class="btn btn-primary"
+						style="display: none;" onclick="loadMore();">더보기</button>
 				</div>
 			</div>
 		</div>
@@ -251,10 +263,6 @@ label {
 						+ brandArray[i] + '</option>');
 			}
 			$('#brandSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
-			if (domestic == "") {
-				$('#brandSelectBox').hide();
-				$('.label.brand').hide();
-			}
 
 			// 차량 종류
 			var html = [];
@@ -268,10 +276,7 @@ label {
 						+ modelArray[i] + '</option>');
 			}
 			$('#modelSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
-			if (brand == "") {
-				$('#modelSelectBox').hide();
-				$('.label.model').hide();
-			}
+
 			// 차 이름
 			var html = [];
 			$('#nameSelectBox').empty();
@@ -285,10 +290,7 @@ label {
 						+ nameArray[i] + '</option>');
 			}
 			$('#nameSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
-			if (model == "") {
-				$('#nameSelectBox').hide();
-				$('.label.name').hide();
-			}
+
 			if (check == 1)
 				search();
 			if (checkNum == 2)
@@ -303,8 +305,57 @@ label {
 			var selectElement = document
 					.getElementById("domesticImportSelectBox");
 			var selectedValue = selectElement.value;
+			console.log(selectedValue);
 			select1 = selectedValue;
-			init(select1, "", "", "", 1);
+			ajaxController(select1, "", "", "", "", "", function(response) {
+				// 중복을 제거할 Set 생성
+				const brands = new Set();
+				const carModels = new Set();
+				const carNames = new Set();
+
+				// 응답 데이터를 순회하여 중복 제거
+				for (var i = 0; i < response.length; i++) {
+					brands.add(response[i].brand); // 브랜드 추가
+					carModels.add(response[i].carModel); // 차종 추가
+					carNames.add(response[i].carName); // 모델 이름 추가
+				}
+
+				// 브랜드
+				var html = [];
+				$('#brandSelectBox').empty();
+				html.push('<option value="">차 브랜드</option>');
+				var brandArray = Array.from(brands); // Set을 배열로 변환
+				for (var i = 0; i < brandArray.length; i++) {
+					// 각 브랜드에 대한 HTML 요소 추가
+					html.push('<option value="' + brandArray[i] + '">'
+							+ brandArray[i] + '</option>');
+				}
+				$('#brandSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+
+				// 차량 종류
+				var html = [];
+				$('#modelSelectBox').empty();
+				html.push('<option value="">차 종류</option>');
+				var modelArray = Array.from(carModels); // Set을 배열로 변환
+				for (var i = 0; i < modelArray.length; i++) {
+					html.push('<option value="' + modelArray[i] + '">'
+							+ modelArray[i] + '</option>');
+				}
+				$('#modelSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+
+				// 차 이름
+				var html = [];
+				$('#nameSelectBox').empty();
+				html.push('<option value="">차</option>');
+				var nameArray = Array.from(carNames); // Set을 배열로 변환
+				nameArray.sort();
+				for (var i = 0; i < nameArray.length; i++) {
+					html.push('<option value="' + nameArray[i] + '">'
+							+ nameArray[i] + '</option>');
+				}
+				$('#nameSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+			});
+
 		}
 		if (i == 2) {
 			$('#modelSelectBox').show();
@@ -312,7 +363,40 @@ label {
 			var selectElement = document.getElementById("brandSelectBox");
 			var selectedValue = selectElement.value;
 			select2 = selectedValue;
-			init(select1, select2, "", "", 1);
+			ajaxController("", select2, "", "", "", "", function(response) {
+				// 중복을 제거할 Set 생성
+				const carModels = new Set();
+				const carNames = new Set();
+
+				// 응답 데이터를 순회하여 중복 제거
+				for (var i = 0; i < response.length; i++) {
+					carModels.add(response[i].carModel); // 차종 추가
+					carNames.add(response[i].carName); // 모델 이름 추가
+				}
+
+				// 차량 종류
+				var html = [];
+				$('#modelSelectBox').empty();
+				html.push('<option value="">차 종류</option>');
+				var modelArray = Array.from(carModels); // Set을 배열로 변환
+				for (var i = 0; i < modelArray.length; i++) {
+					html.push('<option value="' + modelArray[i] + '">'
+							+ modelArray[i] + '</option>');
+				}
+				$('#modelSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+
+				// 차 이름
+				var html = [];
+				$('#nameSelectBox').empty();
+				html.push('<option value="">차</option>');
+				var nameArray = Array.from(carNames); // Set을 배열로 변환
+				nameArray.sort();
+				for (var i = 0; i < nameArray.length; i++) {
+					html.push('<option value="' + nameArray[i] + '">'
+							+ nameArray[i] + '</option>');
+				}
+				$('#nameSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+			});
 		}
 		if (i == 3) {
 			$('#nameSelectBox').show();
@@ -320,125 +404,114 @@ label {
 			var selectElement = document.getElementById("modelSelectBox");
 			var selectedValue = selectElement.value;
 			select3 = selectedValue;
-			init(select1, select2, select3, "", 1);
+			ajaxController("", select2, select3, "", "", "",
+					function(response) {
+						// 중복을 제거할 Set 생성
+						const carNames = new Set();
+
+						// 응답 데이터를 순회하여 중복 제거
+						for (var i = 0; i < response.length; i++) {
+							carNames.add(response[i].carName); // 모델 이름 추가
+						}
+						// 차 이름
+						var html = [];
+						$('#nameSelectBox').empty();
+						html.push('<option value="">차</option>');
+						var nameArray = Array.from(carNames); // Set을 배열로 변환
+						nameArray.sort();
+						for (var i = 0; i < nameArray.length; i++) {
+							html.push('<option value="' + nameArray[i] + '">'
+									+ nameArray[i] + '</option>');
+						}
+						$('#nameSelectBox').append(html.join('')); // jQuery를 사용하여 특정 요소에 추가
+					});
 		}
 	}
 
-	/* function search() {
+	function search() {
 		var domestic = document.getElementById("domesticImportSelectBox").value;
 		var brand = document.getElementById("brandSelectBox").value;
 		var model = document.getElementById("modelSelectBox").value;
 		var name = document.getElementById("nameSelectBox").value;
 
-		ajaxController(
-				domestic,
-				brand,
-				model,
-				name,
-				"1",
-				"9",
-				function(response) {
-					var html = [];
-					$(".ftco-section.bg-light .container .row.list").empty();
-					for (var i = 0; i < response.length; i++) {
-						html.push('<div class="col-md-4">');
-						html.push('	<div class="car-wrap rounded ftco-animate fadeInUp ftco-animated">');
-						html.push('		<div class="img rounded d-flex align-items-end"');
-						html.push('			style="background-image: url(carImage/'+ response[i].carImage + ');"></div>');
-						html.push('		<div class="text">');
-						html.push('			<div class="d-flex align-items-center mb-3">');
-						html.push('				<h2 class="mb-0">');
-						html.push('					<a href="carView">'+ response[i].carName + '</a>');
-						html.push('				</h2>');
-						html.push('			</div>');
-						html.push('			<div class="d-flex mb-3">');
-						html.push('				<p class="price ml-auto">'+ response[i].brand + '</p>');
-						html.push('			</div>');
-						html.push('			<p class="d-flex mb-0 d-block">');
-						html.push('				<a href="#" class="btn btn-light py-2 mr-1"');
-						html.push('					style="color: black !important;">상세보기</a> <a href="carView"');
-						html.push('					class="btn btn-danger"');
-						html.push('					style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>');
-						html.push('			</p>');
-						html.push('		</div>');
-						html.push('	</div>');
-						html.push('</div>');
-					}
-					$(".ftco-section.bg-light .container .row.list").append(
-							html.join(''));
-				});
-
-	} */
-	
-	// 페이지 리로드 없이 Ajax를 통한 검색
-	function searchWithAjax() {
-	    // (현재 Ajax 방식의 검색 코드)
-		var domestic = document.getElementById("domesticImportSelectBox").value;
-		var brand = document.getElementById("brandSelectBox").value;
-		var model = document.getElementById("modelSelectBox").value;
-		var name = document.getElementById("nameSelectBox").value;
-
-		ajaxController(
-				domestic,
-				brand,
-				model,
-				name,
-				"1",
-				"9",
-				function(response) {
-					var html = [];
-					$(".ftco-section.bg-light .container .row.list").empty();
-					for (var i = 0; i < response.length; i++) {
-						html.push('<div class="col-md-4">');
-						html.push('	<div class="car-wrap rounded ftco-animate fadeInUp ftco-animated">');
-						html.push('		<div class="img rounded d-flex align-items-end"');
-						html.push('			style="background-image: url(carImage/'+ response[i].carImage + ');"></div>');
-						html.push('		<div class="text">');
-						html.push('			<div class="d-flex align-items-center mb-3">');
-						html.push('				<h2 class="mb-0">');
-						html.push('					<a href="carView?idx=' + response[i].cIdx + '">'+ response[i].carName + '</a>');
-						html.push('				</h2>');
-						html.push('			</div>');
-						html.push('			<div class="d-flex mb-3">');
-						html.push('				<p class="price ml-auto">'+ response[i].brand + '</p>');
-						html.push('			</div>');
-						html.push('			<p class="d-flex mb-0 d-block">');
-						html.push('				<a href="#" class="btn btn-light py-2 mr-1"');
-						html.push('					style="color: black !important;">상세보기</a> <a href="carView"');
-						html.push('					class="btn btn-danger"');
-						html.push('					style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>');
-						html.push('			</p>');
-						html.push('		</div>');
-						html.push('	</div>');
-						html.push('</div>');
-					}
-					$(".ftco-section.bg-light .container .row.list").append(
-							html.join(''));
-				});
-	}
-
-	// 페이지 리다이렉트를 통한 검색
-	function searchWithRedirect() {
-	    // (URL 쿼리 방식의 검색 코드)
-		var domestic = document.getElementById("domesticImportSelectBox").value;
-		var brand = document.getElementById("brandSelectBox").value;
-		var model = document.getElementById("modelSelectBox").value;
-		var name = document.getElementById("nameSelectBox").value;
-		
 		var url = window.location.origin + "/carList";
 		var params = [];
 
-		if (domestic) params.push("domestic=" + encodeURIComponent(domestic));
-		if (brand) params.push("brand=" + encodeURIComponent(brand));
-		if (model) params.push("model=" + encodeURIComponent(model));
-		if (name) params.push("name=" + encodeURIComponent(name));
+		if (domestic)
+			params.push("domestic=" + encodeURIComponent(domestic));
+		if (brand)
+			params.push("brand=" + encodeURIComponent(brand));
+		if (model)
+			params.push("model=" + encodeURIComponent(model));
+		if (name)
+			params.push("name=" + encodeURIComponent(name));
 
 		if (params.length > 0) {
-		    url += "?" + params.join("&");
+			url += "?" + params.join("&");
 		}
 
-		window.location.href = url;
+		ajaxController(
+				domestic,
+				brand,
+				model,
+				name,
+				"1",
+				"9",
+				function(response) {
+					var html = [];
+					$(".ftco-section.bg-light .container .row.list").empty();
+					for (var i = 0; i < response.length; i++) {
+						html.push('<div class="col-md-4">');
+						html
+								.push('	<div class="car-wrap rounded ftco-animate fadeInUp ftco-animated">');
+						html
+								.push('		<div class="img rounded d-flex align-items-end"');
+						html.push('			style="background-image: url(carImage/'
+								+ response[i].carImage + ');"></div>');
+						html.push('		<div class="text">');
+						html
+								.push('			<div class="d-flex align-items-center mb-3">');
+						html.push('				<h2 class="mb-0">');
+						html.push('					<a href="carView">'
+								+ response[i].carName + '</a>');
+						html.push('				</h2>');
+						html.push('			</div>');
+						html.push('			<div class="d-flex mb-3">');
+						html.push('				<p class="price ml-auto">'
+								+ response[i].brand + '</p>');
+						html.push('			</div>');
+						html.push('			<p class="d-flex mb-0 d-block">');
+						html
+								.push('				<a href="#" class="btn btn-light py-2 mr-1"');
+						html
+								.push('					style="color: black !important;">상세보기</a> <a href="carView"');
+						html.push('					class="btn btn-danger"');
+						html
+								.push('					style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>');
+						html.push('			</p>');
+						html.push('		</div>');
+						html.push('	</div>');
+						html.push('</div>');
+					}
+					$(".ftco-section.bg-light .container .row.list").append(
+							html.join(''));
+
+					// 더보기 버튼 노출 여부
+					if (response.length < 9) {
+						$("#loadMoreBtn").hide();
+					} else {
+						$("#loadMoreBtn").show();
+					}
+				});
+
 	}
+	
+
+	// 페이지 로드 시 초기 데이터 로드
+	$(document).ready(function() {
+		search(); // 첫 번째 페이지 데이터 로드
+		$("#loadMoreBtn").show(); // "더보기" 버튼 표시
+	});
 
 	function ajaxController(domestic, brand, model, name, page, pageSize,
 			callback) {
