@@ -18,7 +18,7 @@
 
 .btn-danger {
 	font-size: 0.8rem !important;
-	border: 1px solid !important;
+	border: 1px solid !important; 
 	border-width: 0px !important;
 	line-height: 3.5;
 	width: 30% !important;
@@ -103,7 +103,7 @@ label {
 		<div class="overlay"></div>
 		<div class="container">
 			<div class="col-md-15 d-flex align-items-center">
-				<form action="javascript:search();"
+				<form action="javascript:searchWithAjax();"
 					class="request-form ftco-animate bg-primary">
 					<h2>조건 차량 검색</h2>
 					<div class="form-group main">
@@ -324,7 +324,7 @@ label {
 		}
 	}
 
-	function search() {
+	/* function search() {
 		var domestic = document.getElementById("domesticImportSelectBox").value;
 		var brand = document.getElementById("brandSelectBox").value;
 		var model = document.getElementById("modelSelectBox").value;
@@ -368,6 +368,76 @@ label {
 							html.join(''));
 				});
 
+	} */
+	
+	// 페이지 리로드 없이 Ajax를 통한 검색
+	function searchWithAjax() {
+	    // (현재 Ajax 방식의 검색 코드)
+		var domestic = document.getElementById("domesticImportSelectBox").value;
+		var brand = document.getElementById("brandSelectBox").value;
+		var model = document.getElementById("modelSelectBox").value;
+		var name = document.getElementById("nameSelectBox").value;
+
+		ajaxController(
+				domestic,
+				brand,
+				model,
+				name,
+				"1",
+				"9",
+				function(response) {
+					var html = [];
+					$(".ftco-section.bg-light .container .row.list").empty();
+					for (var i = 0; i < response.length; i++) {
+						html.push('<div class="col-md-4">');
+						html.push('	<div class="car-wrap rounded ftco-animate fadeInUp ftco-animated">');
+						html.push('		<div class="img rounded d-flex align-items-end"');
+						html.push('			style="background-image: url(carImage/'+ response[i].carImage + ');"></div>');
+						html.push('		<div class="text">');
+						html.push('			<div class="d-flex align-items-center mb-3">');
+						html.push('				<h2 class="mb-0">');
+						html.push('					<a href="carView">'+ response[i].carName + '</a>');
+						html.push('				</h2>');
+						html.push('			</div>');
+						html.push('			<div class="d-flex mb-3">');
+						html.push('				<p class="price ml-auto">'+ response[i].brand + '</p>');
+						html.push('			</div>');
+						html.push('			<p class="d-flex mb-0 d-block">');
+						html.push('				<a href="#" class="btn btn-light py-2 mr-1"');
+						html.push('					style="color: black !important;">상세보기</a> <a href="carView"');
+						html.push('					class="btn btn-danger"');
+						html.push('					style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>');
+						html.push('			</p>');
+						html.push('		</div>');
+						html.push('	</div>');
+						html.push('</div>');
+					}
+					$(".ftco-section.bg-light .container .row.list").append(
+							html.join(''));
+				});
+	}
+
+	// 페이지 리다이렉트를 통한 검색
+	function searchWithRedirect() {
+	    // (URL 쿼리 방식의 검색 코드)
+		var domestic = document.getElementById("domesticImportSelectBox").value;
+		var brand = document.getElementById("brandSelectBox").value;
+		var model = document.getElementById("modelSelectBox").value;
+		var name = document.getElementById("nameSelectBox").value;
+		
+		var url = window.location.origin + "/carList";
+		var params = [];
+
+		if (domestic) params.push("domestic=" + encodeURIComponent(domestic));
+		if (brand) params.push("brand=" + encodeURIComponent(brand));
+		if (model) params.push("model=" + encodeURIComponent(model));
+		if (name) params.push("name=" + encodeURIComponent(name));
+
+		if (params.length > 0) {
+		    url += "?" + params.join("&");
+		}
+
+		window.location.href = url;
 	}
 
 	function ajaxController(domestic, brand, model, name, page, pageSize,
