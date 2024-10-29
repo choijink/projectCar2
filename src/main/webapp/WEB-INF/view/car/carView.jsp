@@ -62,6 +62,10 @@ th {
 .th:nth-child(odd), td:nth-child(odd) {
 	background-color: #f2f2f2;
 }
+
+.brandMark {
+	width: 80px;
+}
 </style>
 
 <body>
@@ -83,14 +87,7 @@ th {
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-12">
-					<div class="car-details">
-						<div class="img rounded"
-							style="background-image: url(../../../carImage/k9.png);"></div>
-						<div class="text text-center">
-							<span class="subheading">회사로고</span>
-							<h2>회사 이름, 차량 이름 넣는 파라미터 불러오기</h2>
-						</div>
-					</div>
+					<div class="car-details"></div>
 				</div>
 			</div>
 			<div class="row justify-content-center gap-3">
@@ -117,12 +114,12 @@ th {
 							<div class="d-flex mb-3 align-items-center">
 								<div
 									class="icon d-flex align-items-center justify-content-center"
-									style="margin-right: 10px; margin-left: 70px;">
+									style="margin-right: 20px; margin-left: 70px;">
 									<span class="flaticon-diesel"></span>
 								</div>
 								<div class="text">
-									<span class="col">트림 : </span>
-									 <select id="trimSelectBox"><option value="">선택</option></select>
+									<span class="col">트림 : </span> <select id="trimSelectBox" onChange="trimSelect()"><option
+											value="">선택</option></select>
 								</div>
 							</div>
 						</div>
@@ -138,64 +135,7 @@ th {
 				<button class="gridButton2">찜하기</button>
 			</div>
 			<table>
-				<thead>
-					<tr>
-						<th>항목</th>
-						<th>세부 사항</th>
-						<th>항목</th>
-						<th>세부 사항</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>제조사</td>
-						<td>회사이름넣기</td>
-						<td>연비</td>
-						<td>14.3km</td>
-					</tr>
-					<tr>
-						<td>모델</td>
-						<td>차 이름 넣기</td>
-						<td>인승</td>
-						<td>8</td>
-					</tr>
-					<tr>
-						<td>연료타입</td>
-						<td>연료타입넣기</td>
-						<td>전장</td>
-						<td>4,815mm</td>
-					</tr>
-					<tr>
-						<td>배기량</td>
-						<td>1999cc</td>
-						<td>전폭</td>
-						<td>4,815mm</td>
-					</tr>
-					<tr>
-						<td>엔진형식</td>
-						<td>I4</td>
-						<td>전고</td>
-						<td>4,815mm</td>
-					</tr>
-					<tr>
-						<td>구동방식</td>
-						<td>전륜</td>
-						<td>축거</td>
-						<td>4,815mm</td>
-					</tr>
-					<tr>
-						<td>최고출력</td>
-						<td>203 hp</td>
-						<td>공차중량</td>
-						<td>2,000kg</td>
-					</tr>
-					<tr>
-						<td>최대토크</td>
-						<td>45kg.m</td>
-						<td>가격</td>
-						<td>4,064만원</td>
-					</tr>
-				</tbody>
+				<tr><td colspan="4">해당 등급/트림의 정보가 없습니다.</td></tr>
 			</table>
 		</div>
 	</section>
@@ -276,91 +216,7 @@ th {
 		</div>
 	</section>
 
-
-	<footer class="ftco-footer ftco-bg-dark ftco-section">
-		<div class="container">
-			<div class="row mb-5">
-				<div class="col-md">
-					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2">
-							<a href="#" class="logo">Car<span>book</span></a>
-						</h2>
-						<p>Far far away, behind the word mountains, far from the
-							countries Vokalia and Consonantia, there live the blind texts.</p>
-						<ul
-							class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-twitter"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-facebook"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-instagram"></span></a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md">
-					<div class="ftco-footer-widget mb-4 ml-md-5">
-						<h2 class="ftco-heading-2">Information</h2>
-						<ul class="list-unstyled">
-							<li><a href="#" class="py-2 d-block">About</a></li>
-							<li><a href="#" class="py-2 d-block">Services</a></li>
-							<li><a href="#" class="py-2 d-block">Term and Conditions</a></li>
-							<li><a href="#" class="py-2 d-block">Best Price
-									Guarantee</a></li>
-							<li><a href="#" class="py-2 d-block">Privacy &amp;
-									Cookies Policy</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md">
-					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2">Customer Support</h2>
-						<ul class="list-unstyled">
-							<li><a href="#" class="py-2 d-block">FAQ</a></li>
-							<li><a href="#" class="py-2 d-block">Payment Option</a></li>
-							<li><a href="#" class="py-2 d-block">Booking Tips</a></li>
-							<li><a href="#" class="py-2 d-block">How it works</a></li>
-							<li><a href="#" class="py-2 d-block">Contact Us</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-md">
-					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2">Have a Questions?</h2>
-						<div class="block-23 mb-3">
-							<ul>
-								<li><span class="icon icon-map-marker"></span><span
-									class="text">203 Fake St. Mountain View, San Francisco,
-										California, USA</span></li>
-								<li><a href="#"><span class="icon icon-phone"></span><span
-										class="text">+2 392 3929 210</span></a></li>
-								<li><a href="#"><span class="icon icon-envelope"></span><span
-										class="text">info@yourdomain.com</span></a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12 text-center">
-
-					<p>
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						Copyright &copy;
-						<script>
-							document.write(new Date().getFullYear());
-						</script>
-						All rights reserved | This template is made with <i
-							class="icon-heart color-danger" aria-hidden="true"></i> by <a
-							href="https://colorlib.com" target="_blank">Colorlib</a>
-						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-					</p>
-				</div>
-			</div>
-		</div>
-	</footer>
-
-
+	<%@ include file="/WEB-INF/view/common/footer.jsp"%>
 
 	<!-- loader -->
 	<div id="ftco-loader" class="show fullscreen">
@@ -377,6 +233,7 @@ th {
 	const params = new URLSearchParams(window.location.search);
 	var cIdx = params.get('idx');
 	var TrimMap = new Map();
+	var carData = [] ; // 전체 차량 데이터를 저장하는 전역 변수
 
 	function init() {
 		view();
@@ -389,6 +246,7 @@ th {
 				"idx" : cIdx
 			},
 			success : function(response) {
+				carData = response;
 				// 응답 데이터를 순회하여 중복 제거
 				var FuelEfficiency = new Set();
 				var FuelType = new Set();
@@ -425,6 +283,14 @@ th {
 							+ gradeArray[i] + '</option>');
 				}
 				$('#gradeSelectBox').append(html.join(''));
+								
+				var html = [];
+				html.push('<div class="img rounded" style="background-image: url(../../../carImage/' + response[i].carImage + ');"></div>');
+				html.push('<div class="text text-center">');
+				html.push('	<span class="subheading"><img class="brandMark" src=../../../carImage/' + response[i].brandMark + '></span>');
+				html.push('	<h2>' + response[i].brand + ' ' + response[i].carName + '</h2>');
+				html.push('</div>');
+				$('.car-details').append(html.join(''));
 
 			},
 			error : function(xhr, status, error) {
@@ -435,6 +301,9 @@ th {
 
 	function gradeSelect() {
 		$('#trimSelectBox').empty();
+		$('.table-container table').empty();
+		$('.table-container table').append('<tr><td colspan="4">해당 등급/트림의 정보가 없습니다.</td></tr>');
+		
 		var selectElement = document.getElementById("gradeSelectBox");
 		var selectedValue = selectElement.value;
 		
@@ -448,6 +317,92 @@ th {
 		        html.push('<option value="' + trimOptions[i] + '">' + trimOptions[i] + '</option>');
 		    }
 		    $('#trimSelectBox').html(html.join(''));
+	}
+	
+	function trimSelect(){
+		// trim 선택에 따라서 테이블 업데이트
+		var selectedGrade = $('#gradeSelectBox').val();
+		var selectedTrim = $('#trimSelectBox').val();
+		updateTable(selectedGrade, selectedTrim);
+	}
+	
+	function updateTable(selectedGrade, selectedTrim){
+		// 선택된 등급과 트림에 맞는 데이터를 carData 찾기
+		var filteredData = carData.find(item => {
+			return item.grade === selectedGrade && (!selectedTrim || item.trim === selectedTrim);
+		})
+		console.log(selectedGrade);
+		console.log(selectedTrim);
+		console.log(filteredData);
+		
+		if (filteredData){
+			$('.table-container table').empty();
+			var html = [];
+			html.push('<thead>');
+			html.push('<tr>');
+			html.push('<th>항목</th>');
+			html.push('<th>세부 사항</th>');
+			html.push('<th>항목</th>');
+			html.push('<th>세부 사항</th>');
+			html.push('</tr>');
+			html.push('</thead>');
+			html.push('<tbody>');
+			html.push('<tr>');
+			html.push('<td>제조사</td>');
+			html.push('<td>' + filteredData.brand + '</td>');
+			html.push('<td>연비</td>');
+			html.push('<td>' + filteredData.fuelEfficiency + '</td>');
+			html.push('</tr>');
+			html.push('<tr>');
+			html.push('<td>모델</td>');
+			html.push('<td>' + filteredData.carName + '</td>');
+			html.push('<td>인승</td>');
+			html.push('<td>' + filteredData.seatingCapacity + '</td>');
+			html.push('</tr>');
+			html.push('<tr>');
+			html.push('<td>연료타입</td>');
+			html.push('<td>' + filteredData.fuelType + '</td>');
+			html.push('<td>전장</td>');
+			html.push('<td>' + filteredData.length + '</td>');
+			html.push('</tr>');
+			html.push('<tr>');
+			html.push('<td>배기량</td>');
+			html.push('<td>' + filteredData.displacement + '</td>');
+			html.push('<td>전폭</td>');
+			html.push('<td>' + filteredData.width + '</td>');
+			html.push('</tr>');
+			html.push('<tr>');
+			html.push('<td>엔진형식</td>');
+			html.push('<td>' + filteredData.engineType + '</td>');
+			html.push('<td>전고</td>');
+			html.push('<td>' + filteredData.height + '</td>');
+			html.push('</tr>');
+			html.push('<tr>');
+			html.push('<td>구동방식</td>');
+			html.push('<td>' + filteredData.driveType + '</td>');
+			html.push('<td>축거</td>');
+			html.push('<td>' + filteredData.wheelBase + '</td>');
+			html.push('</tr>');
+			html.push('<tr>');
+			html.push('<td>최고출력</td>');
+			html.push('<td>' + filteredData.maxPower + '</td>');
+			html.push('<td>공차중량</td>');
+			html.push('<td>' + filteredData.curbWeight + '</td>');
+			html.push('</tr>');
+			html.push('<tr>');
+			html.push('<td>최대토크</td>');
+			html.push('<td>' + filteredData.maxTorque + '</td>');
+			html.push('<td>가격</td>');
+			html.push('<td>' + filteredData.price + '</td>');
+			html.push('</tr>');
+			html.push('</tbody>');
+		
+			$('.table-container table').append(html.join(''));
+			
+		} else {
+			$('.table-container table').append('<tr><td colspan="4">해당 등급/트림의 정보가 없습니다.</td></tr>');
+		}
+		
 	}
 
 	$(document).ready(function() {
