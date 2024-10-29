@@ -18,13 +18,14 @@
 .col-md-15 {flex: unset;max-width: unset;}
 .featured-top {margin-top: unset;}
 .bg-primary {background: rgb(0 123 255/ 38%) !important;}
-.btn.btn-secondary {background-color: #6c757d !important;border-color: #6c757d !important;}
+.btn.btn-secondary {background-color: #6c757d !important;border-color: #6c757d !important; width: inherit !important;}
 .ftco-section {padding: 2em 0;}
 .ftco-footer {height: 350px;}
 .form-group.main {display: grid;grid-template-columns: 80px 1fr 80px 1fr 80px 1fr 80px 1fr;gap: 15px;}
 .form-group.search {justify-content: center;display: grid;margin-top: 2rem;gap: 10px;grid-template-columns: 1fr 1fr 1fr 1fr;}
 .form-group.search .btn {width: unset;}
 .request-form label.label {text-align: center;font-size: 15px;}
+.mt-5, .my-5 {margin-top: unset !important;}
 label {display: inline-block;margin-bottom: unset;}
 </style>
 <body>
@@ -96,7 +97,7 @@ label {display: inline-block;margin-bottom: unset;}
 			<!-- "더보기" 버튼 -->
 			<div class="row mt-5">
 				<div class="col text-center">
-					<button id="loadMoreBtn" class="btn btn-primary"
+					<button id="loadMoreBtn" class="btn btn-secondary"
 						style="display: none;" onclick="loadMore();">더보기</button>
 				</div>
 			</div>
