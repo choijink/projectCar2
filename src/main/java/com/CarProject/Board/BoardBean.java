@@ -9,11 +9,18 @@ public class BoardBean {
 	private String image2 ; // 이미지2
 	private String image3 ; // 이미지3
 	private String announcement ; // 공지사항
-	
+	private String regdate ; // 등록 일자
 	
 	public BoardBean() {
 	}
 	
+	
+	public String getRegdate() {
+		return regdate;
+	}
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
+	}
 	public int getbIdx() {
 		return bIdx;
 	}
@@ -62,11 +69,13 @@ public class BoardBean {
 	public void setAnnouncement(String announcement) {
 		this.announcement = announcement;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "BoardBean [bIdx=" + bIdx + ", mIdx=" + mIdx + ", title=" + title + ", content=" + content + ", image1="
-				+ image1 + ", image2=" + image2 + ", image3=" + image3 + ", announcement=" + announcement + "]";
+				+ image1 + ", image2=" + image2 + ", image3=" + image3 + ", announcement=" + announcement + ", regdate="
+				+ regdate + "]";
 	}
+	
 	
 }
