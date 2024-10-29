@@ -472,7 +472,7 @@ label {
 						html
 								.push('			<div class="d-flex align-items-center mb-3">');
 						html.push('				<h2 class="mb-0">');
-						html.push('					<a href="carView">'
+						html.push('					<a href="carView?idx=' + response[i].cIdx + '">'
 								+ response[i].carName + '</a>');
 						html.push('				</h2>');
 						html.push('			</div>');
@@ -482,7 +482,7 @@ label {
 						html.push('			</div>');
 						html.push('			<p class="d-flex mb-0 d-block">');
 						html
-								.push('				<a href="#" class="btn btn-light py-2 mr-1"');
+								.push('				<a href="carView?idx=' + response[i].cIdx + '" class="btn btn-light py-2 mr-1"');
 						html
 								.push('					style="color: black !important;">상세보기</a> <a href="carView"');
 						html.push('					class="btn btn-danger"');
@@ -534,13 +534,38 @@ label {
 			}
 		});
 	}
-
+	
+	
+	
 	function reload() {
 		window.location.href = window.location.origin + "/carList";
 	}
 
 	$(document).ready(function() {
 		init("", "", "", "", 2);
+		
+		function loadMore() {
+		    // 다음 인덱스부터 아이템을 로드
+		    const endIndex = currentIndex + itemsPerPage;
+		    const itemsToLoad = items.slice(currentIndex, endIndex);
+
+		    // 로드된 아이템을 HTML에 추가
+		    const itemContainer = document.getElementById("itemContainer");
+		    itemsToLoad.forEach(item => {
+		        const itemElement = document.createElement("div");
+		        itemElement.className = "item";
+		        itemElement.innerText = item.name; // 여기서 아이템의 실제 속성을 사용
+		        itemContainer.appendChild(itemElement);
+		    });
+
+		    // 현재 인덱스를 업데이트
+		    currentIndex += itemsPerPage;
+
+		    // 더 로드할 아이템이 없으면 버튼 숨기기
+		    if (currentIndex >= totalItems) {
+		        document.getElementById("loadMoreButton").style.display = "none";
+		    }
+		}
 	});
 </script>
 </html>
