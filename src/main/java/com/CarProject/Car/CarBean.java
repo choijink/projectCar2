@@ -16,7 +16,7 @@ public class CarBean {
 	private int cd1Idx ; //
 	private String fuelType ; // 유종(가솔린, 디젤, EV)
 	private String displacement ; // 배기량
-	private String fuelEfficiency ; // 유종(가솔린, 디젤, EV)
+	private String fuelEfficiency ; // 연비
 	private String seatingCapacity ; // 인승
 	private String engineType ; // 엔진형식
 	private String driveType ; // 구동방식(사륜, 전륜, 후륜)

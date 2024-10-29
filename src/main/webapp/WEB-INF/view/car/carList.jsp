@@ -396,7 +396,7 @@ label {
 						html.push('		<div class="text">');
 						html.push('			<div class="d-flex align-items-center mb-3">');
 						html.push('				<h2 class="mb-0">');
-						html.push('					<a href="carView">'+ response[i].carName + '</a>');
+						html.push('					<a href="carView?idx=' + response[i].cIdx + '">'+ response[i].carName + '</a>');
 						html.push('				</h2>');
 						html.push('			</div>');
 						html.push('			<div class="d-flex mb-3">');

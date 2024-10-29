@@ -103,4 +103,85 @@ public class CarDao extends SuperDao {
 
 		return bean;
 	}
+
+	public List<CarBean> selectView(String cIdx) {
+		List<CarBean> lists = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+
+		// 기본 쿼리
+		String sql = "select t1.c_idx, t1.Brand, t1.BrandMark, t1.CarImage, t1.CarName, t2.FuelEfficiency,";
+		sql += " t2.cd1_idx, t2.SeatingCapacity, t2.FuelType, t2.Length, t2.Displacement,";
+		sql += " t2.Width, t2.EngineType, t2.Height, t2.DriveType, t2.WheelBase,";
+		sql += " t2.MaxPower, t2.CurbWeight, t2.MaxTorque, t2.Grade,";
+		sql += " t3.cd2_idx, t3.Price, t3.Trim from carmain as t1";
+		sql += " inner join carDetail1 as t2 on t2.c_idx = t1.c_Idx";
+		sql += " inner join carDetail2 as t3 on T3.cd1_idx = t2.cd1_idx";
+		sql += " where t1.c_Idx = ?";
+
+		System.out.println(sql);
+		try {
+			conn = super.getConnection();
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, cIdx);
+
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				lists.add(getBeanViewData(rs));
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			// 리소스 정리
+		}
+
+		return lists;
+	}
+	
+	private CarBean getBeanViewData(ResultSet rs) {
+		CarBean bean = null;
+
+		try {
+			bean = new CarBean();
+			bean.setcIdx(Integer.parseInt(rs.getString("c_idx")));
+			bean.setCd1Idx(Integer.parseInt(rs.getString("cd1_idx")));
+			bean.setCd2Idx(Integer.parseInt(rs.getString("cd2_idx")));
+			
+			
+			bean.setBrand(rs.getString("Brand"));
+			bean.setBrandMark(rs.getString("BrandMark"));
+			bean.setCarImage(rs.getString("CarImage"));			
+			bean.setCarName(rs.getString("CarName"));
+			
+			bean.setFuelEfficiency(rs.getString("FuelEfficiency"));
+			bean.setSeatingCapacity(rs.getString("SeatingCapacity"));
+			bean.setFuelType(rs.getString("FuelType"));
+			bean.setLength(rs.getString("Length"));
+			bean.setDisplacement(rs.getString("Displacement"));
+			bean.setWidth(rs.getString("Width"));
+			bean.setEngineType(rs.getString("EngineType"));
+			bean.setHeight(rs.getString("Height"));
+			bean.setDriveType(rs.getString("DriveType"));
+			bean.setWheelBase(rs.getString("WheelBase"));
+			bean.setMaxPower(rs.getString("MaxPower"));
+			bean.setCurbWeight(rs.getString("CurbWeight"));
+			bean.setMaxTorque(rs.getString("MaxTorque"));
+			bean.setGrade(rs.getString("Grade"));
+			
+			bean.setPrice(rs.getString("Price"));		
+			bean.setTrim(rs.getString("Trim"));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return bean;
+	}
+	
+	
 }

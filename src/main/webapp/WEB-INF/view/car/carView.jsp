@@ -7,29 +7,8 @@
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<link
-	href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap"
-	rel="stylesheet">
-
-<link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
-<link rel="stylesheet" href="css/animate.css">
-
-<link rel="stylesheet" href="css/owl.carousel.min.css">
-<link rel="stylesheet" href="css/owl.theme.default.min.css">
-<link rel="stylesheet" href="css/magnific-popup.css">
-
-<link rel="stylesheet" href="css/aos.css">
-
-<link rel="stylesheet" href="css/ionicons.min.css">
-
-<link rel="stylesheet" href="css/bootstrap-datepicker.css">
-<link rel="stylesheet" href="css/jquery.timepicker.css">
-
-
-<link rel="stylesheet" href="css/flaticon.css">
-<link rel="stylesheet" href="css/icomoon.css">
-<link rel="stylesheet" href="css/style.css">
+<%@ include file="/WEB-INF/view/common/css.jsp"%>
+</head>
 <style>
 .choice1 {
 	padding-left: 10px;
@@ -79,14 +58,14 @@ th {
 	color: white;
 	border: 1px white solid;
 }
-.th:nth-child(odd),td:nth-child(odd) {
-  background-color: #f2f2f2;
-  }
+
+.th:nth-child(odd), td:nth-child(odd) {
+	background-color: #f2f2f2;
+}
 </style>
-</head>
+
 <body>
 	<%@ include file="/WEB-INF/view/common/header.jsp"%>
-
 	<section class="hero-wrap hero-wrap-2 js-fullheight"
 		style="background-image: url('images/bg_3.jpg');"
 		data-stellar-background-ratio="0.5">
@@ -125,8 +104,8 @@ th {
 									<span class="flaticon-dashboard"></span>
 								</div>
 								<div class="text">
-									<span class="col">등급 : </span> <select><option>grade
-											목록</option></select>
+									<span class="col">등급 : </span> <select id="gradeSelectBox"
+										onChange="gradeSelect()"></select>
 								</div>
 							</div>
 						</div>
@@ -142,8 +121,8 @@ th {
 									<span class="flaticon-diesel"></span>
 								</div>
 								<div class="text">
-									<span class="col">트림 : </span> <select><option>trim
-											목록</option></select>
+									<span class="col">트림 : </span>
+									 <select id="trimSelectBox"><option value="">선택</option></select>
 								</div>
 							</div>
 						</div>
@@ -392,25 +371,87 @@ th {
 				stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg>
 	</div>
 
-
-	<script src="js/jquery.min.js"></script>
-	<script src="js/jquery-migrate-3.0.1.min.js"></script>
-	<script src="js/popper.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery.easing.1.3.js"></script>
-	<script src="js/jquery.waypoints.min.js"></script>
-	<script src="js/jquery.stellar.min.js"></script>
-	<script src="js/owl.carousel.min.js"></script>
-	<script src="js/jquery.magnific-popup.min.js"></script>
-	<script src="js/aos.js"></script>
-	<script src="js/jquery.animateNumber.min.js"></script>
-	<script src="js/bootstrap-datepicker.js"></script>
-	<script src="js/jquery.timepicker.min.js"></script>
-	<script src="js/scrollax.min.js"></script>
-	<script
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-	<script src="js/google-map.js"></script>
-	<script src="js/main.js"></script>
-
+	<%@ include file="/WEB-INF/view/common/js.jsp"%>
 </body>
+<script>
+	const params = new URLSearchParams(window.location.search);
+	var cIdx = params.get('idx');
+	var TrimMap = new Map();
+
+	function init() {
+		view();
+	}
+	function view() {
+		$.ajax({
+			url : "CarViewAjaxController", // 서버 서블릿 경로
+			method : "GET", // 요청 방식
+			data : {
+				"idx" : cIdx
+			},
+			success : function(response) {
+				// 응답 데이터를 순회하여 중복 제거
+				var FuelEfficiency = new Set();
+				var FuelType = new Set();
+				var Displacement = new Set();
+				var MaxPower = new Set();
+				var CurbWeight = new Set();
+				var MaxTorque = new Set();
+				var Grade = new Set();
+				var Price = new Set();
+				
+				TrimMap.clear();
+
+				for (var i = 0; i < response.length; i++) {
+					FuelEfficiency.add(response[i].fuelEfficiency); // 브랜드 추가
+					FuelType.add(response[i].fuelType); // 모델 이름 추가
+					Displacement.add(response[i].displacement); // 모델 이름 추가
+					MaxPower.add(response[i].maxPower); // 모델 이름 추가
+					CurbWeight.add(response[i].curbWeight); // 모델 이름 추가
+					MaxTorque.add(response[i].maxTorque); // 모델 이름 추가
+					Grade.add(response[i].grade); // 모델 이름 추가
+					Price.add(response[i].price); // 모델 이름 추가
+					// grade별로 trim 추가
+	                if (!TrimMap.has(response[i].grade)) {
+	                    TrimMap.set(response[i].grade, []);
+	                }
+	                TrimMap.get(response[i].grade).push(response[i].trim);
+				}
+				var html = [];
+				html.push('<option value="">선택</option>');
+				var gradeArray = Array.from(Grade);
+				for (var i = 0; i < gradeArray.length; i++) {
+					console.log(gradeArray[i]);
+					html.push('<option value="' + gradeArray[i] + '">'
+							+ gradeArray[i] + '</option>');
+				}
+				$('#gradeSelectBox').append(html.join(''));
+
+			},
+			error : function(xhr, status, error) {
+				console.error('요청 실패: ' + error); // 에러 출력
+			}
+		});
+	}
+
+	function gradeSelect() {
+		$('#trimSelectBox').empty();
+		var selectElement = document.getElementById("gradeSelectBox");
+		var selectedValue = selectElement.value;
+		
+		console.log(TrimMap);
+		// 선택한 grade에 맞는 trim 목록 가져오기
+	    var trimOptions = TrimMap.get(selectedValue) || [];
+		
+		 var html = [];
+		    html.push('<option value="">선택</option>');
+		    for (var i = 0; i < trimOptions.length; i++) {
+		        html.push('<option value="' + trimOptions[i] + '">' + trimOptions[i] + '</option>');
+		    }
+		    $('#trimSelectBox').html(html.join(''));
+	}
+
+	$(document).ready(function() {
+		init();
+	});
+</script>
 </html>
