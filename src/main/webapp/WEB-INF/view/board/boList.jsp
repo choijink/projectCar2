@@ -55,6 +55,7 @@
 
 .pagination a.prev, .pagination a.next {
 	font-weight: bold;
+	
 }
 
 #btn-insert {
@@ -103,13 +104,13 @@
 				<p>&nbsp;</p>
 			</div>
 			<form>
-				<span class="countSpan"></span> <span class="right"
-					; style="margin-left: 400px;"> <span class="grey"
-					; id="strong";>SELECT</span> <select>
+				<span class="countSpan"></span>
+				<span class="right"; style="margin-left: 400px;">
+					<select>
 						<option value="제목" ; name="제목";>제목</option>
 						<option value="직성자" ;name="작성자";>작성자</option>
-				</select> <input type="text";> <input type="button" name="검색"
-					class="search-btn" value="검색">
+					</select> 
+					<input type="text";> <input type="button" name="검색" class="search-btn" value="검색">
 				</span>
 			</form>
 			<div class="table-responsive">
@@ -129,16 +130,11 @@
 
 			<div class="under" style="display:grid; grid-template-columns:1fr 110px;">
 				<div class="pagination">
-					<a href="#" class="prev">« 이전</a> <a href="#" class="active">1</a> <a
-						href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a>
+					<a href="#" class="prev">« 이전</a> <a href="#" class="active">1</a>
+					<a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a>
 					<a href="#" class="next">다음 »</a>
 				</div>
-				<div class="btn-class" style="
-				    display: flex;
-				    justify-content: center;
-				    align-items: center;
-				    margin: 20px 0;
-				">
+				<div class="btn-class" style="display: flex; justify-content: center; align-items: center; margin: 20px 0;">
 				<button onclick="boInsert()" id="btn-insert">게시물 등록</button>
 				</div>
 			</div>
@@ -187,8 +183,13 @@
 					html.push('	</td>');
 					html.push('	<td>' + response[i].regdate + '</td>');
 					html.push('	<td>');
-					html.push('		<button class="btn btn-sm btn-outline-primary" onclick="boUpdate">수정</button>');
-					html.push('		<button class="btn btn-sm btn-outline-danger" onclick="boDelete">삭제</button>');
+					// 관리자일 경우에만 수정, 삭제 버튼을 추가
+					if (isAdmin) {
+						html.push('		<button class="btn btn-sm btn-outline-primary" onclick="boUpdate()">수정</button>');
+						html.push('		<button class="btn btn-sm btn-outline-danger" onclick="boDelete()">삭제</button>');
+					} else {
+						html.push('		<span class="text-muted">관리자 전용</span>');
+					}
 					html.push('	</td>');
 					html.push('</tr>');
 					totalCount--;
@@ -205,7 +206,17 @@
 	}
 	
 	function boInsert(){
-		var url = "/boardInsert"
+		var url = "/boInsert"
+		window.location.href = url;
+	}
+	
+	function boUpdate(){
+		var url = "/boUpdate"
+		window.location.href = url;
+	}
+	
+	function boDelete(){
+		var url = "/boDelete"
 		window.location.href = url;
 	}
 
