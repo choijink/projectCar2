@@ -66,6 +66,10 @@ th {
 .brandMark {
 	width: 80px;
 }
+
+.recommend {
+	display: grid;
+}
 </style>
 
 <body>
@@ -163,9 +167,8 @@ th {
 									<span>2,550만원</span>
 								</p>
 							</div>
-							<p class="d-flex mb-0 d-block">
-								<a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a
-									href="car-single.html" class="btn btn-secondary py-2 ml-1">Details</a>
+							<p class="recommend">
+								<a href="car-single.html" class="btn btn-secondary py-2 ml-1">Details</a>
 							</p>
 						</div>
 					</div>
@@ -184,9 +187,8 @@ th {
 									<span>2,550만원</span>
 								</p>
 							</div>
-							<p class="d-flex mb-0 d-block">
-								<a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a
-									href="car-single.html" class="btn btn-secondary py-2 ml-1">Details</a>
+							<p class="recommend">
+								<a href="car-single.html" class="btn btn-secondary py-2 ml-1">Details</a>
 							</p>
 						</div>
 					</div>
@@ -205,9 +207,8 @@ th {
 									<span>2,550만원</span>
 								</p>
 							</div>
-							<p class="d-flex mb-0 d-block">
-								<a href="#" class="btn btn-primary py-2 mr-1">Book now</a> <a
-									href="car-single.html" class="btn btn-secondary py-2 ml-1">Details</a>
+							<p class="recommend">
+								<a href="car-single.html" class="btn btn-secondary py-2 ml-1">Details</a>
 							</p>
 						</div>
 					</div>
@@ -404,7 +405,26 @@ th {
 		}
 		
 	}
-
+	
+	function recommendList(minPrice, maxPrice){
+		var price = filteredData.price.replace("만원","").replace(",","");
+		var minPrice = price * 0.9;
+		var maxPrice = price * 1.1;
+		var filteredData = carData.find(item => {
+			return item.grade === selectedGrade && (!selectedTrim || item.trim === selectedTrim);
+		});
+		
+		console.log(filteredData);
+		
+		if (filteredData){
+			var html = [];
+			
+			html.push('</tbody>');
+		
+			$('.table-container table').append(html.join(''));
+			
+		}
+	}
 	$(document).ready(function() {
 		init();
 	});
