@@ -10,87 +10,22 @@
 <%@ include file="/WEB-INF/view/common/css.jsp"%>
 </head>
 <style>
-.d-block {
-	width: 100%;
-	justify-content: center;
-	gap: 10px;
-}
-
-.btn-danger {
-	font-size: 0.8rem !important;
-	border: 1px solid !important;
-	border-width: 0px !important;
-	line-height: 3.5;
-	width: 30% !important;
-}
-
-.mr-1 {
-	color: black !important;
-	line-height: 2.5;
-}
-
-.car-wrap .text p.d-block a {
-	width: 78%;
-}
-
-.request-form.ftco-animate.bg-primary.fadeInUp.ftco-animated {
-	width: 100%;
-	margin-top: 200px;
-}
-
-.col-md-15 {
-	flex: unset;
-	max-width: unset;
-}
-
-.featured-top {
-	margin-top: unset;
-}
-
-.bg-primary {
-	background: rgb(0 123 255/ 38%) !important;
-}
-
-.btn.btn-secondary {
-	background-color: #6c757d !important;
-	border-color: #6c757d !important;
-}
-
-.ftco-section {
-	padding: 2em 0;
-}
-
-.ftco-footer {
-	height: 350px;
-}
-
-.form-group.main {
-	display: grid;
-	grid-template-columns: 80px 1fr 80px 1fr 80px 1fr 80px 1fr;
-	gap: 15px;
-}
-
-.form-group.search {
-	justify-content: center;
-	display: grid;
-	margin-top: 2rem;
-	gap: 10px;
-	grid-template-columns: 1fr 1fr 1fr 1fr;
-}
-
-.form-group.search .btn {
-	width: unset;
-}
-
-.request-form label.label {
-	text-align: center;
-	font-size: 15px;
-}
-
-label {
-	display: inline-block;
-	margin-bottom: unset;
-}
+.d-block {width: 100%;justify-content: center;gap: 10px;}
+.btn-danger {font-size: 0.8rem !important;border: 1px solid !important;border-width: 0px !important;line-height: 3.5;width: 30% !important;}
+.mr-1 {color: black !important; line-height: 2.5;}
+.car-wrap .text p.d-block a {width: 78%;}
+.request-form.ftco-animate.bg-primary.fadeInUp.ftco-animated {width: 100%;margin-top: 200px;}
+.col-md-15 {flex: unset;max-width: unset;}
+.featured-top {margin-top: unset;}
+.bg-primary {background: rgb(0 123 255/ 38%) !important;}
+.btn.btn-secondary {background-color: #6c757d !important;border-color: #6c757d !important;}
+.ftco-section {padding: 2em 0;}
+.ftco-footer {height: 350px;}
+.form-group.main {display: grid;grid-template-columns: 80px 1fr 80px 1fr 80px 1fr 80px 1fr;gap: 15px;}
+.form-group.search {justify-content: center;display: grid;margin-top: 2rem;gap: 10px;grid-template-columns: 1fr 1fr 1fr 1fr;}
+.form-group.search .btn {width: unset;}
+.request-form label.label {text-align: center;font-size: 15px;}
+label {display: inline-block;margin-bottom: unset;}
 </style>
 <body>
 
@@ -187,11 +122,32 @@ label {
 
 </body>
 <script>
+	
+	var currentPage = 1 ;
+	var pageSize = 9 ;
+	
+	// 페이지 로드 시 초기 데이터 로드
+	$(document).ready(function() {
+		search(); // 첫 번째 페이지 데이터 로드
+	});
+	
+	
+	
+
 	const params = new URLSearchParams(window.location.search);
 	var domesticParam = params.get('domestic');
 	var brandParam = params.get('brand');
 	var modelParam = params.get('model');
 	var nameParam = params.get('name');
+	
+	
+	
+	$(document).ready(function() {
+		search();
+		$("#loadMoreBtn").show();
+	})
+	
+	
 	if (domesticParam != null)
 		domestic = domesticParam;
 	if (brandParam != null)
@@ -235,6 +191,7 @@ label {
 				carModels.add(response[i].carModel); // 차종 추가
 				vehicleSizes.add(response[i].vehicleSize); // 사이즈 추가
 				carNames.add(response[i].carName); // 모델 이름 추가
+				
 			}
 
 			// 국산/수입
@@ -429,10 +386,14 @@ label {
 	}
 
 	function search() {
+		currentPage = 1;
+		$(".ftco-section.bg-light .container .row.list").empty(); // 기존 리스트 초기
+		
 		var domestic = document.getElementById("domesticImportSelectBox").value;
 		var brand = document.getElementById("brandSelectBox").value;
 		var model = document.getElementById("modelSelectBox").value;
 		var name = document.getElementById("nameSelectBox").value;
+		
 
 		var url = window.location.origin + "/carList";
 		var params = [];
@@ -455,39 +416,30 @@ label {
 				brand,
 				model,
 				name,
-				"1",
-				"9",
+			    currentPage,
+				pageSize,
 				function(response) {
 					var html = [];
 					$(".ftco-section.bg-light .container .row.list").empty();
 					for (var i = 0; i < response.length; i++) {
 						html.push('<div class="col-md-4">');
-						html
-								.push('	<div class="car-wrap rounded ftco-animate fadeInUp ftco-animated">');
-						html
-								.push('		<div class="img rounded d-flex align-items-end"');
-						html.push('			style="background-image: url(carImage/'
-								+ response[i].carImage + ');"></div>');
+						html.push('	<div class="car-wrap rounded ftco-animate fadeInUp ftco-animated">');
+						html.push('		<div class="img rounded d-flex align-items-end"');
+						html.push('			style="background-image: url(carImage/'+ response[i].carImage + ');"></div>');
 						html.push('		<div class="text">');
-						html
-								.push('			<div class="d-flex align-items-center mb-3">');
+						html.push('			<div class="d-flex align-items-center mb-3">');
 						html.push('				<h2 class="mb-0">');
-						html.push('					<a href="carView?idx=' + response[i].cIdx + '">'
-								+ response[i].carName + '</a>');
+						html.push('					<a href="carView?idx=' + response[i].cIdx + '">'+ response[i].carName + '</a>');
 						html.push('				</h2>');
 						html.push('			</div>');
 						html.push('			<div class="d-flex mb-3">');
-						html.push('				<p class="price ml-auto">'
-								+ response[i].brand + '</p>');
+						html.push('				<p class="price ml-auto">'+ response[i].brand + '</p>');
 						html.push('			</div>');
 						html.push('			<p class="d-flex mb-0 d-block">');
-						html
-								.push('				<a href="carView?idx=' + response[i].cIdx + '" class="btn btn-light py-2 mr-1"');
-						html
-								.push('					style="color: black !important;">상세보기</a> <a href="carView"');
+						html.push('				<a href="carView?idx=' + response[i].cIdx + '" class="btn btn-light py-2 mr-1"');
+						html.push('					style="color: black !important;">상세보기</a> <a href="carView"');
 						html.push('					class="btn btn-danger"');
-						html
-								.push('					style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>');
+						html.push('					style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>');
 						html.push('			</p>');
 						html.push('		</div>');
 						html.push('	</div>');
@@ -495,26 +447,21 @@ label {
 					}
 					$(".ftco-section.bg-light .container .row.list").append(
 							html.join(''));
-
-					// 더보기 버튼 노출 여부
-					if (response.length < 9) {
+				
+			
+					if (response.length < pageSize) {
 						$("#loadMoreBtn").hide();
 					} else {
 						$("#loadMoreBtn").show();
 					}
 				});
+					
+		
 
 	}
-	
 
-	// 페이지 로드 시 초기 데이터 로드
-	$(document).ready(function() {
-		search(); // 첫 번째 페이지 데이터 로드
-		$("#loadMoreBtn").show(); // "더보기" 버튼 표시
-	});
 
-	function ajaxController(domestic, brand, model, name, page, pageSize,
-			callback) {
+	function ajaxController(domestic, brand, model, name, page, pageSize, callback) {
 		$.ajax({
 			url : "ajaxController", // 서버 서블릿 경로
 			method : "GET", // 요청 방식
@@ -541,31 +488,52 @@ label {
 		window.location.href = window.location.origin + "/carList";
 	}
 
+	function loadMore() {
+		// 다음 페이지 요청
+		currentPage++;
+		var domestic = document.getElementById("domesticImportSelectBox").value;
+		var brand = document.getElementById("brandSelectBox").value;
+		var model = document.getElementById("modelSelectBox").value;
+		var name = document.getElementById("nameSelectBox").value;
+
+		// 추가 페이지 데이터 요청
+		ajaxController(domestic, brand, model, name, currentPage, pageSize, function(response) {
+			displayCars(response);
+			if (response.length < pageSize) {
+				$("#loadMoreBtn").hide(); // 더 이상 로드할 데이터가 없을 때 버튼 숨김
+			}
+		});
+	}
+	
+	function displayCars(response) {
+		// 차량 정보를 HTML로 추가
+		var html = [];
+		for (var i = 0; i < response.length; i++) {
+			html.push('<div class="col-md-4">');
+			html.push('	<div class="car-wrap rounded ftco-animate fadeInUp ftco-animated">');
+			html.push('		<div class="img rounded d-flex align-items-end" style="background-image: url(carImage/'+ response[i].carImage + ');"></div>');
+			html.push('		<div class="text">');
+			html.push('			<div class="d-flex align-items-center mb-3">');
+			html.push('				<h2 class="mb-0"><a href="carView?idx=' + response[i].cIdx + '">'+ response[i].carName + '</a></h2>');
+			html.push('			</div>');
+			html.push('			<div class="d-flex mb-3">');
+			html.push('				<p class="price ml-auto">'+ response[i].brand + '</p>');
+			html.push('			</div>');
+			html.push('			<p class="d-flex mb-0 d-block">');
+			html.push('				<a href="carView?idx=' + response[i].cIdx + '" class="btn btn-light py-2 mr-1" style="color: black !important;">상세보기</a> <a href="carView" class="btn btn-danger" style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>');
+			html.push('			</p>');
+			html.push('		</div>');
+			html.push('	</div>');
+			html.push('</div>');
+		}
+		$(".ftco-section.bg-light .container .row.list").append(html.join('')); // 기존 목록 아래에 추가
+	}
+	
 	$(document).ready(function() {
 		init("", "", "", "", 2);
 		
-		function loadMore() {
-		    // 다음 인덱스부터 아이템을 로드
-		    const endIndex = currentIndex + itemsPerPage;
-		    const itemsToLoad = items.slice(currentIndex, endIndex);
-
-		    // 로드된 아이템을 HTML에 추가
-		    const itemContainer = document.getElementById("itemContainer");
-		    itemsToLoad.forEach(item => {
-		        const itemElement = document.createElement("div");
-		        itemElement.className = "item";
-		        itemElement.innerText = item.name; // 여기서 아이템의 실제 속성을 사용
-		        itemContainer.appendChild(itemElement);
-		    });
-
-		    // 현재 인덱스를 업데이트
-		    currentIndex += itemsPerPage;
-
-		    // 더 로드할 아이템이 없으면 버튼 숨기기
-		    if (currentIndex >= totalItems) {
-		        document.getElementById("loadMoreButton").style.display = "none";
-		    }
-		}
 	});
+	
+	
 </script>
 </html>
