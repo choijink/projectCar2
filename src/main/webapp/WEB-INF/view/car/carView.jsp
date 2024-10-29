@@ -144,7 +144,7 @@ th {
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-12 heading-section text-center ftco-animate mb-5">
-					<span class="subheading">자동차 선택</span>
+					<span class="subheading">차량 선택</span>
 					<h2 class="mb-2">추천 차량</h2>
 				</div>
 			</div>
@@ -160,7 +160,7 @@ th {
 							<div class="d-flex mb-3">
 								<span class="cat">Cheverolet</span>
 								<p class="price ml-auto">
-									$500 <span>/day</span>
+									<span>2,550만원</span>
 								</p>
 							</div>
 							<p class="d-flex mb-0 d-block">
@@ -181,7 +181,7 @@ th {
 							<div class="d-flex mb-3">
 								<span class="cat">Subaru</span>
 								<p class="price ml-auto">
-									$500 <span>/day</span>
+									<span>2,550만원</span>
 								</p>
 							</div>
 							<p class="d-flex mb-0 d-block">
@@ -202,7 +202,7 @@ th {
 							<div class="d-flex mb-3">
 								<span class="cat">Cheverolet</span>
 								<p class="price ml-auto">
-									$500 <span>/day</span>
+									<span>2,550만원</span>
 								</p>
 							</div>
 							<p class="d-flex mb-0 d-block">
@@ -285,10 +285,10 @@ th {
 				$('#gradeSelectBox').append(html.join(''));
 								
 				var html = [];
-				html.push('<div class="img rounded" style="background-image: url(../../../carImage/' + response[i].carImage + ');"></div>');
+				html.push('<div class="img rounded" style="background-image: url(../../../carImage/' + response[0].carImage + ');"></div>');
 				html.push('<div class="text text-center">');
-				html.push('	<span class="subheading"><img class="brandMark" src=../../../carImage/' + response[i].brandMark + '></span>');
-				html.push('	<h2>' + response[i].brand + ' ' + response[i].carName + '</h2>');
+				html.push('	<span class="subheading"><img class="brandMark" src=../../../carImage/' + response[0].brandMark + '></span>');
+				html.push('	<h2>' + response[0].brand + ' ' + response[0].carName + '</h2>');
 				html.push('</div>');
 				$('.car-details').append(html.join(''));
 
