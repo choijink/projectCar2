@@ -56,6 +56,22 @@
 .pagination a.prev, .pagination a.next {
 	font-weight: bold;
 }
+
+#btn-insert {
+        text-decoration: none;
+        padding: 0px 6px;
+        margin: 0 5px;
+        border: 1px solid #a38983;
+        border-radius: 5px;
+        color: #17202a;
+        transition: background-color 0.3s, color 0.3s;
+        background-color: white;
+    }
+
+    #btn-insert:hover {
+        background-color: #a38983; /* 마우스 오버 시 배경색 */
+        color: white; /* 마우스 오버 시 글자색 */
+    }
 </style>
 
 </head>
@@ -104,80 +120,27 @@
 							<th style="width: 15%">작성자</th>
 							<th style="width: 40%"><a style="margin-left: 100px;"></a>제목</th>
 							<th style="width: 15%">작성일</th>
-							<th style="width: 10%">조회수</th>
-							<th style="width: 12%">관리</th>
+							<th class="admin-management" style="width: 12%">관리</th>
 						</tr>
 					</thead>
-					<tbody class="tbody">
-						<tr>
-							<td>5</td>
-							<td>김영현</td>
-							<td><a href="bodetail" class="post-title"></a> <span
-								class="badge badge-new"></span> <span
-								class="badge bg-secondary">2</span></td>
-							<td>2024-10-15</td>
-							<td>200</td>
-							<td>
-								<button class="btn btn-sm btn-outline-primary">수정</button>
-								<button class="btn btn-sm btn-outline-danger">삭제</button>
-							</td>
-						</tr>
-						<tr>
-							<td>4</td>
-							<td>김건우</td>
-							<td><a href="#" class="post-title">제가 요즘 고민이 있는데요..</a> <span
-								class="badge bg-secondary">5</span></td>
-							<td>2024-10-12</td>
-							<td>60</td>
-							<td>
-								<button class="btn btn-sm btn-outline-primary">수정</button>
-								<button class="btn btn-sm btn-outline-danger">삭제</button>
-							</td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>조승현</td>
-							<td><a href="#" class="post-title">새로 장만한 제 자식입니다.</a> <span
-								class="badge bg-secondary">8</span></td>
-							<td>2024-10-10</td>
-							<td>120</td>
-							<td>
-								<button class="btn btn-sm btn-outline-primary">수정</button>
-								<button class="btn btn-sm btn-outline-danger">삭제</button>
-							</td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>안석운</td>
-							<td><a href="#" class="post-title">이야아아아 너무 기분이 좋아용</a> <span
-								class="badge bg-secondary">8</span></td>
-							<td>2024-10-10</td>
-							<td>120</td>
-							<td>
-								<button class="btn btn-sm btn-outline-primary">수정</button>
-								<button class="btn btn-sm btn-outline-danger">삭제</button>
-							</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td>최진경</td>
-							<td><a href="#" class="post-title">제 새로산 차 어때요?</a> <span
-								class="badge bg-secondary">8</span></td>
-							<td>2024-10-10</td>
-							<td>120</td>
-							<td>
-								<button class="btn btn-sm btn-outline-primary">수정</button>
-								<button class="btn btn-sm btn-outline-danger">삭제</button>
-							</td>
-						</tr>
-					</tbody>
+					<tbody class="tbody"></tbody>
 				</table>
 			</div>
 
-			<div class="pagination">
-				<a href="#" class="prev">« 이전</a> <a href="#" class="active">1</a> <a
-					href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a>
-				<a href="#" class="next">다음 »</a>
+			<div class="under" style="display:grid; grid-template-columns:1fr 110px;">
+				<div class="pagination">
+					<a href="#" class="prev">« 이전</a> <a href="#" class="active">1</a> <a
+						href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a>
+					<a href="#" class="next">다음 »</a>
+				</div>
+				<div class="btn-class" style="
+				    display: flex;
+				    justify-content: center;
+				    align-items: center;
+				    margin: 20px 0;
+				">
+				<button onclick="boInsert()" id="btn-insert">게시물 등록</button>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -198,6 +161,14 @@
 
 </body>
 <script type="text/javascript">
+	//예시: 사용자가 관리자일 경우 true
+	var isAdmin = true; // 이 값을 서버에서 가져온 실제 사용자 권한으로 설정해야 합니다.
+	
+	// 관리자 여부에 따라 "관리" 열을 숨기거나 보이게 합니다.
+	if (!isAdmin) {
+	    document.querySelector('.admin-management').style.display = 'none';
+	}
+	
 	function init() {
 		$.ajax({
 			url : "boardAjaxController", // 서버 서블릿 경로
@@ -205,20 +176,22 @@
 			success : function(response) {
 				var html= [];
 				$(".table-responsive .table .tbody").empty();
+				var totalCount = response.length;
+				console.log(response);
 				for (var i = 0; i < response.length; i++) {
 					html.push('<tr>');
-					html.push('	<td>' + (i+1) + '</td>');
-					html.push('	<td>' + response[i].mIdx + '</td>');
-					html.push('	<td><a href="boDetail" class="post-title">' + response[i].title + '</a>');
+					html.push('	<td>' + totalCount + '</td>');
+					html.push('	<td>' + response[i].name + '</td>');
+					html.push('	<td><a href="boDetail?bIdx=' + response[i].bIdx + '" class="post-title">' + response[i].title + '</a>');
 					html.push('		<span class="badge bg-secondary"></span>');
 					html.push('	</td>');
-					html.push('	<td>2024-10-15</td>');
-					html.push('	<td>200</td>');
+					html.push('	<td>' + response[i].regdate + '</td>');
 					html.push('	<td>');
-					html.push('		<button class="btn btn-sm btn-outline-primary">수정</button>');
-					html.push('		<button class="btn btn-sm btn-outline-danger">삭제</button>');
+					html.push('		<button class="btn btn-sm btn-outline-primary" onclick="boUpdate">수정</button>');
+					html.push('		<button class="btn btn-sm btn-outline-danger" onclick="boDelete">삭제</button>');
 					html.push('	</td>');
 					html.push('</tr>');
+					totalCount--;
 				}
 				$(".countSpan").empty();
 				$(".countSpan").html("▷ 총 " + response.length + "개의 게시물이 있습니다.");
@@ -229,6 +202,11 @@
 				console.error('요청 실패: ' + error); // 에러 출력
 			}
 		});
+	}
+	
+	function boInsert(){
+		var url = "/boardInsert"
+		window.location.href = url;
 	}
 
 	$(document).ready(function() {
