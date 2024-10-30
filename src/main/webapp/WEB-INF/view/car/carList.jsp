@@ -26,6 +26,13 @@
 .form-group.search .btn {width: unset;}
 .request-form label.label {text-align: center;font-size: 15px;}
 .mt-5, .my-5 {margin-top: unset !important;}
+.btn-danger {
+    font-size: 0.8rem !important;
+    border: 2px solid !important;
+    border-width: 0px !important;
+    line-height: 3.5;
+    width: 26% !important;
+}
 label {display: inline-block;margin-bottom: unset;}
 </style>
 <body>
@@ -434,6 +441,13 @@ label {display: inline-block;margin-bottom: unset;}
 						html.push('				</h2>');
 						html.push('			</div>');
 						html.push('			<div class="d-flex mb-3">');
+						
+						// '수정' 버튼 추가
+		                html.push('                <button class="btn btn-light mr-1" onclick="updateCar(' + response[i].cIdx + ')">수정</button>');
+		                
+		                // '삭제' 버튼 추가
+		                html.push('                <button class="btn btn-danger mr-1" onclick="deleteCar(' + response[i].cIdx + ')">삭제</button>');
+		                
 						html.push('				<p class="price ml-auto">'+ response[i].brand + '</p>');
 						html.push('			</div>');
 						html.push('			<p class="d-flex mb-0 d-block">');
