@@ -136,7 +136,18 @@ th {
 				<h2>차량 제원</h2>
 				<div></div>
 				<button class="gridButton1">비교하기</button>
-				<button class="gridButton2">찜하기</button>
+				<button class="gridButton2">관심등록</button>
+				
+			<%-- 	 
+			<% if ("admin".equals(userRole)) { %>
+                <button class="gridButton1">수정</button>
+                <button class="gridButton2">삭제</button>
+            <% } else { %>
+                <button class="gridButton1">비교하기</button>
+                <button class="gridButton2">관심등록</button>
+            <% } %>
+            --%>
+             
 			</div>
 			<table>
 				<tr><td colspan="4">해당 등급/트림의 정보가 없습니다.</td></tr>
@@ -155,66 +166,11 @@ th {
 			<div class="row">
 				<div class="col-md-4">
 					<div class="car-wrap rounded ftco-animate">
-						<div class="img rounded d-flex align-items-end"
-							style="background-image: url(../../../carImage/k5.png);"></div>
-						<div class="text">
-							<h2 class="mb-0">
-								<a href="car-single.html">Mercedes Grand Sedan</a>
-							</h2>
-							<div class="d-flex mb-3">
-								<span class="cat">Cheverolet</span>
-								<p class="price ml-auto">
-									<span>2,550만원</span>
-								</p>
-							</div>
-							<p class="recommend">
-								<a href="car-single.html" class="btn btn-secondary py-2 ml-1">Details</a>
-							</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="car-wrap rounded ftco-animate">
-						<div class="img rounded d-flex align-items-end"
-							style="background-image: url(../../../carImage/k9.png);"></div>
-						<div class="text">
-							<h2 class="mb-0">
-								<a href="car-single.html">Range Rover</a>
-							</h2>
-							<div class="d-flex mb-3">
-								<span class="cat">Subaru</span>
-								<p class="price ml-auto">
-									<span>2,550만원</span>
-								</p>
-							</div>
-							<p class="recommend">
-								<a href="car-single.html" class="btn btn-secondary py-2 ml-1">Details</a>
-							</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4">
-					<div class="car-wrap rounded ftco-animate">
-						<div class="img rounded d-flex align-items-end"
-							style="background-image: url(../../../carImage/k8.png);"></div>
-						<div class="text">
-							<h2 class="mb-0">
-								<a href="car-single.html">Mercedes Grand Sedan</a>
-							</h2>
-							<div class="d-flex mb-3">
-								<span class="cat">Cheverolet</span>
-								<p class="price ml-auto">
-									<span>2,550만원</span>
-								</p>
-							</div>
-							<p class="recommend">
-								<a href="car-single.html" class="btn btn-secondary py-2 ml-1">Details</a>
-							</p>
-						</div>
+					
 					</div>
 				</div>
 			</div>
-		</div>
+
 	</section>
 
 	<%@ include file="/WEB-INF/view/common/footer.jsp"%>
@@ -357,8 +313,8 @@ th {
 			html.push('<tr>');
 			html.push('<td>모델</td>');
 			html.push('<td>' + filteredData.carName + '</td>');
-			html.push('<td>인승</td>');
-			html.push('<td>' + filteredData.seatingCapacity + '</td>');
+			html.push('<td>배기량</td>');
+			html.push('<td>' + filteredData.displacement + '</td>')
 			html.push('</tr>');
 			html.push('<tr>');
 			html.push('<td>연료타입</td>');
@@ -367,8 +323,8 @@ th {
 			html.push('<td>' + filteredData.length + '</td>');
 			html.push('</tr>');
 			html.push('<tr>');
-			html.push('<td>배기량</td>');
-			html.push('<td>' + filteredData.displacement + '</td>');
+			html.push('<td>인승</td>');
+			html.push('<td>' + filteredData.seatingCapacity + '</td>');
 			html.push('<td>전폭</td>');
 			html.push('<td>' + filteredData.width + '</td>');
 			html.push('</tr>');
@@ -399,32 +355,115 @@ th {
 			html.push('</tbody>');
 		
 			$('.table-container table').append(html.join(''));
-			
+			recommendList(filteredData);
 		} else {
 			$('.table-container table').append('<tr><td colspan="4">해당 등급/트림의 정보가 없습니다.</td></tr>');
+			//recommendList(filteredData);
 		}
-		
 	}
 	
-	function recommendList(minPrice, maxPrice){
-		var price = filteredData.price.replace("만원","").replace(",","");
-		var minPrice = price * 0.9;
-		var maxPrice = price * 1.1;
-		var filteredData = carData.find(item => {
-			return item.grade === selectedGrade && (!selectedTrim || item.trim === selectedTrim);
+	/* function recommendView() {
+		$.ajax({
+			url : "CarViewAjaxController", // 서버 서블릿 경로
+			method : "GET", // 요청 방식
+			data : {
+				"idx" : cIdx
+			},
+			success : function(response) {
+				carData = response;
+				// 응답 데이터를 순회하여 중복 제거
+				var CarImage = new Set();
+				var CarName = new Set();
+				var BrandMark = new Set();
+				var Price = new Set();
+				
+				for (var i = 0; i < response.length; i++) {
+					CarImage.add(response[i].carImage);
+					CarName.add(response[i].carName);
+					BrandMark.add(response[i].brandMark);
+					Price.add(response[i].price);
+				}
+			},
+			error : function(xhr, status, error) {
+				console.error('요청 실패: ' + error); // 에러 출력
+			}
 		});
-		
-		console.log(filteredData);
-		
-		if (filteredData){
-			var html = [];
-			
-			html.push('</tbody>');
-		
-			$('.table-container table').append(html.join(''));
-			
-		}
+	} */
+	
+	function carListController(callback) {
+		$.ajax({
+			url : "ajaxController", // 서버 서블릿 경로
+			method : "GET", // 요청 방식
+			data : {
+				"domestic" : "",
+				"brand" : "",
+				"model" : "",
+				"name" : "",
+				"page" : "",
+				"pageSize" : ""
+			},
+			success : function(response) {
+				console.log("response");
+				console.log(response);
+				callback(response);
+			},
+			error : function(xhr, status, error) {
+				console.error('요청 실패: ' + error); // 에러 출력
+			}
+		});
 	}
+	
+	function recommendList(filteredData) {
+	    carListController(function(response) {
+	        // 필터링 조건에 맞는 추천 차량 리스트 생성
+	        var recommendData = response.filter(car => {
+            return car.cIdx !== filteredData.cIdx;
+        });
+	        
+	        // 추천 차량을 무작위로 3대 선택
+	        var recommendCars = getRandomElements(recommendData, 3);
+	       
+		        if (recommendCars.length > 0) {
+		        	$('.row .col-md-4 .car-wrap.rounded.ftco-animate').empty;
+		            var html = [];
+		            for (var i = 0; i < recommendCars.length; i++) {
+		                html.push('<div class="img rounded d-flex align-items-end" style="background-image: url(../../../carImage/' + recommendCars[i].carImage + ');"></div>');
+		                html.push('<div class="text">');
+		                html.push('<h2 class="mb-0">');
+		                html.push('<a href="carView?idx=' + recommendCars[i].cIdx + '">' + recommendCars[i].carName + '</a>');
+		                html.push('</h2>');
+		                html.push('<div class="d-flex mb-3">');
+		                html.push('<a class="cat">' + recommendCars[i].brand + '</a>');
+		                html.push('<p class="price ml-auto">');
+		                html.push('<a>' + recommendCars[i].vehicleSize + '</a>');
+		                html.push('</p>');
+		                html.push('</div>');
+		                html.push('<p class="recommend">');
+		                html.push('<a href="carView?idx=' + recommendCars[i].cIdx + '" class="btn btn-secondary py-2 ml-1">Details</a>');
+		                html.push('</p>');
+		                html.push('</div>');
+		            }
+		        
+	            
+	            // HTML 요소 추가
+	            $('.row .col-md-4 .car-wrap.rounded.ftco-animate').append(html.join(''));
+	        }
+	    });
+	}
+
+	function getRandomElements(arr, num){
+		 console.log(arr);
+		if (num > arr.length) num = arr.length; // 반환할 수 있는 최대 개수 설정
+		var shuffle = arr.slice();
+		
+		for(var i = shuffle.length - 1; i > 0; i--) {
+	        const j = Math.floor(Math.random() * (i + 1));
+	        [shuffle[i], shuffle[j]] = [shuffle[j], shuffle[i]];
+	    }
+	    // 첫 num개 반환
+	    return shuffle.slice(0, num);
+	}
+	
 	$(document).ready(function() {
 		init();
 	});
