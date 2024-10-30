@@ -4,12 +4,14 @@ public class MemberBean {
 	private int mIdx ; // 회원 식별번호
 	private String name ; // 이름
 	private int age ; // 나이
+	private int residentNumber; // 주민번호
 	private String gender ; // 성별
 	private String address ; // 주소
 	private String phone ; // 핸드폰 번호
 	private String mail ; // 이메일 주소
 	private String id ; // 아이디
 	private String password ; // 비밀번호
+	private String adminCheck; // 관리자여부 ( 1: 일반회원, 2: 관리자)
 	
 	
 	public MemberBean() {
@@ -33,6 +35,12 @@ public class MemberBean {
 	}
 	public void setAge(int age) {
 		this.age = age;
+	}
+	public int getresidentNumber() {
+		return residentNumber;
+	}
+	public void setresidentNumber(int residentNumber) {
+		this.residentNumber = residentNumber;
 	}
 	public String getGender() {
 		return gender;
@@ -70,11 +78,22 @@ public class MemberBean {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+	public String getadminCheck() {
+		return password;
+	}
+	public void setadminCheck(String adminCheck) {
+		this.adminCheck = adminCheck;
+	}
+
+
 	@Override
 	public String toString() {
-		return "MemberBean [mIdx=" + mIdx + ", name=" + name + ", age=" + age + ", gender=" + gender + ", address="
-				+ address + ", phone=" + phone + ", mail=" + mail + ", id=" + id + ", password=" + password + "]";
+		return "MemberBean [mIdx=" + mIdx + ", name=" + name + ", age=" + age + ", residentNumber=" + residentNumber
+				+ ", gender=" + gender + ", address=" + address + ", phone=" + phone + ", mail=" + mail + ", id=" + id
+				+ ", password=" + password + ", adminCheck=" + adminCheck + "]";
 	}
+	
+	
+	
 	
 }

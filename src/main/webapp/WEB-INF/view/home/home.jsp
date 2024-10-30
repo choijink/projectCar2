@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="javax.servlet.http.HttpSession" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -135,6 +136,9 @@ label {
 	<%@ include file="/WEB-INF/view/common/js.jsp"%>
 </body>
 <script>
+	var id = '<%= session.getAttribute("id") != null ? session.getAttribute("id") : "" %>';
+	console.log("id : " + id);
+
 	var select1 = "";
 	var select2 = "";
 	var select3 = "";
