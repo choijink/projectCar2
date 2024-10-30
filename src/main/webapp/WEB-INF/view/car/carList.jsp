@@ -66,10 +66,14 @@ label {display: inline-block;margin-bottom: unset;}
 					</div>
 					<div class="form-group search">
 						<div></div>
-						<input type="submit" value="해당 조건 차량 검색"
-							class="btn btn-secondary py-3 px-4"> <input type="cancel"
+							<input type="submit" value="해당 조건 차량 검색"
+							class="btn btn-secondary py-3 px-4"> 
+							<input type="cancel"
 							onclick="javascript:reload();" value="검색 초기화"
 							class="btn btn-secondary py-3 px-4">
+							<!--관리자 차량 등록버  -->
+							<input type="button" id="registerButton" value="차량등록"
+							class="btn btn-secondary py-3 px-4" onclick="javascript:gotoCreate();" style="display: none;">
 						<div></div>
 					</div>
 				</form>
@@ -127,7 +131,11 @@ label {display: inline-block;margin-bottom: unset;}
 	var modelParam = params.get('model');
 	var nameParam = params.get('name');
 	
-	
+	// 등록하기 버튼 보기 권한
+	//const userRole = 'admin';
+	/* if (userRole == 'admin'){
+		document.getElementById('reisterButton').style.display = 'inline-block;'
+	} */
 	
 	$(document).ready(function() {
 		search();
@@ -469,7 +477,10 @@ label {display: inline-block;margin-bottom: unset;}
 		});
 	}
 	
-	
+	function gotoCreate() {
+		
+		window.location.href = window.location.origin + "/carCreate";
+	}
 	
 	function reload() {
 		window.location.href = window.location.origin + "/carList";
