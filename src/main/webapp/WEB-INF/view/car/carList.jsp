@@ -77,27 +77,6 @@ label {display: inline-block;margin-bottom: unset;}
 		</div>
 	</section>
 
-
-	<!-- <section class="ftco-section bg-light">
-		<div class="container">
-			<div class="row list"></div>
-			<div class="row mt-5">
-				<div class="col text-center">
-					<div class="block-27">
-						<ul>
-							<li><a href="#">&lt;</a></li>
-							<li class="active"><span>1</span></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">&gt;</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section> -->
 	<section class="ftco-section bg-light">
 		<div class="container">
 			<div class="row list"></div>
@@ -441,13 +420,6 @@ label {display: inline-block;margin-bottom: unset;}
 						html.push('				</h2>');
 						html.push('			</div>');
 						html.push('			<div class="d-flex mb-3">');
-						
-						// '수정' 버튼 추가
-		                html.push('                <button class="btn btn-light mr-1" onclick="updateCar(' + response[i].cIdx + ')">수정</button>');
-		                
-		                // '삭제' 버튼 추가
-		                html.push('                <button class="btn btn-danger mr-1" onclick="deleteCar(' + response[i].cIdx + ')">삭제</button>');
-		                
 						html.push('				<p class="price ml-auto">'+ response[i].brand + '</p>');
 						html.push('			</div>');
 						html.push('			<p class="d-flex mb-0 d-block">');
