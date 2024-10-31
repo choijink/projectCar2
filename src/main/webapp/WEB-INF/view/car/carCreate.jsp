@@ -69,6 +69,15 @@ th {
 .recommend {
 	display: grid; /* 추천 항목 그리드 레이아웃 */
 }
+.ftco-section {
+    padding: 0em 0;
+    position: relative;
+}
+.preview {
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: #555; /* 미리보기 텍스트 색상 */
+}
 </style>
 
 <body>
@@ -83,6 +92,18 @@ th {
 					<h1 class="mb-3 bread">차량 등록하기</h1>
 				</div>
 			</div>
+		</div>
+	</section>
+	<section>
+		<div style="text-align: center; margin-top: 60px;">
+			<!-- 업로드 버튼 역할을 할 이미지 -->
+			<img id="uploadButton" src="../../../buttonImage/imageInsert.png" alt="차량 이미지 업로드 버튼"
+				onclick="document.getElementById('imageUpload').click()"
+				style="cursor: pointer; width: 500px; height: 400px;">
+
+			<!-- 실제 파일 업로드 입력 필드 (숨겨져 있음) -->
+			<input type="file" id="imageUpload" accept="image/*"
+				style="display: none;" onchange="previewImage(event)">
 		</div>
 	</section>
 	<section class="ftco-section ftco-car-details">
@@ -142,7 +163,10 @@ th {
 			 <tbody> 
 			 <tr> 
 			 <td>제조사</td> 
-			 <td><input type="text" id="trimInput"></td>
+			 <td>
+			 <input type="text" id="trimInput">
+			 <div class="preview" id="brandPreview"></div>
+			 </td>
 			 <td>연비</td> 
 			 <td><input type="text" id="trimInput"></td>
 			 </tr> 
@@ -192,8 +216,8 @@ th {
 			</table>
 		</div>
 		<!-- 등록 완료 버튼 -->
-		<div style="text-align: center; margin-top: 20px;">
-			<button class="gridButton1" id="registerButton">등록 완료</button>
+		<div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+			<button class="gridButton1"  id="registerButton">등록 완료</button>
 		</div>
 	</section>
 
@@ -216,7 +240,26 @@ th {
 	var carData = []; // 전체 차량 데이터를 저장하는 전역 변수
 
 	function init() {
-		view(); // 초기화 함수 호출
+	 // 초기화 함수 호출
+	}
+	
+    function previewImage(event) {
+        const file = event.target.files[0]; // 선택한 파일 가져오기
+        const reader = new FileReader(); // FileReader 객체 생성
+        
+        reader.onload = function() {
+            // 선택한 이미지로 업로드 버튼 이미지 변경
+            const uploadButton = document.getElementById('uploadButton');
+            uploadButton.src = reader.result; // 읽어온 데이터로 버튼 이미지 변경
+        };
+        
+        if (file) {
+            reader.readAsDataURL(file); // 파일을 Data URL로 읽기
+        }
+    }
+	
+	function updatePreview() {
+		document.getElementById('brandPreview').textContent = document.getElementById('brandInput').value;
 	}
 	
 	function updateTable(selectedGrade, selectedTrim){
@@ -254,7 +297,7 @@ th {
 	        html.push('<td><input type="text" value="' + filteredData.seatingCapacity + '"></td>');
 	        html.push('</tr>');
 	        
-	        // 모든 다른 필드에 대해 계속 추가...
+	        // 모든 다른 필드에 대해 계속 추가
 
 	        html.push('</tbody>');
 	        
@@ -276,3 +319,6 @@ th {
 
 	$(document).ready(function() {
 		init(); // 문서가 준비되면 초기화 함수
+	});
+</script>
+</html>		
