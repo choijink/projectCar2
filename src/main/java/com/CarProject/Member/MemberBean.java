@@ -79,7 +79,7 @@ public class MemberBean {
 		this.password = password;
 	}
 	public String getadminCheck() {
-		return password;
+		return adminCheck;
 	}
 	public void setadminCheck(String adminCheck) {
 		this.adminCheck = adminCheck;

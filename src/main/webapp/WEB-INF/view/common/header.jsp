@@ -19,13 +19,16 @@
 						목록</a></li>
 				<li class="nav-item"><a href="services.html" class="nav-link">비교</a></li>
 				<li class="nav-item"><a href="pricing.html" class="nav-link">인기순위</a></li>
-				<li class="nav-item"><a href="car.html" class="nav-link">커뮤니티</a></li>
+				<li class="nav-item"><a href="/boList" class="nav-link">커뮤니티</a></li>
 			</ul>
 		</div>
 		<div class="collapse navbar-collapse">
 			<ul class="navbar-nav ml-auto">
-				<li class="nav-item"><a class="nav-link"
-					href="create-account.html">마이페이지</a></li>
+				<li class="nav-item"><a class="nav-link accountName"></a></li>
+				<li class="nav-item"><a class="nav-link mypage"
+					href="javascript:mypage();">마이페이지</a></li>
+				<li class="nav-item"><a class="nav-link create"
+					href="/memberCreate">회원가입</a></li>
 				<li class="nav-item"><a class="nav-link login"
 					href="/memberLogin">로그인</a></li>
 				<li class="nav-item"><a class="nav-link logout" href=""
@@ -36,12 +39,20 @@
 </nav>
 <script>
 	var id = '<%=session.getAttribute("id") != null ? session.getAttribute("id") : ""%>';
+	var midx = '<%=session.getAttribute("mIdx") != null ? session.getAttribute("mIdx") : 0%>';
+	var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name") : ""%>';
+	
 	if (id == null || id == "") {
 		$(".login").show();
 		$(".logout").hide();
+		$(".create").show();
+		$(".mypage").hide();
 	} else {
 		$(".login").hide();
 		$(".logout").show();
+		$(".create").hide();
+		$(".mypage").show();
+		$(".accountName").html(name + "님");
 	}
 	function logout() {
 		$.ajax({
@@ -62,6 +73,10 @@
 				alert("서버 오류가 발생했습니다. 나중에 다시 시도해 주세요.");
 			}
 		});
+	}
+	
+	function mypage(){
+		window.location.href= "/mypage?midx=" + midx;
 	}
 </script>
 

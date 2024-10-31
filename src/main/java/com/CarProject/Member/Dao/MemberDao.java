@@ -12,6 +12,7 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 import com.CarProject.SuperDao;
+import com.CarProject.Car.CarBean;
 import com.CarProject.Member.MemberBean;
 
 public class MemberDao extends SuperDao {
@@ -55,24 +56,30 @@ public class MemberDao extends SuperDao {
 		return message;
     }
 
-    public boolean validateUser(String id, String password) {
-        boolean isValidUser = false;
-        String query = "SELECT COUNT(*) FROM Member WHERE id = ? AND password = ?"; 
+    public MemberBean validateUser(String id, String password) {
+    	MemberBean bean = null;
+    	PreparedStatement pstmt = null;
+        String sql = "SELECT * FROM Member WHERE id = ? AND password = ?"; 
 
-        try (Connection conn = super.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        try {
+        	bean = new MemberBean();
+        	conn = super.getConnection();
+            pstmt = conn.prepareStatement(sql); 
              
-            stmt.setString(1, id);
-            stmt.setString(2, password); 
-            ResultSet rs = stmt.executeQuery();
+            pstmt.setString(1, id);
+            pstmt.setString(2, password); 
+            ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                isValidUser = rs.getInt(1) > 0; // 유효한 사용자일 경우
+            	bean.setmIdx(rs.getInt("m_idx"));
+            	bean.setId(rs.getString("id"));
+                bean.setadminCheck(rs.getString("adminCheck"));
+                bean.setName(rs.getString("name"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return isValidUser;
+        return bean;
     }
 }
