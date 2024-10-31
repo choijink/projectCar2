@@ -103,7 +103,7 @@ public class BoardDao extends SuperDao {
 		int cnt = -99999;
 
 		try {
-			conn = super.getConnection();  igfsaiuroutiswargisehgjfdgjkhwkrehgwio8 b803tguugugugugugugu
+			conn = super.getConnection();
 			conn.setAutoCommit(false);
 
 			pstmt = conn.prepareStatement(sql);
