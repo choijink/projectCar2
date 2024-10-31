@@ -135,7 +135,7 @@
 					<a href="#" class="next">다음 »</a>
 				</div>
 				<div class="btn-class" style="display: flex; justify-content: center; align-items: center; margin: 20px 0;">
-				<button onclick="boInsert()" id="btn-insert">게시물 등록</button>
+				<button onclick="boInsertUpdate()" id="btn-insert">게시물 등록</button>
 				</div>
 			</div>
 		</div>
@@ -185,8 +185,8 @@
 					html.push('	<td>');
 					// 관리자일 경우에만 수정, 삭제 버튼을 추가
 					if (isAdmin) {
-						html.push('		<button class="btn btn-sm btn-outline-primary" onclick="boUpdate()">수정</button>');
-						html.push('		<button class="btn btn-sm btn-outline-danger" onclick="boDelete()">삭제</button>');
+						html.push('		<button class="btn btn-sm btn-outline-primary" onclick="boInsertUpdate('+ response[i].bIdx +')">수정</button>');
+						html.push('		<button class="btn btn-sm btn-outline-danger" onclick="boDelete('+ response[i].bIdx +')">삭제</button>');
 					} else {
 						html.push('		<span class="text-muted">관리자 전용</span>');
 					}
@@ -205,19 +205,31 @@
 		});
 	}
 	
-	function boInsert(){
-		var url = "/boInsert"
+	function boInsertUpdate(){
+		var url = "/boInsertUpdateController"
 		window.location.href = url;
 	}
 	
-	function boUpdate(){
-		var url = "/boUpdate"
-		window.location.href = url;
-	}
-	
-	function boDelete(){
-		var url = "/boDelete"
-		window.location.href = url;
+	function boDelete(bIdx) {
+	    if (confirm("정말로 이 게시물을 삭제하시겠습니까?")) {
+	        $.ajax({
+	            url: "boardDeleteAjaxController", // 삭제 요청을 처리할 서블릿 경로
+	            method: "GET",
+	            data: { bIdx: bIdx }, // 삭제할 게시물의 ID
+	            success: function(response) {
+	                if (response.success) {
+	                    alert("게시물이 삭제되었습니다.");
+	                    init(); // 목록을 다시 불러와서 삭제된 게시물 반영
+	                } else {
+	                    alert("게시물 삭제에 실패했습니다.");
+	                }
+	            },
+	            error: function(xhr, status, error) {
+	                console.error('요청 실패: ' + error);
+	                alert("삭제 요청 중 오류가 발생했습니다.");
+	            }
+	        });
+	    }
 	}
 
 	$(document).ready(function() {

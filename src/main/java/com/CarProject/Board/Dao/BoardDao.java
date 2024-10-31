@@ -93,7 +93,6 @@ public class BoardDao extends SuperDao {
 	}
 
 	public int updateData(BoardBean bean) {
-		// bean을 사용하여 데이터 베이스에 수정합니다.
 		System.out.println("updateData");
 		System.out.println(bean);
 
@@ -104,7 +103,7 @@ public class BoardDao extends SuperDao {
 		int cnt = -99999;
 
 		try {
-			conn = super.getConnection();
+			conn = super.getConnection();  igfsaiuroutiswargisehgjfdgjkhwkrehgwio8 b803tguugugugugugugu
 			conn.setAutoCommit(false);
 
 			pstmt = conn.prepareStatement(sql);
@@ -243,4 +242,29 @@ public class BoardDao extends SuperDao {
 		return bean;
 	}
 
+	public boolean deleteData(int bIdx) {
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    String sql = "DELETE FROM board WHERE b_idx = ?";
+	    boolean success = false;
+
+	    try {
+	        conn = super.getConnection();
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, bIdx);
+	        int rowsAffected = pstmt.executeUpdate();
+	        success = (rowsAffected > 0); // 삭제가 성공했는지 여부
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            if (pstmt != null) { pstmt.close(); }
+	            if (conn != null) { conn.close(); }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    return success;
+	}
 }
