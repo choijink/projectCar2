@@ -53,7 +53,7 @@
   			if (!validCheck()) return;
 
   			var formData = {
-  				command: "<%= isAdmin ? "boUpdate" : "boInsert" %>",
+  				command: "boUpdate" "boInsert",
   				no: $('#no').val(),
   				subject: $('#subject').val(),
   				contents: $('#contents').val(),
@@ -91,7 +91,7 @@
 			</div> 
 			<div class="input-group">
 				<span class="input-group-text col-md-2">작성자</span>
-				<input id="fakeid" name="fakeid" disabled="disabled" type="text" class="form-control" value="<%= userInfo %>">
+				<input id="fakeid" name="fakeid" disabled="disabled" type="text" class="form-control" value="">
 				<input id="id" name="id" type="hidden" value="">
 			</div>
 			<div class="input-group">
