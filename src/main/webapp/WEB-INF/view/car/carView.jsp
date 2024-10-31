@@ -70,6 +70,12 @@ th {
 .recommend {
 	display: grid;
 }
+
+.recommend-row {
+    display: flex !important;
+    flex-wrap: nowrap !important; /* 차량이 가로로 나란히 표시되도록 */
+    gap: 20px !important; /* 추천 차량 간의 간격 설정 */
+}
 </style>
 
 <body>
@@ -163,7 +169,8 @@ th {
 					<h2 class="mb-2">추천 차량</h2>
 				</div>
 			</div>
-			<div class="row">
+		</div>
+			<div class="recommend-row">
 				<div class="col-md-4">
 					<div class="car-wrap rounded ftco-animate">
 					
@@ -424,9 +431,10 @@ th {
 	        var recommendCars = getRandomElements(recommendData, 3);
 	       
 		        if (recommendCars.length > 0) {
-		        	$('.row .col-md-4 .car-wrap.rounded.ftco-animate').empty;
+		        	$('.recommend-row .col-md-4 .car-wrap.rounded.ftco-animate').empty;
 		            var html = [];
 		            for (var i = 0; i < recommendCars.length; i++) {
+		            	html.push('<div">')
 		                html.push('<div class="img rounded d-flex align-items-end" style="background-image: url(../../../carImage/' + recommendCars[i].carImage + ');"></div>');
 		                html.push('<div class="text">');
 		                html.push('<h2 class="mb-0">');
@@ -442,11 +450,12 @@ th {
 		                html.push('<a href="carView?idx=' + recommendCars[i].cIdx + '" class="btn btn-secondary py-2 ml-1">Details</a>');
 		                html.push('</p>');
 		                html.push('</div>');
+		                html.push('</div>');
 		            }
 		        
 	            
 	            // HTML 요소 추가
-	            $('.row .col-md-4 .car-wrap.rounded.ftco-animate').append(html.join(''));
+	            $('.recommend-row .col-md-4 .car-wrap.rounded.ftco-animate').append(html.join(''));
 	        }
 	    });
 	}
