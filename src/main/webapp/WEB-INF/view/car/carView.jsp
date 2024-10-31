@@ -72,9 +72,9 @@ th {
 }
 
 .recommend-row {
-    display: flex !important;
-    flex-wrap: nowrap !important; /* 차량이 가로로 나란히 표시되도록 */
-    gap: 20px !important; /* 추천 차량 간의 간격 설정 */
+    display: flex;
+    flex-wrap: nowrap; /* 차량이 가로로 나란히 표시되도록 */
+    gap: 20px; /* 추천 차량 간의 간격 설정 */
 }
 </style>
 
@@ -169,15 +169,11 @@ th {
 					<h2 class="mb-2">추천 차량</h2>
 				</div>
 			</div>
-		</div>
+		
 			<div class="recommend-row">
-				<div class="col-md-4">
-					<div class="car-wrap rounded ftco-animate">
-					
-					</div>
-				</div>
+				
 			</div>
-
+		</div>
 	</section>
 
 	<%@ include file="/WEB-INF/view/common/footer.jsp"%>
@@ -426,15 +422,18 @@ th {
 	        var recommendData = response.filter(car => {
             return car.cIdx !== filteredData.cIdx;
         });
-	        
+	        console.log("recommendData");
+	        console.log(recommendData);
 	        // 추천 차량을 무작위로 3대 선택
 	        var recommendCars = getRandomElements(recommendData, 3);
-	       
+	        console.log("recommendCars");
+	        console.log(recommendCars);
 		        if (recommendCars.length > 0) {
-		        	$('.recommend-row .col-md-4 .car-wrap.rounded.ftco-animate').empty;
+		        	$('.recommend-row').empty();
 		            var html = [];
 		            for (var i = 0; i < recommendCars.length; i++) {
-		            	html.push('<div">')
+		            	html.push('<div class="col-md-3">');
+		            	html.push('<div class="car-wrap rounded ftco-animate">');
 		                html.push('<div class="img rounded d-flex align-items-end" style="background-image: url(../../../carImage/' + recommendCars[i].carImage + ');"></div>');
 		                html.push('<div class="text">');
 		                html.push('<h2 class="mb-0">');
@@ -451,16 +450,17 @@ th {
 		                html.push('</p>');
 		                html.push('</div>');
 		                html.push('</div>');
+                		html.push('</div>');
 		            }
-		        
-	            
-	            // HTML 요소 추가
-	            $('.recommend-row .col-md-4 .car-wrap.rounded.ftco-animate').append(html.join(''));
+
+		            // HTML 요소 추가
+		            $('.recommend-row').append(html.join(''));
 	        }
 	    });
 	}
 
 	function getRandomElements(arr, num){
+		 console.log("arr");
 		 console.log(arr);
 		if (num > arr.length) num = arr.length; // 반환할 수 있는 최대 개수 설정
 		var shuffle = arr.slice();
