@@ -30,28 +30,34 @@ public class MemberLoginAjaxController extends HttpServlet {
 
         String id = request.getParameter("id");
         String password = request.getParameter("password");
-
-        // 사용자 인증 로직 (데이터베이스 확인)
+        
+        // 입력값 확인
+        if (id == null || password == null || id.trim().isEmpty() || password.trim().isEmpty()) {
+            response.getWriter().print("{\"status\":\"error\", \"message\":\"아이디와 비밀번호를 입력해주세요.\"}");
+            return;
+        }
+        
+        
+        // 사용자 인증 
         MemberBean bean = memberDao.validateUser(id, password); // MemberDao에서 사용자 인증 메서드 호출
-
-        System.out.println("bean : " + bean);
         PrintWriter out = response.getWriter();
 
         if (bean != null) {
-            // 로그인 성공 시 세션 생성 부분 제거
-            // 세션에 값 담기
+            // 로그인 성공 시 세션에 값 담기
         	session.setAttribute("mIdx", bean.getmIdx());
-        	System.out.println(bean.getmIdx());
             session.setAttribute("id", id);
             session.setAttribute("adminCheck", bean.getadminCheck());
-            System.out.println("adminCheck : " + bean.getadminCheck());
             session.setAttribute("name", bean.getName());
+            
+            // 세션 타임아웃
+            session.setMaxInactiveInterval(1800);
+            
             out.print("{\"status\":\"success\", \"message\":\"로그인 성공\"}");
         } else {
             out.print("{\"status\":\"error\", \"message\":\"로그인 실패: 사용자 이름 또는 비밀번호를 확인하세요.\"}");
         }
         
         out.flush();
-        out.close(); // PrintWriter 자원 해제
+        out.close(); 
     }
 }

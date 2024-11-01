@@ -77,7 +77,6 @@ public class MemberDao extends SuperDao {
 		String sql = "SELECT * FROM Member WHERE id = ? AND password = ?";
 
 		try {
-			bean = new MemberBean();
 			conn = super.getConnection();
 			pstmt = conn.prepareStatement(sql);
 
@@ -85,17 +84,21 @@ public class MemberDao extends SuperDao {
 			pstmt.setString(2, password);
 			ResultSet rs = pstmt.executeQuery();
 
-			if (rs.next()) {
+			if (rs.next()) { // 결과가 있을때만 MemberBean 객체생성
+				bean = new MemberBean();
 				bean.setmIdx(rs.getInt("m_idx"));
 				bean.setId(rs.getString("id"));
 				bean.setadminCheck(rs.getString("adminCheck"));
 				bean.setName(rs.getString("name"));
 			}
+			rs.close();
+			pstmt.close();
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return bean;
+		return bean; 
 	}
 
 }

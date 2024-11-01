@@ -155,8 +155,14 @@ $(document).ready(function() {
     $("#loginForm").on("submit", function(event) {
         event.preventDefault(); 
 
-        var id = $("#id").val();
-        var password = $("#password").val();
+        var id = $("#id").val().trim();
+        var password = $("#password").val().trim();
+
+        // 입력값 검증
+        if (!id || !password) {
+            alert("아이디와 비밀번호를 입력해주세요.");
+            return;
+        }
 
         $.ajax({
             type: "POST",
@@ -165,37 +171,18 @@ $(document).ready(function() {
             dataType: "json",
             success: function(response) {
                 if (response.status === "success") {
-                    // 로그인 성공 하면 세션 등록 홈으로 이동함~
                     alert(response.message); 
                     window.location.href = "/home"; 
                 } else {
-                    // 로그인 실패 시 에러 메시지 출력
                     alert(response.message);
+                    $("#password").val(""); // 비밀번호 입력 필드 초기화
+                    $("#password").focus(); // 비밀번호 입력 필드에 포커스
                 }
             },
             error: function() {
-                alert("서버 오류가 발생했습니다. 나중에 다시 시도해 주세요.");
+                alert("아이디 또는 비밀번호가 잘못 되었습니다. 다시입력해 주세요.");
             }
         });
-    });
-});
-//로그아웃 처리
-$("#logoutBtn").on("click", function() {
-    $.ajax({
-        type: "POST",
-        url: "memberLogoutAjaxController",
-        dataType: "json",
-        success: function(response) {
-            if (response.status === "success") {
-                alert(response.message);
-                window.location.href = "/login"; // 로그인 페이지로 리다이렉트
-            } else {
-                alert(response.message);
-            }
-        },
-        error: function() {
-            alert("서버 오류가 발생했습니다. 나중에 다시 시도해 주세요.");
-        }
     });
 });
 </script>
