@@ -113,29 +113,17 @@ label {display: inline-block;margin-bottom: unset;}
 
 </body>
 <script>
+	var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAttribute("adminCheck") : ""%>';
+	var midx = '<%=session.getAttribute("mIdx") != null ? session.getAttribute("mIdx") : 0%>';
 	
 	var currentPage = 1 ;
 	var pageSize = 9 ;
 	
-	// 페이지 로드 시 초기 데이터 로드
-	$(document).ready(function() {
-		search(); // 첫 번째 페이지 데이터 로드
-	});
-	
-	
-	
-
 	const params = new URLSearchParams(window.location.search);
 	var domesticParam = params.get('domestic');
 	var brandParam = params.get('brand');
 	var modelParam = params.get('model');
 	var nameParam = params.get('name');
-	
-	// 등록하기 버튼 보기 권한
-	//const userRole = 'admin';
-	/* if (userRole == 'admin'){
-		document.getElementById('reisterButton').style.display = 'inline-block;'
-	} */
 	
 	$(document).ready(function() {
 		search();
@@ -407,52 +395,50 @@ label {display: inline-block;margin-bottom: unset;}
 		}
 
 		ajaxController(
-				domestic,
-				brand,
-				model,
-				name,
-			    currentPage,
-				pageSize,
-				function(response) {
-					var html = [];
-					$(".ftco-section.bg-light .container .row.list").empty();
-					for (var i = 0; i < response.length; i++) {
-						html.push('<div class="col-md-4">');
-						html.push('	<div class="car-wrap rounded ftco-animate fadeInUp ftco-animated">');
-						html.push('		<div class="img rounded d-flex align-items-end"');
-						html.push('			style="background-image: url(carImage/'+ response[i].carImage + ');"></div>');
-						html.push('		<div class="text">');
-						html.push('			<div class="d-flex align-items-center mb-3">');
-						html.push('				<h2 class="mb-0">');
-						html.push('					<a href="carView?idx=' + response[i].cIdx + '">'+ response[i].carName + '</a>');
-						html.push('				</h2>');
-						html.push('			</div>');
-						html.push('			<div class="d-flex mb-3">');
-						html.push('				<p class="price ml-auto">'+ response[i].brand + '</p>');
-						html.push('			</div>');
-						html.push('			<p class="d-flex mb-0 d-block">');
-						html.push('				<a href="carView?idx=' + response[i].cIdx + '" class="btn btn-light py-2 mr-1"');
-						html.push('					style="color: black !important;">상세보기</a> <a href="carView"');
-						html.push('					class="btn btn-danger"');
-						html.push('					style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>');
-						html.push('			</p>');
-						html.push('		</div>');
-						html.push('	</div>');
-						html.push('</div>');
-					}
-					$(".ftco-section.bg-light .container .row.list").append(
-							html.join(''));
-				
+			domestic,
+			brand,
+			model,
+			name,
+		    currentPage,
+			pageSize,
+			function(response) {
+				var html = [];
+				$(".ftco-section.bg-light .container .row.list").empty();
+				for (var i = 0; i < response.length; i++) {
+					html.push('<div class="col-md-4">');
+					html.push('	<div class="car-wrap rounded ftco-animate fadeInUp ftco-animated">');
+					html.push('		<div class="img rounded d-flex align-items-end"');
+					html.push('			style="background-image: url(carImage/'+ response[i].carImage + ');"></div>');
+					html.push('		<div class="text">');
+					html.push('			<div class="d-flex align-items-center mb-3">');
+					html.push('				<h2 class="mb-0">');
+					html.push('					<a href="carView?idx=' + response[i].cIdx + '">'+ response[i].carName + '</a>');
+					html.push('				</h2>');
+					html.push('			</div>');
+					html.push('			<div class="d-flex mb-3">');
+					html.push('				<p class="price ml-auto">'+ response[i].brand + '</p>');
+					html.push('			</div>');
+					html.push('			<p class="d-flex mb-0 d-block">');
+					html.push('				<a href="carView?idx=' + response[i].cIdx + '" class="btn btn-light py-2 mr-1"');
+					html.push('					style="color: black !important;">상세보기</a>');
+					if(adminCheck == 2){ html.push('<a href="javascript:carDelete(' + response[i].cIdx + ');" class="btn btn-danger" style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">삭제하기</a>'); }
+					else{ html.push('<a href="javascript:carFavorite(' + response[i].cIdx + ');" class="btn btn-danger" style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>'); }
+					html.push('			</p>');
+					html.push('		</div>');
+					html.push('	</div>');
+					html.push('</div>');
+				}
+				$(".ftco-section.bg-light .container .row.list").append(
+						html.join(''));
 			
-					if (response.length < pageSize) {
-						$("#loadMoreBtn").hide();
-					} else {
-						$("#loadMoreBtn").show();
-					}
-				});
-					
 		
-
+				if (response.length < pageSize) {
+					$("#loadMoreBtn").hide();
+				} else {
+					$("#loadMoreBtn").show();
+				}
+			}
+		);
 	}
 
 
@@ -525,6 +511,64 @@ label {display: inline-block;margin-bottom: unset;}
 			html.push('</div>');
 		}
 		$(".ftco-section.bg-light .container .row.list").append(html.join('')); // 기존 목록 아래에 추가
+	}
+	
+	
+	function carDelete(idx){
+		if(adminCheck == 2){
+			$.ajax({
+				url : "CarDeleteAjaxController", // 서버 서블릿 경로
+				method : "GET", // 요청 방식
+				data : {
+					"idx" : idx
+				},
+				success : function(response) {
+					if (response.status === "success") {
+	                    alert(response.message);
+	                    search();
+	                } else {
+	                    // 로그인 실패 시 에러 메시지 출력
+	                    alert(response.message);
+	                    search();
+	                }
+				},
+				error : function(xhr, status, error) {
+					console.error('요청 실패: ' + error); // 에러 출력
+				}
+			});
+		}
+	}
+	
+	function carFavorite(cIdx){
+		if(midx == 0){
+			alert("로그인이 필요한 서비스 입니다.");
+			window.location.href= "/memberLogin";
+		} else {
+			alert("찜하기");
+			console.log("cIdx : " + cIdx);
+			console.log("midx : " + midx);
+			
+			$.ajax({
+				url : "carFavoriteInsertAjaxController", // 서버 서블릿 경로
+				method : "GET", // 요청 방식
+				data : {
+					"mIdx" : midx,
+					"cIdx" : cIdx
+				},
+				success : function(response) {
+					if (response.status === "success") {
+	                    alert(response.message);
+	                    window.location.href = "/mypage?mIdx=" + midx;
+	                } else {
+	                    // 로그인 실패 시 에러 메시지 출력
+	                    alert(response.message);
+	                }
+				},
+				error : function(xhr, status, error) {
+					console.error('요청 실패: ' + error); // 에러 출력
+				}
+			});
+		}
 	}
 	
 	$(document).ready(function() {

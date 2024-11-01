@@ -183,5 +183,143 @@ public class CarDao extends SuperDao {
 		return bean;
 	}
 	
+	public boolean carFavoriteDelete(int idx) {
+        boolean deleteCheck = false;
+        PreparedStatement pstmt = null;
+        String sql = "DELETE FROM carfavorites WHERE c_idx = ?";
+
+        try {
+        	conn = super.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+            pstmt.setInt(1, idx);
+            int result = pstmt.executeUpdate();
+            if (result > 0) {
+                deleteCheck = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return deleteCheck;
+    }
+
+	public boolean carDetail2Delete(int idx) {
+        boolean deleteCheck = false;
+        PreparedStatement pstmt = null;
+        String sql = "DELETE T1 FROM carDetail2 AS T1 "
+                   + "INNER JOIN carDetail1 AS T2 ON T2.cd1_idx = T1.cd1_idx "
+                   + "WHERE T2.c_idx = ?";
+
+        try {
+        	conn = super.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+            pstmt.setInt(1, idx);
+            int result = pstmt.executeUpdate();
+            if (result > 0) {
+                deleteCheck = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return deleteCheck;
+    }
+
+	public boolean carDetail1Delete(int idx) {
+        boolean deleteCheck = false;
+        PreparedStatement pstmt = null;
+        String sql = "DELETE FROM carDetail1 WHERE c_idx = ?";
+
+        try {
+        	conn = super.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            
+            pstmt.setInt(1, idx);
+            int result = pstmt.executeUpdate();
+            if (result > 0) {
+                deleteCheck = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return deleteCheck;
+    }
+
+	public boolean carMainDelete(int idx) {
+        boolean deleteCheck = false;
+        PreparedStatement pstmt = null;
+        String sql = "DELETE FROM carMain WHERE c_idx = ?";
+
+        try {
+        	conn = super.getConnection();
+            pstmt = conn.prepareStatement(sql);
+            
+            pstmt.setInt(1, idx);
+            int result = pstmt.executeUpdate();
+            if (result > 0) {
+                deleteCheck = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return deleteCheck;
+    }
+
+	public boolean carFavoriteInsert(int mIdx, int cIdx) {
+		boolean insertCheck = false;
+		PreparedStatement pstmt = null;
+		String sql = "INSERT INTO carfavorites (m_idx, c_idx) ";
+			sql += "VALUES (?, ?)";
+		
+		try {
+			conn = super.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, mIdx);
+			pstmt.setInt(2, cIdx);
+			int result = pstmt.executeUpdate();
+			if (result > 0) {
+				insertCheck = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return insertCheck;
+	}
 	
 }

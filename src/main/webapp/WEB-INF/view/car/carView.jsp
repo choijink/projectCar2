@@ -139,21 +139,6 @@ th {
 		</div>
 		<div class="table-container">
 			<div class="gridClass1">
-				<h2>차량 제원</h2>
-				<div></div>
-				<button class="gridButton1">비교하기</button>
-				<button class="gridButton2">관심등록</button>
-				
-			<%-- 	 
-			<% if ("admin".equals(userRole)) { %>
-                <button class="gridButton1">수정</button>
-                <button class="gridButton2">삭제</button>
-            <% } else { %>
-                <button class="gridButton1">비교하기</button>
-                <button class="gridButton2">관심등록</button>
-            <% } %>
-            --%>
-             
 			</div>
 			<table>
 				<tr><td colspan="4">해당 등급/트림의 정보가 없습니다.</td></tr>
@@ -190,13 +175,36 @@ th {
 	<%@ include file="/WEB-INF/view/common/js.jsp"%>
 </body>
 <script>
+var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAttribute("adminCheck") : ""%>';
+
 	const params = new URLSearchParams(window.location.search);
 	var cIdx = params.get('idx');
 	var TrimMap = new Map();
 	var carData = [] ; // 전체 차량 데이터를 저장하는 전역 변수
+	
+	/* <h2>차량 제원</h2>
+	<div></div>
+	<button class="gridButton1">비교하기</button>
+	<button class="gridButton2">관심등록</button> */
 
 	function init() {
 		view();
+		if(adminCheck ==2){
+			var html = [];
+			html.push('<h2>차량 제원</h2>');
+			html.push('<div></div>');
+			html.push('<button class="gridButton1">수정하기</button>');
+			html.push('<button class="gridButton2">삭제하기</button>');
+			$(".gridClass1").append(html.join(''));
+		} else {
+			var html = [];
+			html.push('<h2>차량 제원</h2>');
+			html.push('<div></div>');
+			html.push('<button class="gridButton1">비교하기</button>');
+			html.push('<button class="gridButton2">관심등록</button>');
+			$(".gridClass1").append(html.join(''));
+		}
+		
 	}
 	function view() {
 		$.ajax({

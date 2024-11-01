@@ -102,6 +102,7 @@ function init(){
 				html.push('			<span class="ion-ios-star"></span> <span clas	s="ion-ios-star"></span>');
 				html.push('		</p>'); */
 				html.push('	</td>');
+				html.push(' <td><a href="javascript:delete();">삭제</a></td>');
 				html.push('</tr>');
 			}
 			$('.car-list .table tbody').append(html.join(''));
