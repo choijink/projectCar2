@@ -22,10 +22,16 @@ public class MemberCreateAjaxController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	String id = request.getParameter("id");
+    	// 최종 중복체크
+    	if(memberDao.checkIdDuplicate(id)) {
+    		response.setStatus(HttpServletResponse.SC_CONFLICT);
+    		response.getWriter().write("duplicate_id");
+    		return;
+    	}
         String name = request.getParameter("name");
         String email = request.getParameter("email");
         String emailDomain = request.getParameter("emailDomain");
-        String id = request.getParameter("id");
         String password = request.getParameter("password");
         String birthday = request.getParameter("birthday");
         String gender = request.getParameter("gender");

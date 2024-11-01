@@ -160,6 +160,8 @@ input[type="radio"]:checked+.gender-btn {
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
 <script>
+let isIdChecked = false;
+let checkedId = "";
 	function init(){
 		var html = [];
 		html.push('<tr>');
@@ -169,7 +171,10 @@ input[type="radio"]:checked+.gender-btn {
 		html.push('<td><h2>회원가입 </h2></td>');
 		html.push('</tr>');
 		html.push('<tr>');
-		html.push('<td><input type="text" id="id" name="id" class="text" placeholder="아이디" required></td>');
+		html.push('<td>');
+		html.push('<input type="text" id="id" name="id" class="text" placeholder="아이디" required>');
+		html.push('<input type="button" onclick="checkIdDuplicate()" value="아이디 확인" class="small-btn"><br>');
+		html.push('</td>');
 		html.push('</tr>');
 		html.push('<tr>');
 		html.push('<td><input type="password" id="password" name="password" class="text" placeholder="비밀번호" required></td>');
@@ -227,6 +232,10 @@ input[type="radio"]:checked+.gender-btn {
 		html.push('</td>');
 		html.push('</tr>');
 		$('.memberClass').append(html.join(''));
+		document.getElementById("id").addEventListener("input", function() {
+	        isIdChecked = false;
+	        checkedId = "";		
+		});
 	}
 
 	function sample6_execDaumPostcode() {
@@ -318,7 +327,45 @@ input[type="radio"]:checked+.gender-btn {
 		return true;
 	}
 
+	function checkIdDuplicate(){
+		var id = document.getElementById("id").value;
+		if(!id){
+			alert("아이디를 입력해주세요.");
+			return;
+		}
+		
+		$.ajax({
+			url : "checkIdDuplicateAjaxController",
+			method : "GET",
+			data: {"id" : id },
+			dataType : "json",
+			success : function(response){
+				console.log("서버 응답 : ", response);
+				if(response > 0){
+					alert("이미 사용중인 아이디 입니다.");
+					document.getElementById("id").value = "";
+					isIdChecked = false;
+					checkedId = "";
+				}else{
+					alert("사용 가능한 아이디 입니다.");
+					isIdChecked = true;
+					checkedId = id;
+				}
+			},
+			error : function(xhr, status, error){
+				console.error('아이디 중복 체크 실패 : ' + error);
+				console.error('상태 : ' + status);
+				console.error('응답 : ' + xhr.responseText);
+			}
+		});
+	}
+	
 	function memberCreate() {
+		// id 중복체크확인
+		if(!isIdChecked || document.getElementById("id").value !== checkedId){
+			alert("아이디 중복 체크를 해주세요.");
+			return false;
+		}
 		var name = document.getElementById("name").value;
 		var email = document.getElementById("emailLocal").value;
         var selectElement = document.getElementById("domainSelect");
@@ -362,6 +409,7 @@ input[type="radio"]:checked+.gender-btn {
 				"phone" : phone,
 			},
 			success : function(response) {
+				alert('회원가입 완료. 로그인 페이지로 이동합니다')
 				window.location.href = "/memberLogin";
 			},
 			error : function(xhr, status, error) {
