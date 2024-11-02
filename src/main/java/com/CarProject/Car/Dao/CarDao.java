@@ -325,13 +325,19 @@ public class CarDao extends SuperDao {
 	public int carMainInsert(CarBean carBean) {
 		int insertIdx = 0; // 삽입된 c_idx 값을 저장할 변수
 	    PreparedStatement pstmt = null;
-	    String sql = "INSERT INTO carmain (카메인에 들어갈 컬럼들, ?) ";
-	    		sql += " VALUES (?)"; // 실제 인서트 쿼리 작성
+	    String sql = "INSERT INTO carmain (domesticImport, brand, vehicleSize, carModel, carName, brandMark, carImage) ";
+	    		sql += " VALUES (?,?,?,?,?,?,?)";
 
 	    try {
 	        conn = super.getConnection();
 	        pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS); // 자동 생성된 키 반환 옵션 설정
-	        pstmt.setString(1, carBean.getBrand()); // 바인딩할 값 설정
+	        pstmt.setString(1, carBean.getDomesticImport());
+	        pstmt.setString(2, carBean.getBrand());
+	        pstmt.setString(3, carBean.getVehicleSize());
+	        pstmt.setString(4, carBean.getCarModel());
+	        pstmt.setString(5, carBean.getCarName());
+	        pstmt.setString(6, carBean.getBrandMark());
+	        pstmt.setString(7, carBean.getCarImage());
 	        
 	        int result = pstmt.executeUpdate(); // INSERT 실행
 	        if (result > 0) { // 삽입 성공 시
@@ -354,6 +360,48 @@ public class CarDao extends SuperDao {
 
 	    return insertIdx;
 		
+	}
+
+	public int carDetail1Insert(CarBean carBean) {
+		int insertIdx= 0;
+		PreparedStatement pstmt = null;
+		String sql = "INSERT INTO carDetail1 (c_idx, fuelType, displacement, "
+				+ "fuelEfficiency, seatingCapacity, engineType, driveType, maxPower, "
+				+ "maxTorque, length, width, height, wheelBase, curbWeight, grade)"
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+		try {
+			conn = getConnection();
+			pstmt = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
+			pstmt.setInt(1, carBean.getcIdx());
+			pstmt.setString(2, carBean.getFuelType());
+		    pstmt.setString(3, carBean.getDisplacement());
+		    pstmt.setString(4, carBean.getFuelEfficiency());
+            pstmt.setString(5, carBean.getSeatingCapacity());
+            pstmt.setString(6, carBean.getEngineType());
+            pstmt.setString(7, carBean.getDriveType());
+            pstmt.setString(8, carBean.getMaxPower());
+            pstmt.setString(9, carBean.getMaxTorque());
+            pstmt.setString(10, carBean.getLength());
+            pstmt.setString(11, carBean.getWidth());
+            pstmt.setString(12, carBean.getHeight());
+            pstmt.setString(13, carBean.getWheelBase());
+            pstmt.setString(14, carBean.getCurbWeight());
+            pstmt.setString(15, carBean.getGrade());
+            
+            int result = pstmt.executeUpdate();
+            if (result > 0) {
+            	ResultSet rs = pstmt.getGeneratedKeys();
+            	if(rs.next()) {
+            		insertIdx = rs.getInt(1); // 생성된 cd1_Idx 
+            	}
+            	pstmt.close();
+            }
+            pstmt.close();
+			
+		}
+		
+		return insertIdx;;
 	}
 	
 	
