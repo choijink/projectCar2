@@ -13,6 +13,13 @@
 .car-list{
 	overflow-x : unset;
 }
+
+.table th, .table td {
+    border-top: unset;
+}
+.carName{
+	color:black;
+}
 </style>
 <body>
 	<%@ include file="/WEB-INF/view/common/header.jsp"%>
@@ -26,12 +33,7 @@
 			<div
 				class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
 				<div class="col-md-9 ftco-animate pb-5">
-					<p class="breadcrumbs">
-						<span class="mr-2"><a href="index.html">Home <i
-								class="ion-ios-arrow-forward"></i></a></span> <span>Pricing <i
-							class="ion-ios-arrow-forward"></i></span>
-					</p>
-					<h1 class="mb-3 bread">Pricing</h1>
+					<h1 class="mb-3 bread">찜 목록 차량</h1>
 				</div>
 			</div>
 		</div>
@@ -45,8 +47,9 @@
 						<table class="table">
 							<thead class="thead-primary">
 								<tr class="text-center">
-									<th>&nbsp;</th>
-									<th>&nbsp;</th>
+									<th>차량 이미지</th>
+									<th>차량 이름</th>
+									<th>삭제</th>
 								</tr>
 							</thead>
 							<tbody></tbody>
@@ -79,7 +82,7 @@
 </body>
 <script>
 const params = new URLSearchParams(window.location.search);
-var mIdx = params.get('mIdx');
+var mIdx = params.get('midx');
 function init(){
 	$.ajax({
 		url : "favoriteController", // 서버 서블릿 경로
@@ -95,17 +98,35 @@ function init(){
 				html.push('<tr class="favoriteClass">');
 				html.push('	<td class="car-image"><div class="img" style="background-image: url(carImage/' + response[i].carImage + ');"></div></td>');
 				html.push('	<td class="product-name">');
-				html.push('		<h3>' + response[i].carName + '</h3>');
-				/* html.push('		<p class="mb-0 rated">');
-				html.push('			<span>rated:</span> <span class="ion-ios-star"></span>');
-				html.push('			<span class="ion-ios-star"></span> <span class="ion-ios-star"></span>');
-				html.push('			<span class="ion-ios-star"></span> <span clas	s="ion-ios-star"></span>');
-				html.push('		</p>'); */
+				html.push('		<a class="carName" href="/carView?idx=' + response[i].cIdx + '">' + response[i].carName + '</a>');
 				html.push('	</td>');
-				html.push(' <td><a href="javascript:delete();">삭제</a></td>');
+				html.push(' <td><a href="javascript:deleteFavorite('+ response[i].cIdx +');">삭제</a></td>');
 				html.push('</tr>');
 			}
 			$('.car-list .table tbody').append(html.join(''));
+		},
+		error : function(xhr, status, error) {
+			console.error('요청 실패: ' + error); // 에러 출력
+		}
+	});
+}
+
+function deleteFavorite(idx){
+	$.ajax({
+		url : "favoriteDeleteAjaxController", // 서버 서블릿 경로
+		method : "GET", // 요청 방식
+		data : {
+			"cIdx" : idx,
+			"mIdx" : mIdx
+		},
+		success : function(response) {
+			if (response.status === "success") {
+                alert(response.message);
+                location.reload();
+            } else {
+                // 로그인 실패 시 에러 메시지 출력
+                alert(response.message);
+            }
 		},
 		error : function(xhr, status, error) {
 			console.error('요청 실패: ' + error); // 에러 출력

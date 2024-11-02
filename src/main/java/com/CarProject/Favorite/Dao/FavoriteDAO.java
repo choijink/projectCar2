@@ -1,4 +1,4 @@
-package com.CarProject.Favorite;
+package com.CarProject.Favorite.Dao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,16 +7,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.CarProject.SuperDao;
+import com.CarProject.Favorite.FavoriteBean;
 
 
 public class FavoriteDAO extends SuperDao {
-	public List<FavoriteBean> selectAll(String mIdxString) {
+	public List<FavoriteBean> selectAll(String mIdxString, String cIdxString) {
 		List<FavoriteBean> lists = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int mIdx = 0;
+		int cIdx = 0;
 		if(mIdxString != null) {
+			System.out.println(mIdxString);
 			mIdx = Integer.parseInt(mIdxString);
+		}
+		if(cIdxString != null) {
+			System.out.println(cIdxString);
+			cIdx = Integer.parseInt(cIdxString);
 		}
 		
 		// 기본 쿼리
@@ -24,15 +31,18 @@ public class FavoriteDAO extends SuperDao {
 		sql += " INNER JOIN Member AS T2 ON T2.m_idx = T1.m_idx";
 		sql += " INNER JOIN CarMain AS T3 ON T3.c_idx = T1.C_idx";
 		if(mIdx > 0) { sql += " WHERE T2.m_idx = ?"; }
+		if(cIdx > 0) { sql += " AND T3.c_idx = ?"; }
 
 		
-		System.out.println(sql);
 		try {
 			conn = super.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			
 			if(mIdx > 0) {
 				pstmt.setInt(1, mIdx);
+			}
+			if(cIdx > 0) {
+				pstmt.setInt(2, cIdx);
 			}
 			
 			rs = pstmt.executeQuery();
@@ -64,7 +74,34 @@ public class FavoriteDAO extends SuperDao {
 			e.printStackTrace();
 			return null;
 		}
-System.out.println(bean);
 		return bean;
 	}
+	
+	public boolean carFavoriteDelete(int cIdx, int mIdx) {
+        boolean deleteCheck = false;
+        PreparedStatement pstmt = null;
+        String sql = "DELETE FROM carfavorites WHERE c_idx = ? AND m_idx = ?";
+
+        try {
+        	conn = super.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+            pstmt.setInt(1, cIdx);
+            pstmt.setInt(2, mIdx);
+            int result = pstmt.executeUpdate();
+            if (result > 0) {
+                deleteCheck = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return deleteCheck;
+    }
 }

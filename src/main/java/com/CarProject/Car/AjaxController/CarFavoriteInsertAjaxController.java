@@ -24,12 +24,14 @@ public class CarFavoriteInsertAjaxController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	String mIdx = request.getParameter("mIdx");
+    	String mIdx = request.getParameter("midx");
         String cIdx = request.getParameter("cIdx");
         //String adminCheck = request.getParameter("adminCheck");
         
         response.setContentType("application/json; charset=UTF-8");
         PrintWriter out = response.getWriter();
+        System.out.println(mIdx);
+        System.out.println(cIdx);
         
         boolean carFavoriteInsert = carDao.carFavoriteInsert(Integer.parseInt(mIdx), Integer.parseInt(cIdx));
         
