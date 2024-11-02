@@ -78,6 +78,11 @@ th {
     font-size: 0.9em;
     color: #555; /* 미리보기 텍스트 색상 */
 }
+.centered-input {
+        text-align: center;
+}
+
+    
 </style>
 
 <body>
@@ -96,14 +101,22 @@ th {
 	</section>
 	<section>
 		<div style="text-align: center; margin-top: 60px;">
-			<!-- 업로드 버튼 역할을 할 이미지 -->
-			<img id="uploadButton" src="../../../buttonImage/imageInsert.png" alt="차량 이미지 업로드 버튼"
-				onclick="document.getElementById('imageUpload').click()"
+			<img id="uploadButton1" src="../../../buttonImage/imageInsert.png" alt="차량 이미지 업로드 버튼"
+				onclick="document.getElementById('imageUpload1').click()"
 				style="cursor: pointer; width: 500px; height: 400px;">
 
-			<!-- 실제 파일 업로드 입력 필드 (숨겨져 있음) -->
-			<input type="file" id="imageUpload" accept="image/*"
-				style="display: none;" onchange="previewImage(event)">
+			<input type="file" id="imageUpload1" accept="image/*"
+				style="display: none;" onchange="previewCar(event)">
+		</div>
+	</section>
+	<section>
+		<div style="text-align: center; margin-top: 20px;">
+			<img id="uploadButton2" src="../../../buttonImage/brandMarkInsert.png" alt="제조사 로고 업로드 버튼"
+				onclick="document.getElementById('imageUpload2').click()"
+				style="cursor: pointer; width: 180px; height: 100px;">
+				
+			<input type="file" id="imageUpload2" accept="image/*"
+				style="display: none;" onchange="previewMark(event)">
 		</div>
 	</section>
 	<section class="ftco-section ftco-car-details">
@@ -162,55 +175,57 @@ th {
 			 </thead> 
 			 <tbody> 
 			 <tr> 
+			 <td>국산/수입</td> 
+			 <td><input type="text" id="brandInput" class="centered-input" placeholder="국산 / 수입"></td>
+			 <td></td> 
+			 <td></td> 
+			 </tr> 
 			 <td>제조사</td> 
-			 <td>
-			 <input type="text" id="trimInput">
-			 <div class="preview" id="brandPreview"></div>
-			 </td>
+			 <td><input type="text" id="brandInput" class="centered-input" placeholder="벤츠"></td>
 			 <td>연비</td> 
-			 <td><input type="text" id="trimInput"></td>
+			 <td><input type="text" id="fuelEfficiencyInput" class="centered-input" placeholder="14.8km/L(kWh)"></td>
 			 </tr> 
 			 <tr> 
 			 <td>모델</td>
-			 <td><input type="text" id="trimInput"></td> 
-			 <td>인승</td> 
-			 <td><input type="text" id="trimInput"></td>
+			 <td><input type="text" id="carNameInput" class="centered-input" placeholder="아반떼"></td>
+			 <td>배기량</td> 
+			 <td><input type="text" id="displacementInput" class="centered-input" placeholder="1,598cc"></td>
 			 </tr> 
 			 <tr> 
 			 <td>연료타입</td>
-			 <td><input type="text" id="trimInput"></td> 
+			 <td><input type="text" id="trimInput" class="centered-input" placeholder="가솔린"></td>
 			 <td>전장</td> 
-			 <td><input type="text" id="trimInput"></td>
+			 <td><input type="text" id="trimInput" class="centered-input" placeholder="4,710mm"></td>
 			 </tr> 
 			 <tr> 
-			 <td>배기량</td> 
-			 <td><input type="text" id="trimInput"></td>
+			 <td>인승</td> 
+			 <td><input type="text" id="trimInput" class="centered-input" placeholder="5"></td>
 			 <td>전폭</td> 
-			 <td><input type="text" id="trimInput"></td>
+			 <td><input type="text" id="trimInput" class="centered-input" placeholder="1,825mm"></td>
 			 </tr> 
 			 <tr> 
 			 <td>엔진형식</td> 
-			 <td><input type="text" id="trimInput"></td>
+			 <td><input type="text" id="trimInput" class="centered-input small-font" placeholder="I4"></td>
 			 <td>전고</td> 
-			 <td><input type="text" id="trimInput"></td>
+			 <td><input type="text" id="trimInput" class="centered-input" placeholder="1,420mm"></td>
 			 </tr> 
 			 <tr> 
 			 <td>구동방식</td> 
-			 <td><input type="text" id="trimInput"></td>
+			 <td><input type="text" id="trimInput" class="centered-input" placeholder="전륜"></td>
 			 <td>축거</td> 
-			 <td><input type="text" id="trimInput"></td>
+			 <td><input type="text" id="trimInput" class="centered-input" placeholder="2,720mm"></td>
 			 </tr> 
 			 <tr> 
 			 <td>최고출력</td> 
-			 <td><input type="text" id="trimInput"></td>
+			 <td><input type="text" id="trimInput" class="centered-input" placeholder="123hp / 385kW"></td>
 			 <td>공차중량</td> 
-			 <td><input type="text" id="trimInput"></td>
+			 <td><input type="text" id="trimInput" class="centered-input" placeholder="1,260kg"></td>
 			 </tr> 
 			 <tr> 
 			 <td>최대토크</td> 
-			 <td><input type="text" id="trimInput"></td>
+			 <td><input type="text" id="trimInput" class="centered-input" placeholder="15.7kg.m / 765Nm"></td>
 			 <td>가격</td>
-			 <td><input type="text" id="trimInput"></td> 
+			 <td><input type="text" id="trimInput" class="centered-input" placeholder="1,994만원"></td>
 			 </tr> 
 			 </tbody> 
 			</table>
@@ -243,14 +258,29 @@ th {
 	 // 초기화 함수 호출
 	}
 	
-    function previewImage(event) {
+    function previewCar(event) {
         const file = event.target.files[0]; // 선택한 파일 가져오기
         const reader = new FileReader(); // FileReader 객체 생성
         
         reader.onload = function() {
             // 선택한 이미지로 업로드 버튼 이미지 변경
-            const uploadButton = document.getElementById('uploadButton');
-            uploadButton.src = reader.result; // 읽어온 데이터로 버튼 이미지 변경
+            const uploadButton1 = document.getElementById('uploadButton1');
+            uploadButton1.src = reader.result; // 읽어온 데이터로 버튼 이미지 변경
+        };
+        
+        if (file) {
+            reader.readAsDataURL(file); // 파일을 Data URL로 읽기
+        }
+    }
+    
+    function previewMark(event) {
+        const file = event.target.files[0]; // 선택한 파일 가져오기
+        const reader = new FileReader(); // FileReader 객체 생성
+        
+        reader.onload = function() {
+            // 선택한 이미지로 업로드 버튼 이미지 변경
+            const uploadButton2 = document.getElementById('uploadButton2');
+            uploadButton2.src = reader.result; // 읽어온 데이터로 버튼 이미지 변경
         };
         
         if (file) {
@@ -258,9 +288,6 @@ th {
         }
     }
 	
-	function updatePreview() {
-		document.getElementById('brandPreview').textContent = document.getElementById('brandInput').value;
-	}
 	
 	function updateTable(selectedGrade, selectedTrim){
 	    // 선택된 등급과 트림에 맞는 데이터를 carData에서 찾기

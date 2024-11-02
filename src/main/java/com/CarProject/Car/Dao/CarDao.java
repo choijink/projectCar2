@@ -321,5 +321,42 @@ public class CarDao extends SuperDao {
 		
 		return insertCheck;
 	}
+
+	public int carMainInsert(CarBean carBean) {
+		int insertIdx = 0; // 삽입된 c_idx 값을 저장할 변수
+	    PreparedStatement pstmt = null;
+	    String sql = "INSERT INTO carmain (카메인에 들어갈 컬럼들, ?) ";
+	    		sql += " VALUES (?)"; // 실제 인서트 쿼리 작성
+
+	    try {
+	        conn = super.getConnection();
+	        pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS); // 자동 생성된 키 반환 옵션 설정
+	        pstmt.setString(1, carBean.getBrand()); // 바인딩할 값 설정
+	        
+	        int result = pstmt.executeUpdate(); // INSERT 실행
+	        if (result > 0) { // 삽입 성공 시
+	            ResultSet rs = pstmt.getGeneratedKeys(); // 생성된 키 값 가져오기
+	            if (rs.next()) {
+	                insertIdx = rs.getInt(1); // c_idx 값을 insertIdx에 저장
+	            }
+	            rs.close();
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            if (pstmt != null) pstmt.close();
+	            if (conn != null) conn.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    return insertIdx;
+		
+	}
+	
+	
+
 	
 }
