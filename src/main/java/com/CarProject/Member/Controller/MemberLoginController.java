@@ -14,6 +14,6 @@ public class MemberLoginController extends HttpServlet{
         // 비즈니스 로직 처리 (필요 시)
         
         // hello.jsp로 포워딩
-        request.getRequestDispatcher("/WEB-INF/view/home/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/view/member/login.jsp").forward(request, response);
     }
 }

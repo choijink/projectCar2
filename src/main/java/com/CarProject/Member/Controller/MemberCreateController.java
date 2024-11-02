@@ -12,6 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 public class MemberCreateController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // create-account.jsp로 포워딩
-        request.getRequestDispatcher("/WEB-INF/view/home/create-account.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/view/member/create-account.jsp").forward(request, response);
     }
 }

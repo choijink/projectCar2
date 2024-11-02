@@ -11,9 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/memberFindId")
 public class MemberFindIdController extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 비즈니스 로직 처리 (필요 시)
-        
-        // hello.jsp로 포워딩
-        request.getRequestDispatcher("/WEB-INF/view/login/findId.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/view/member/findId.jsp").forward(request, response);
     }
 }

@@ -11,6 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/memberFindPassword")
 public class MemberFindPasswordController extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/view/login/findId.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/view/member/findPassword.jsp").forward(request, response);
     }
 }
