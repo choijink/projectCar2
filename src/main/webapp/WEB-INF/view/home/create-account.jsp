@@ -41,9 +41,9 @@ table {
 
 h1 {
 	font-family: 'Nanum Gothic', sans-serif;
-	font-style: italic;
+	font-weight: bold;
 	color: hotpink;
-	font-size: 40px;
+	font-size: 50px;
 	margin-bottom: 5px;
 	margin-top: 0;
 }
@@ -67,22 +67,36 @@ h2 {
 input.text, .textA, .email, .domain {
 	width: 90%;
 	height: 32px;
-	font-size: 15px;
+	font-size: 13px;
 	border: 1px solid #ddd;
 	border-radius: 5px;
 	padding-left: 10px;
 	margin-bottom: 10px;
 }
 
+/* flex container를 위한 스타일 수정 */
+div[style*="display: flex"] {
+    width: 90%;  /* 컨테이너 너비 제한 */
+    margin: 0 auto;  /* 중앙 정렬 */
+}
+/* 아이디 입력창과 우편번호 입력창 너비 조정 */
+#id, #sample6_postcode {
+    width: 70%;  /* 버튼을 위한 공간 확보 */
+}
+
+
 .btn {
-	width: 100%;
+	width: 60%;
 	height: 40px;
 	font-size: 16px;
+	font-weight: bold;
 	border: 0;
 	border-radius: 20px;
 	background-color: rgb(164, 199, 255);
 	cursor: pointer;
-	margin-top: 10px;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	
 }
 
 .btn:active {
@@ -90,14 +104,16 @@ input.text, .textA, .email, .domain {
 }
 
 .small-btn {
-	width: 100px; /* 우편번호 찾기 버튼을 작게 */
-	height: 28px;
+	width: 90px; 
+	height: 32px;
 	font-size: 14px;
 	border: 0;
 	border-radius: 15px;
 	outline: none;
 	background-color: rgb(165, 199, 171);
 	cursor: pointer;
+	margin-bottom: 5px;
+	white-space: nowrap; /* 줄바꿈 안되게 */
 }
 
 .small-btn:active {
@@ -110,17 +126,22 @@ input.text, .textA, .email, .domain {
 
 .email-container {
 	display: flex;
-	gap: 5px; /* 이메일 입력칸 간격 */
+	gap: 0px; /* 이메일 입력칸 간격 */
+	
 }
 
 /* 이메일 필드가 한 줄에 보이도록 설정 */
 .email-container input, .email-container select {
-	width: calc(100% - 110px); /* 전체 길이를 맞추기 위한 조정 */
+	width: calc(80% - 100px); /* 전체 길이를 맞추기 위한 조정 */
+	align-items: center; /* 수직 가운데 정렬 */
+	margin-left: 15px; /* 원하는 만큼의 공백 설정 (예: 10px) */
 }
 
 .email-container select {
-	width: 120px; /* 도메인 선택 필드의 고정 크기 */
-	height: 35px;
+	width: 110px; /* 도메인 선택 필드의 고정 크기 */
+	height: 30px;
+	font-size: 15px;
+	margin-left: 5px; /* 원하는 만큼의 공백 설정 (예: 10px) */
 }
 
 .gender-btn {
@@ -150,8 +171,7 @@ input[type="radio"]:checked+.gender-btn {
 		<source src="../../../videos/create-account.mp4" type="video/mp4">
 		Your browser does not support the video tag.
 	</video>
-	<form action="javascript:memberCreate();" method="post"
-		onsubmit="return validCheck();">
+	<form id="signupForm" onsubmit="return handleSubmit(event);">
 		<table class="memberClass">
 		</table>
 	</form>
@@ -172,12 +192,14 @@ let checkedId = "";
 		html.push('</tr>');
 		html.push('<tr>');
 		html.push('<td>');
-		html.push('<input type="text" id="id" name="id" class="text" placeholder="아이디" required>');
+		html.push('<div style="display: flex; align-items: center; gap: 5px;">');  // flex container 추가
+		html.push('<input type="text" id="id" name="id" class="text" placeholder="아이디(4~16글자)" required>');
 		html.push('<input type="button" onclick="checkIdDuplicate()" value="아이디 확인" class="small-btn"><br>');
+		html.push('</div>');
 		html.push('</td>');
 		html.push('</tr>');
 		html.push('<tr>');
-		html.push('<td><input type="password" id="password" name="password" class="text" placeholder="비밀번호" required></td>');
+		html.push('<td><input type="password" id="password" name="password" class="text" placeholder="비밀번호(8글자 이상, 영문/특수문자 포함)" required></td>');
 		html.push('</tr>');
 		html.push('<tr>');
 		html.push('<td><input type="password" id="passwordConfirm" class="text" placeholder="비밀번호 확인" required></td>');
@@ -203,8 +225,10 @@ let checkedId = "";
 		html.push('</tr>');
 		html.push('<tr>');
 		html.push('<td>');
+		html.push('<div style="display: flex; align-items: center; gap: 5px;">');
 		html.push('<input type="text" name="postcode" id="sample6_postcode" class="textA" placeholder="우편번호">');
-		html.push('<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" class="small-btn"><br>');
+		html.push('<input type="button" onclick="sample6_execDaumPostcode()" value="주소 찾기" class="small-btn"><br>');
+		html.push('</div>');
 		html.push('<input type="text" name="address" id="sample6_address" class="textA" placeholder="주소">');
 		html.push('<input type="text" name="detailAddress" id="sample6_detailAddress" class="textA" placeholder="상세주소">');
 		html.push('<input type="text" class="textA" id="sample6_extraAddress" placeholder="참고항목">');
@@ -239,11 +263,11 @@ let checkedId = "";
 	}
 
 	function sample6_execDaumPostcode() {
-		new daum.Postcode(
-			{
+		new daum.Postcode({
 				oncomplete : function(data) {
 					var addr = ''; // 주소 변수
 					var extraAddr = ''; // 참고항목 변수
+					var zonecode = ''; // 우편번호
 	
 					// 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
 					if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
@@ -265,6 +289,15 @@ let checkedId = "";
 					// 우편번호와 주소 정보를 해당 필드에 넣는다.
 					document.getElementById('sample6_postcode').value = data.zonecode; // 우편번호
 					document.getElementById("sample6_address").value = addr; // 주소
+					
+					// fullAddress에 전체 주소를 저장
+		            var fullAddress = `(${data.zonecode}) ${addr}`;
+		            document.getElementById("fullAddress").value = fullAddress;
+		            
+		            // 상세주소 필드를 비우고 포커스 이동
+		            document.getElementById("sample6_detailAddress").value = "";
+		            document.getElementById("sample6_detailAddress").focus();
+		            
 				}
 			}).open();
 	}
@@ -283,56 +316,69 @@ let checkedId = "";
 	}
 
 	function validCheck() {
-		// 비밀번호 확인
-		var password = document.getElementById("password").value;
-		var passwordConfirm = document.getElementById("passwordConfirm").value;
-		if (password !== passwordConfirm) {
-			alert("비밀번호가 일치하지 않습니다.");
-			return false;
-		}
+	    // 비밀번호 확인
+	    var password = document.getElementById("password").value;
+	    var passwordConfirm = document.getElementById("passwordConfirm").value;
+	    
+	    // 최소 8자 이상, 특수문자, 영문자, 포함 여부 검사
+	    var passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-]).{8,}$/;
 
-		// 생년월일 검사
-		var birthdate = document.getElementById("birthdate").value;
-		if (!/^\d{8}$/.test(birthdate)) {
-			alert("생년월일은 8자리 숫자로 입력해주세요.");
-			return false;
-		}
+	    if (!passwordRegex.test(password)) {
+	        alert("비밀번호는 8자리 이상이며, 영문자, 특수문자(!@#$%^*+=-)를 모두 포함해야 합니다.");
+	        return false;
+	    }
+	    
+	    if (password !== passwordConfirm) {
+	        alert("비밀번호가 일치하지 않습니다.");
+	        return false;
+	    }
 
-		// 전화번호 검사
-		var phone = document.getElementById("phone").value;
-		if (!/^\d{10,11}$/.test(phone)) {
-			alert("올바른 전화번호 형식이 아닙니다.");
-			return false;
-		}
+	    // 생년월일 검사(년월일 양식은 LocaDate로 변환함)
+	    var birthdate = document.getElementById("birthdate").value;
+	    if (!/^\d{8}$/.test(birthdate)) {
+	        alert("생년월일은 8자리 숫자로 입력해주세요.");
+	        return false;
+	    }
 
-		// 주소 조합
-		var postcode = document.getElementById("sample6_postcode").value;
-		var address = document.getElementById("sample6_address").value;
-		var detailAddress = document
-				.getElementById("sample6_detailAddress").value;
+	    // 전화번호 검사(앞 3자리 010 이면서 총 11자리)
+	    var phone = document.getElementById("phone").value;
+	    if (!/^010\d{8}$/.test(phone)) {
+	        alert("올바른 전화번호 형식이 아닙니다.");
+	        return false;
+	    }
 
-		// fullAddress 조합
-		var fullAddress = `(${postcode}) ${address} ${detailAddress}`
-				.trim();
-		document.getElementById("fullAddress").value = fullAddress;
+	    // 주소 조합
+	    var postcode = document.getElementById("sample6_postcode").value;
+	    var address = document.getElementById("sample6_address").value;
+	    var detailAddress = document.getElementById("sample6_detailAddress").value;
 
-		// 이메일 도메인 처리
-		if (document.getElementById("domainSelect").value === "direct") {
-			var emailDomain = document.getElementById("emailDomain").value;
-			if (!emailDomain) {
-				alert("이메일 도메인을 입력해주세요.");
-				return false;
-			}
-		}
-		return true;
+	    // 주소 필수 입력 확인
+	    if (!postcode || !address) {
+	        alert("주소를 입력해주세요.");
+	        return false;
+	    }
+	    
+	    // 이메일 도메인 처리
+	    if (document.getElementById("domainSelect").value === "direct") {
+	        var emailDomain = document.getElementById("emailDomain").value;
+	        if (!emailDomain) {
+	            alert("이메일 도메인을 입력해주세요.");
+	            return false;
+	        }
+	    }
+	    return true;
 	}
 
 	function checkIdDuplicate(){
 		var id = document.getElementById("id").value;
 		if(!id){
-			alert("아이디를 입력해주세요.");
+			alert("아이디를 입력해주세요.(4~16글자)");
 			return;
 		}
+		if (!/^(?=.*[a-zA-Z0-9])[a-zA-Z0-9]{4,16}$/.test(id)) {
+	        alert("아이디는 4~16글자로 입력해주세요.");
+	        return;
+	    }
 		
 		$.ajax({
 			url : "checkIdDuplicateAjaxController",
@@ -360,63 +406,70 @@ let checkedId = "";
 		});
 	}
 	
+	function handleSubmit(event) {
+	    event.preventDefault();
+	    if(validCheck()) {
+	        memberCreate();
+	    }
+	    return false;
+	}
+	
 	function memberCreate() {
-		// id 중복체크확인
-		if(!isIdChecked || document.getElementById("id").value !== checkedId){
-			alert("아이디 중복 체크를 해주세요.");
-			return false;
-		}
-		var name = document.getElementById("name").value;
-		var email = document.getElementById("emailLocal").value;
-        var selectElement = document.getElementById("domainSelect");
-		if(selectElement == "direct"){
-			selectElement = document.getElementById("emailDomain");
-		}
-        var emailDomain = selectElement.value;
-        
-		var id = document.getElementById("id").value;
-		var password = document.getElementById("password").value;
-		var birthday = document.getElementById("birthdate").value;
-		
-		var genderElements = document.getElementsByName("gender");
-		var gender = "";
+	    // id 중복체크확인
+	    if(!isIdChecked || document.getElementById("id").value !== checkedId){
+	        alert("아이디 중복 체크를 해주세요.");
+	        return false;
+	    }
+	 // 주소 조합을 위한 변수들
+	    const postcode = document.getElementById("sample6_postcode").value;
+	    const baseAddress = document.getElementById("sample6_address").value;
+	    const detailAddress = document.getElementById("sample6_detailAddress").value;
+	    
+	    // 주소 조합
+	    const fullAddress = [
+	        postcode,
+	        baseAddress,
+	        detailAddress
+	    ].filter(Boolean).join(' ');
+	    
+	    // 폼 데이터 수집
+	    var formData = {
+	        name: document.getElementById("name").value,
+	        emailLocal: document.getElementById("emailLocal").value,
+	        emailDomain: document.getElementById("domainSelect").value === "direct" 
+	            ? document.getElementById("emailDomain").value 
+	            : document.getElementById("domainSelect").value,
+	        id: document.getElementById("id").value,
+	        password: document.getElementById("password").value,
+	        birthday: document.getElementById("birthdate").value,
+	        gender: document.querySelector('input[name="gender"]:checked').value,
+	        address: fullAddress,
+	        phone: document.getElementById("phone").value
+	    };
+	    
+	   // 전송 전 데이터 확인
+	    console.log("전송할 데이터:", fullAddress);
 
-		for (var i = 0; i < genderElements.length; i++) {
-		    if (genderElements[i].checked) {
-		        gender = genderElements[i].value;
-		        break;
-		    }
-		}
-		var address1 = document.getElementById("sample6_address").value;
-		var address2 = document.getElementById("sample6_extraAddress").value;
-		var address3 = document.getElementById("sample6_detailAddress").value;
-		var address = address1 + " " + address2 + " " + address3;
-		var phone = document.getElementById("phone").value;
-		
-		
-		$.ajax({
-			url : "memberCreateAjaxController", // 서버 서블릿 경로
-			method : "GET", // 요청 방식
-			data : {
-				"name" : name,
-				"email" : email,
-				"emailDomain" : emailDomain,
-				"id" : id,
-				"password" : password,
-				"birthday" : birthday,
-				"gender" : gender,
-				"address" : address,
-				"phone" : phone,
-			},
-			success : function(response) {
-				alert('회원가입 완료. 로그인 페이지로 이동합니다')
-				window.location.href = "/memberLogin";
-			},
-			error : function(xhr, status, error) {
-				console.error('요청 실패: ' + error); // 에러 출력
-			}
-		});
-
+	    // AJAX 요청
+	    $.ajax({
+	        url: "memberCreateAjaxController",
+	        type: "POST",
+	        data: formData,
+	        dataType: "json",
+	        success: function(response) {
+	            console.log("Success:", response);
+	            if(response.status === "success") {
+	                alert('회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
+	                window.location.href = "memberLogin";
+	            } else {
+	                alert('회원가입 실패: ' + response.message);
+	            }
+	        },
+	        error: function(xhr, status, error) {
+	            console.error("Error details:", xhr.responseText);
+	            alert('회원가입 처리 중 오류가 발생했습니다.');
+	        }
+	    });
 	}
 	
 	$(document).ready(function() {

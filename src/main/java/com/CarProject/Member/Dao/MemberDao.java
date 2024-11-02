@@ -31,7 +31,7 @@ public class MemberDao extends SuperDao {
 		return false;
 	}
 
-	public String memberCreate(String name, String email, String emailDomain, String id, String password,
+	public String memberCreate(String name, String emailLocal, String emailDomain, String id, String password,
 			String birthday, String gender, String address, String phone) {
 		String message = "";
 
@@ -39,13 +39,13 @@ public class MemberDao extends SuperDao {
 		LocalDate birthdate;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 		birthdate = LocalDate.parse(birthday, formatter);
-		int age = Period.between(birthdate, LocalDate.now()).getYears();
+		int age = Period.between(birthdate, LocalDate.now()).getYears() + 2;
 
 		// 주민번호
 		String residentNumber = birthday.substring(2);
 
 		// 이메일 주소 완성
-		String emailStr = email + "@" + emailDomain;
+		String emailStr = emailLocal + "@" + emailDomain;
 
 		String adminCheck = "1";
 
@@ -60,7 +60,7 @@ public class MemberDao extends SuperDao {
 			pstmt.setString(6, phone);
 			pstmt.setString(7, emailStr);
 			pstmt.setString(8, id);
-			pstmt.setString(9, password); // 비밀번호는 해시 처리하는 것이 좋습니다.
+			pstmt.setString(9, password); 
 			pstmt.setString(10, adminCheck);
 			pstmt.executeUpdate(); // 데이터베이스에 삽입
 			message = "Create Success";
