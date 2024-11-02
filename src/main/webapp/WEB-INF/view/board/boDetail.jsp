@@ -33,14 +33,19 @@ body {
 .post-container {
 	max-width: 900px;
 	margin: 3rem auto;
+	margin-top: 100px;
 	background: white;
 	border-radius: 15px;
 	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
 	overflow: hidden;
 }
 
+.bg-dark {
+    background-color: #343a40 !important;
+}
+
 .post-header {
-	background: linear-gradient(45deg, #01d28e, #1089ff);
+	background-color: #949e85 !important;
 	color: white;
 	padding: 2rem;
 	position: relative;
@@ -221,6 +226,7 @@ body {
 </style>
 </head>
 <body>
+<div style="background-image: url('images/image_5.jpg');"/>
 	<%@ include file="/WEB-INF/view/common/header.jsp"%>
 	<div class="post-container">
 		<div class="post-header">

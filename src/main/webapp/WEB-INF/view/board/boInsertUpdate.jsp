@@ -44,7 +44,7 @@ body {
 }
 
 .post-header {
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    background-color: #949e85 !important;
     color: white;
     padding: 2rem;
 }
@@ -164,11 +164,50 @@ textarea {
     background-color: var(--primary-color);
     color: white;
 }
+.container.main{
+	margin-top: 100px;
+}
+.bg-dark {
+    background-color: #343a40 !important;
+}
+.large-input {
+    width: 820px; /* 원하는 너비 설정 */
+    height: 500px; /* 원하는 높이 설정 */
+    font-size: 16px; /* 글자 크기 조정 */
+    padding: 5px; /* 패딩 추가로 여유 공간 생성 */
+    vertical-align: top; /* 텍스트를 상단에 위치 */
+    resize: none; /* 사용자가 크기를 조정하지 못하게 */
+    overflow-y: auto; /* 세로 스크롤 가능하게 */
+}
+
+.button-container {
+    display: flex;
+    justify-content: center; /* 가로 가운데 정렬 */
+    margin-top: 20px; /* 위쪽 여백 추가 */
+}
+
+.submit-button {
+    padding: 10px 20px; /* 버튼의 패딩 */
+    font-size: 16px; /* 글자 크기 */
+    color: white; /* 글자 색상 */
+    background-color: #949e85; /* 버튼 배경 색상 */
+    border: none; /* 기본 테두리 제거 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    cursor: pointer; /* 커서 변경 */
+    transition: background-color 0.3s; /* 배경 색상 변화 효과 */
+}
+
+.submit-button:hover {
+    background-color: #218838; /* 호버 시 배경 색상 변화 */
+}
+
+
 </style>
 </head>
 <body>
+<div style="background-image: url('images/image_5.jpg');"/>
 <%@ include file="/WEB-INF/view/common/header.jsp"%>
-<div class="container">
+<div class="container main">
     <h2>게시물 <span id="formTitle"></span></h2>
     <p class="formTitle2"></p>
 
@@ -178,6 +217,10 @@ textarea {
 
 		<div class="post-content">
 		</div>
+		<div class="button-container">
+		    <button class="submit-button">등록하기</button>
+		</div>
+
 	</div>
 
 	<!-- <div class="comment-section">
@@ -214,7 +257,7 @@ textarea {
 			</div>
 		</div>
 	</div> -->
-
+	
 	<div class="navigation-buttons" style="display: flex; justify-content: center; margin-top: 2rem; padding: 0 2rem;">
 	    <a href="boList" class="nav-btn">목록으로</a>
 	</div>
@@ -282,18 +325,22 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 	    });
 		
 		var html = [];
-	    $(".formTitle .formTitle2").empty();
-	    html.push('<h2>게시물 <span id="formTitle">등록</span></h2>');
+	    $("#formTitle").empty();
+	    html.push('<span id="formTitle">등록</span>');
+	    $("#formTitle").append(html.join(''));
+	    
+		var html = [];
+	    $(".formTitle2").empty();
 	    html.push('<p class="formTitle2">게시물을 등록하는 페이지입니다.</p>');
-	    $(".formTitle .formTitle2").append(html.join(''));
+	    $(".formTitle2").append(html.join(''));
 		
 	    var html = [];
 	    $(".post-header").empty();
 
-	    html.push('<h2>게시물 <span id="formTitle">등록</span></h2>');
-	    html.push('<p class="formTitle2">게시물을 등록하는 페이지입니다.</p>');
+	    /* html.push('<h2>게시물 <span id="formTitle">등록</span></h2>');
+	    html.push('<p class="formTitle2">게시물을 등록하는 페이지입니다.</p>'); */
 	    html.push('<span class="post-category">자유게시판</span>');
-	    html.push('<h1 class="post-title"><input type="text" placeholder="제목을 입력하세요"></h1>');
+	    html.push('<h1 class="post-title"><input type="text" id="title" style="width: 820px;" placeholder="제목을 입력하세요"></h1>');
 	    html.push('<div class="post-meta">');
 	    html.push('    <span><i class="fas fa-user"></i><span id="name">' + name + '</span></span>'); // 작성자 이름 표시할 곳
 	    html.push('</div>');
@@ -302,7 +349,7 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 	    var htmlContent = [];
 	    $(".post-content").empty();
 	    htmlContent.push('<div class="post-text">');
-	    htmlContent.push('    <p><textarea placeholder="내용을 입력하세요"></textarea></p>');
+	    htmlContent.push('    <p><textarea class="large-input" id="content" placeholder="내용을 입력하세요"></textarea></p>');
 	    htmlContent.push('</div>');
 	    htmlContent.push('<div class="post-images">');
 	    htmlContent.push('    <div class="post-image">');
@@ -338,10 +385,14 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 				},
 				success : function(response) {
 					var html = [];
-				    $(".formTitle .formTitle2").empty();
-				    html.push('<h2>게시물 <span id="formTitle">수정</span></h2>');
+				    $("#formTitle").empty();
+				    html.push('<span id="formTitle">수정</span>');
+				    $("#formTitle").append(html.join(''));
+				    
+					var html = [];
+				    $(".formTitle2").empty();
 				    html.push('<p class="formTitle2">게시물을 수정하는 페이지입니다.</p>');
-				    $(".formTitle .formTitle2").append(html.join(''));
+				    $(".formTitle2").append(html.join(''));
 					
 					var html = [];
 					$(".post-header").empty();
@@ -358,14 +409,16 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 					var html = [];
 					$(".post-content").empty();
 					html.push('<div class="post-text">');
-					html.push('	<p><input type="text" value="' + response.content + '"></p>');
+					html.push('<p><textarea class="large-input">' + response.content + '</textarea></p>');
 					html.push('</div>');
 					html.push('<div class="post-images">');
 					html.push('	<div class="post-image">');
-					html.push('		<img src="' + response.image1 + '" alt="차량 사진 1">');
-					html.push('	</div>');
-					html.push('	<div class="post-image">');
-					html.push('		<img src="' + response.image2 + '" alt="차량 사진 2">');
+					html.push('        <input type="file" accept="image/*" onchange="previewImage(event, 1)">');
+					html.push('        <img id="preview1" src="" alt="차량 사진 1" style="display:none;">');
+					html.push('    </div>');
+					html.push('    <div class="post-image">');
+					html.push('        <input type="file" accept="image/*" onchange="previewImage(event, 2)">');
+					html.push('        <img id="preview2" src="" alt="차량 사진 2" style="display:none;">');
 					html.push('	</div>');
 					html.push('</div>');
 					$(".post-content").append(html.join(''));

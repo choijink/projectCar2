@@ -122,7 +122,6 @@
 							<th style="width: 15%">작성자</th>
 							<th style="width: 40%">제목</th>
 							<th style="width: 15%">작성일</th>
-							<th class="admin-management" style="width: 12%">관리</th>
 						</tr>
 					</thead>
 					<tbody class="tbody"></tbody>
@@ -157,11 +156,13 @@
 
 </body>
 <script type="text/javascript">
-	var isAdmin = true; // 이 값을 서버에서 가져온 실제 사용자 권한으로 설정해야 합니다.
+	var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAttribute("adminCheck") : ""%>';
+	var midx = '<%=session.getAttribute("mIdx") != null ? session.getAttribute("mIdx") : 0%>';
+	/* var isAdmin = true; // 이 값을 서버에서 가져온 실제 사용자 권한으로 설정해야 합니다.
 	
 	if (!isAdmin) {
 	    document.querySelector('.admin-management').style.display = 'none';
-	}
+	} */
 	
 	function init() {
 		$.ajax({
@@ -180,14 +181,21 @@
 					html.push('		<span class="badge bg-secondary"></span>');
 					html.push('	</td>');
 					html.push('	<td>' + response[i].regdate + '</td>');
-					html.push('	<td>');
-					if (isAdmin) {
+					if (adminCheck == 2) {
+						var html2 = [];
+						$(".table-responsive .table thead tr").empty();
+						html2.push('<th style="width: 8%">번호</th>');
+						html2.push('<th style="width: 15%">작성자</th>');
+						html2.push('<th style="width: 40%">제목</th>');
+						html2.push('<th style="width: 15%">작성일</th>');
+						html2.push('<th class="admin-management" style="width: 12%">관리</th>');
+						$(".table-responsive .table thead tr").append(html2.join(''));
+						
+						html.push('	<td>');
 						html.push('		<button class="btn btn-sm btn-outline-primary" onclick="boInsertUpdate('+ response[i].bIdx +')">수정</button>');
 						html.push('		<button class="btn btn-sm btn-outline-danger" onclick="boDelete('+ response[i].bIdx +')">삭제</button>');
-					} else {
-						html.push('		<span class="text-muted">관리자 전용</span>');
-					}
-					html.push('	</td>');
+						html.push('	</td>');
+					} 
 					html.push('</tr>');
 					totalCount--;
 				}
@@ -203,8 +211,13 @@
 	}
 	
 	function boInsertUpdate(idx){
-		if(idx == 0){ window.location.href = "/boCreate"}
-		else { window.location.href = "/boUpdate?idx=" + idx;} // 서블릿 경로로 수정
+		if(midx == 0){
+			alert("로그인이 필요한 서비스 입니다.");
+			window.location.href= "/memberLogin";
+		} else {
+			if(idx == 0){ window.location.href = "/boCreate"}
+			else { window.location.href = "/boUpdate?idx=" + idx;} // 서블릿 경로로 수정
+		}
 	}
 	
 	function boDelete(bIdx) {
