@@ -224,44 +224,11 @@ body {
 	<%@ include file="/WEB-INF/view/common/header.jsp"%>
 	<div class="post-container">
 		<div class="post-header">
-			<!-- <span class="post-category">자유게시판</span>
-			<h1 class="post-title">차쟁이 고수님들 알려주세요 ㅠㅠ</h1>
-			<div class="post-meta">
-				<span><i class="fas fa-user"></i> 김영현</span>
-				<span><i class="fas fa-calendar"></i> 2024-10-15</span>
-				<span><i class="fas fa-comments"></i> 댓글 2</span>
-			</div> -->
 		</div>
 
 		<div class="post-content">
-			<!-- <div class="post-text">
-				<p>안녕하세요! 저는 차량에 대해 잘 모르는 초보 운전자입니다. 최근에 제 차에서 이상한 소리가 나기 시작했는데,
-					엔진 쪽에서 '딸깍딸깍' 하는 소리가 간헐적으로 들립니다.</p>
-
-				<p>주행할 때는 특별히 문제가 없는 것 같은데, 신호 대기할 때나 시동을 걸 때 특히 소리가 심해지는 것 같아요.
-					혹시 이런 증상을 겪어보신 분 계신가요?</p>
-
-				<p>차종은 2020년식 현대 아반떼입니다. 조언 부탁드립니다! 🙏</p>
-			</div>
-
-			<div class="post-images">
-				<div class="post-image">
-					<img src="images/car-10.jpg" alt="차량 사진 1">
-				</div>
-				<div class="post-image">
-					<img src="images/car-11.jpg" alt="차량 사진 2">
-				</div>
-			</div> -->
 		</div>
 
-		<div class="post-actions">
-			<button class="action-btn like-btn">
-				<i class="fas fa-heart"></i> <span>좋아요 15</span>
-			</button>
-			<button class="action-btn share-btn">
-				<i class="fas fa-share"></i> <span>공유하기</span>
-			</button>
-		</div>
 	</div>
 
 	<div class="comment-section">
@@ -300,12 +267,11 @@ body {
 		</div>
 	</div>
 
-	<div class="navigation-buttons">
-		<a href="#" class="nav-btn"><i class="fas fa-arrow-left"></i> 이전글</a>
-		<a href="boList" class="nav-btn">목록으로</a> <a href="#" class="nav-btn">다음글
-			<i class="fas fa-arrow-right"></i>
-		</a>
+	<div class="navigation-buttons" style="display: flex; justify-content: center; margin-top: 2rem; padding: 0 2rem;">
+	    <a href="boList" class="nav-btn">목록으로</a>
 	</div>
+
+
 	<%@ include file="/WEB-INF/view/common/footer.jsp"%>
 </body>
 <script type="text/javascript">

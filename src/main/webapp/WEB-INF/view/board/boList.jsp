@@ -55,24 +55,23 @@
 
 .pagination a.prev, .pagination a.next {
 	font-weight: bold;
-	
 }
 
 #btn-insert {
-        text-decoration: none;
-        padding: 0px 6px;
-        margin: 0 5px;
-        border: 1px solid #a38983;
-        border-radius: 5px;
-        color: #17202a;
-        transition: background-color 0.3s, color 0.3s;
-        background-color: white;
-    }
+	text-decoration: none;
+	padding: 0px 6px;
+	margin: 0 5px;
+	border: 1px solid #a38983;
+	border-radius: 5px;
+	color: #17202a;
+	transition: background-color 0.3s, color 0.3s;
+	background-color: white;
+}
 
-    #btn-insert:hover {
-        background-color: #a38983; /* 마우스 오버 시 배경색 */
-        color: white; /* 마우스 오버 시 글자색 */
-    }
+#btn-insert:hover {
+	background-color: #a38983; /* 마우스 오버 시 배경색 */
+	color: white; /* 마우스 오버 시 글자색 */
+}
 </style>
 
 </head>
@@ -103,23 +102,25 @@
 			<div class="board-header">
 				<p>&nbsp;</p>
 			</div>
-			<form>
-				<span class="countSpan"></span>
-				<span class="right"; style="margin-left: 400px;">
-					<select>
-						<option value="제목" ; name="제목";>제목</option>
-						<option value="직성자" ;name="작성자";>작성자</option>
-					</select> 
-					<input type="text";> <input type="button" name="검색" class="search-btn" value="검색">
-				</span>
+			<form id="searchForm">
+			    <span class="countSpan"></span>
+			    <span class="right" style="margin-left: 400px;">
+			        <select id="searchCriteria">
+			            <option value="title">제목</option>
+			            <option value="author">작성자</option>
+			        </select>
+			        <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
+			        <input type="button" class="search-btn" value="검색">
+			    </span>
 			</form>
+
 			<div class="table-responsive">
 				<table class="table">
 					<thead>
 						<tr>
 							<th style="width: 8%">번호</th>
 							<th style="width: 15%">작성자</th>
-							<th style="width: 40%"><a style="margin-left: 100px;"></a>제목</th>
+							<th style="width: 40%">제목</th>
 							<th style="width: 15%">작성일</th>
 							<th class="admin-management" style="width: 12%">관리</th>
 						</tr>
@@ -129,13 +130,12 @@
 			</div>
 
 			<div class="under" style="display:grid; grid-template-columns:1fr 110px;">
-				<div class="pagination">
-					<a href="#" class="prev">« 이전</a> <a href="#" class="active">1</a>
-					<a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a>
-					<a href="#" class="next">다음 »</a>
+				<div class="pagination" id="paginationContainer">
+				    <!-- 페이지네이션 링크가 동적으로 추가될 곳 -->
 				</div>
+
 				<div class="btn-class" style="display: flex; justify-content: center; align-items: center; margin: 20px 0;">
-				<button onclick="boInsertUpdate()" id="btn-insert">게시물 등록</button>
+				<button onclick="boInsertUpdate(0)" id="btn-insert">게시물 등록</button>
 				</div>
 			</div>
 		</div>
@@ -157,10 +157,8 @@
 
 </body>
 <script type="text/javascript">
-	//예시: 사용자가 관리자일 경우 true
 	var isAdmin = true; // 이 값을 서버에서 가져온 실제 사용자 권한으로 설정해야 합니다.
 	
-	// 관리자 여부에 따라 "관리" 열을 숨기거나 보이게 합니다.
 	if (!isAdmin) {
 	    document.querySelector('.admin-management').style.display = 'none';
 	}
@@ -183,7 +181,6 @@
 					html.push('	</td>');
 					html.push('	<td>' + response[i].regdate + '</td>');
 					html.push('	<td>');
-					// 관리자일 경우에만 수정, 삭제 버튼을 추가
 					if (isAdmin) {
 						html.push('		<button class="btn btn-sm btn-outline-primary" onclick="boInsertUpdate('+ response[i].bIdx +')">수정</button>');
 						html.push('		<button class="btn btn-sm btn-outline-danger" onclick="boDelete('+ response[i].bIdx +')">삭제</button>');
@@ -205,9 +202,9 @@
 		});
 	}
 	
-	function boInsertUpdate(){
-		var url = "/boInsertUpdateController"
-		window.location.href = url;
+	function boInsertUpdate(idx){
+		if(idx == 0){ window.location.href = "/boCreate"}
+		else { window.location.href = "/boUpdate?idx=" + idx;} // 서블릿 경로로 수정
 	}
 	
 	function boDelete(bIdx) {
@@ -233,7 +230,51 @@
 	}
 
 	$(document).ready(function() {
-		init();
+	    init();
+	    
+	    $('.search-btn').click(function() {
+	        performSearch();
+	    });
+
+	    $('#searchInput').keyup(function(event) {
+	        if (event.key === "Enter") { // 엔터 키가 눌렸을 때
+	        	event.preventDefault(); // 기본 동작 방지
+	            performSearch();
+	        }
+	    });
+	    
+	 	// 폼 제출 시 기본 동작 방지
+	    $('form').submit(function(event) {
+	        event.preventDefault(); // 폼 제출 방지
+	    });
 	});
+	
+	function performSearch() {
+	    var criteria = $('#searchCriteria').val();
+	    var query = $('#searchInput').val().toLowerCase();
+	    filterPosts(criteria, query);
+	}
+	
+	function filterPosts(criteria, query) {
+	    $(".tbody tr").each(function() {
+	        var title = $(this).find("td:nth-child(3) a").text().toLowerCase(); // 제목
+	        var author = $(this).find("td:nth-child(2)").text().toLowerCase(); // 작성자
+
+	        if (criteria === "title" && title.includes(query)) {
+	            $(this).show(); // 제목이 검색어를 포함하면 표시
+	        } else if (criteria === "author" && author.includes(query)) {
+	            $(this).show(); // 작성자가 검색어를 포함하면 표시
+	        } else {
+	            $(this).hide(); // 검색 결과에 맞지 않으면 숨김
+	        }
+	    });
+
+	    updateCount(); // 필터링 후 게시물 수 업데이트
+	}
+
+	function updateCount() {
+	    var visibleCount = $(".tbody tr:visible").length;
+	    $(".countSpan").html("▷ 총 " + visibleCount + "개의 게시물이 있습니다.");
+	}
 </script>
 </html>

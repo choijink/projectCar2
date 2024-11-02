@@ -12,8 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.CarProject.Board.BoardBean;
 import com.CarProject.Board.Dao.BoardDao;
-import com.CarProject.Car.CarBean;
-import com.CarProject.Car.Dao.CarDao;
+
 import com.google.gson.Gson;
 
 

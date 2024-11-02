@@ -93,109 +93,82 @@ public class BoardDao extends SuperDao {
 	}
 
 	public int updateData(BoardBean bean) {
-		System.out.println("updateData");
-		System.out.println(bean);
+        PreparedStatement pstmt = null;
+        String sql = "UPDATE board SET title = ?, content = ?, regdate = ?, announcement = ? WHERE b_idx = ?";
 
-		PreparedStatement pstmt = null;
-		String sql = " update board set title = ?, content = ?, image1 = ?, image2 = ?, image3 = ?, announcement = ? ";
-		sql += " where m_idx = ?";
+        int cnt = -99999;
 
-		int cnt = -99999;
+        try {
+            Connection conn = super.getConnection();
+            conn.setAutoCommit(false);
 
-		try {
-			conn = super.getConnection();
-			conn.setAutoCommit(false);
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, bean.getTitle());
+            pstmt.setString(2, bean.getContent());
+            pstmt.setString(3, bean.getRegdate());
+            pstmt.setString(4, bean.getAnnouncement());
+            pstmt.setInt(5, bean.getbIdx()); // 게시판 식별번호 설정
 
-			pstmt = conn.prepareStatement(sql);
+            cnt = pstmt.executeUpdate();
+            conn.commit();
 
-			pstmt.setString(1, bean.getTitle());
-			pstmt.setString(2, bean.getContent());
-			pstmt.setString(3, bean.getImage1());
-			pstmt.setString(4, bean.getImage2());
-			pstmt.setString(5, bean.getImage3());
-			pstmt.setString(6, bean.getAnnouncement());
-			pstmt.setInt(7, bean.getmIdx());
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
 
-			cnt = pstmt.executeUpdate();
+        return cnt;
+    }
 
-			conn.commit();
+    public int insertData(BoardBean bean) {
+        PreparedStatement pstmt = null;
+        String sql = "INSERT INTO board(m_idx, title, content, regdate, announcement) VALUES(?, ?, ?, ?, ?)";
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			try {
-				conn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		} finally {
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
+        int cnt = -99999;
 
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
-		}
+        try {
+            Connection conn = super.getConnection();
+            conn.setAutoCommit(false);
 
-		return cnt;
-	}
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, bean.getmIdx()); // 회원 식별번호 설정
+            pstmt.setString(2, bean.getTitle());
+            pstmt.setString(3, bean.getContent());
+            pstmt.setString(4, bean.getRegdate());
+            pstmt.setString(5, bean.getAnnouncement());
 
-	public int insertData(BoardBean bean) {
-		// bean을 사용하여 데이터 베이스에 추가합니다.
-		System.out.println("insertData");
-		System.out.println(bean);
+            cnt = pstmt.executeUpdate();
+            conn.commit();
 
-		PreparedStatement pstmt = null;
-		String sql = " insert into board(m_idx, title, content, image1, image2, image3, announcement)";
-		sql += " values(?, ?, ?, ?, ?, ?, ?)";
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+        } finally {
+            try {
+                if (pstmt != null) pstmt.close();
+                if (conn != null) conn.close();
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
 
-		int cnt = -99999;
-
-		try {
-			conn = super.getConnection();
-			conn.setAutoCommit(false);
-
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setInt(1, bean.getmIdx());
-			pstmt.setString(2, bean.getTitle());
-			pstmt.setString(3, bean.getContent());
-			pstmt.setString(4, bean.getImage1());
-			pstmt.setString(5, bean.getImage2());
-			pstmt.setString(6, bean.getImage3());
-			pstmt.setString(7, bean.getAnnouncement());
-
-			cnt = pstmt.executeUpdate();
-
-			conn.commit();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			try {
-				conn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		} finally {
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
-		}
-
-		return cnt;
-	}
+        return cnt;
+    }
 
 	public BoardBean getDataByPk(int b_idx) {
 		// 기본 키인 게시물 번호를 이용하여 게시물 정보를 반환합니다.
