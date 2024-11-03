@@ -137,8 +137,9 @@ th {
 							<div class="media-body py-md-3">
 								<div class="d-flex mb-3 align-items-center">
 									<div class="text">
-										<span class="col">차량 : </span> <select id="carNameSelectBox"
-											onChange="gradeSelect()"></select>
+										<span class="col">차량 : </span>
+										 <select id="carNameSelectBox1" onChange="carNameSelect(1)">
+										 </select>
 									</div>
 								</div>
 							</div>
@@ -149,8 +150,9 @@ th {
 							<div class="media-body py-md-3">
 								<div class="d-flex mb-3 align-items-center">
 									<div class="text">
-										<span class="col">등급 : </span> <select id="gradeSelectBox"
-											onChange="gradeSelect()"></select>
+										<span class="col">등급 : </span>
+										 <select id="gradeSelectBox1" onChange="gradeSelect(1)">
+										 </select>
 									</div>
 								</div>
 							</div>
@@ -161,14 +163,15 @@ th {
 							<div class="media-body py-md-3">
 								<div class="d-flex mb-3 align-items-center">
 									<div class="text">
-										<span class="col">트림 : </span> <select id="trimSelectBox"
-											onChange="trimSelect()"><option value="">선택</option></select>
+										<span class="col">트림 : </span>
+										<select id="trimSelectBox1" onChange="trimSelect(1)">
+										</select>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<%-- 차량 비교 그래프 --%>
+					차량 비교 그래프
 					<div class="container">
 						<div class="text-container">
 							<span>15.7</span>
@@ -224,8 +227,8 @@ th {
 							<div class="media-body py-md-3">
 								<div class="d-flex mb-3 align-items-center">
 									<div class="text">
-										<span class="col">차량 : </span> <select id="carNameSelectBox"
-											onChange="gradeSelect()"></select>
+										<span class="col">차량 : </span> <select id="carNameSelectBox2"
+											onChange="gradeSelect(2)"></select>
 									</div>
 								</div>
 							</div>
@@ -236,8 +239,8 @@ th {
 							<div class="media-body py-md-3">
 								<div class="d-flex mb-3 align-items-center">
 									<div class="text">
-										<span class="col">등급 : </span> <select id="gradeSelectBox"
-											onChange="gradeSelect()"></select>
+										<span class="col">등급 : </span> <select id="gradeSelectBox2"
+											onChange="gradeSelect(2)"></select>
 									</div>
 								</div>
 							</div>
@@ -248,8 +251,8 @@ th {
 							<div class="media-body py-md-3">
 								<div class="d-flex mb-3 align-items-center">
 									<div class="text">
-										<span class="col">트림 : </span> <select id="trimSelectBox"
-											onChange="trimSelect()"><option value="">선택</option></select>
+										<span class="col">트림 : </span> <select id="trimSelectBox2"
+											onChange="trimSelect(2)"><option value="">선택</option></select>
 									</div>
 								</div>
 							</div>
@@ -364,8 +367,11 @@ th {
 	var GradeMap = new Map();
 	var TrimMap = new Map();
 	var carData = [] ; // 전체 차량 데이터를 저장하는 전역 변수
+	
+	var selectFirstCarIdx = "";
 
 	function init() {
+		carList(0);
 		viewCompare();
 	}
 	function view() {
@@ -471,24 +477,30 @@ th {
 		});
 	}
 	
-	function carNameSelect(){
+	
+	
+	function carNameSelect(num){
 		$('#gradeSelectBox').empty();
 		$('.table-container table').empty();
 		$('.table-container table').append('<tr><td colspan="4">해당 차량/등급/트림의 정보가 없습니다.</td></tr>');
 		
-		var selectElement = document.getElementById("carNameSelectBox");
+		var selectElement = document.getElementById("carNameSelectBox1");
 		var selectedValue = selectElement.value;
+		selectFirstCarIdx = selectedValue;
 		
+		carList(1);
+		
+		console.log("carNameSelect");
 		console.log(TrimMap);
 		// 선택한 carName에 맞는 grade 목록 가져오기
 	    var gradeOptions = GradeMap.get(selectedValue) || [];
 		
 		 var html = [];
-		    html.push('<option value="">선택</option>');
-		    for (var i = 0; i < gradeOptions.length; i++) {
-		        html.push('<option value="' + gradeOptions[i] + '">' + gradeOptions[i] + '</option>');
-		    }
-		    $('#gradeSelectBox').html(html.join(''));
+	    html.push('<option value="">선택</option>');
+	    for (var i = 0; i < gradeOptions.length; i++) {
+	        html.push('<option value="' + gradeOptions[i] + '">' + gradeOptions[i] + '</option>');
+	    }
+	    $('#gradeSelectBox1').html(html.join(''));
 	}
 	
 	function gradeSelect() {
@@ -655,6 +667,31 @@ th {
 			}
 		});
 	} */
+	
+	function carList(num){
+		if(num == 0){
+			carListController(function(response){
+				var html=[];
+				$("#carNameSelectBox1").empty();
+				for(var i=0; i < response.length; i++){
+					html.push('<option value="' + response[i].cIdx + '">' + response[i].carName + '</option>');
+				}
+				$("#carNameSelectBox1").append(html.join(''));
+			});
+		}
+		if(num == 1){
+			carListController(function(response){
+				var html=[];
+				$("#carNameSelectBox2").empty();
+				for(var i=0; i < response.length; i++){
+					if(response[i].cIdx != selectFirstCarIdx){
+						html.push('<option value="' + response[i].cIdx + '">' + response[i].carName + '</option>');
+					}
+				}
+				$("#carNameSelectBox2").append(html.join(''));
+			});
+		}
+	}
 	
 	function carListController(callback) {
 		$.ajax({

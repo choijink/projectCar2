@@ -399,9 +399,11 @@ public class CarDao extends SuperDao {
             }
             pstmt.close();
 			
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		
-		return insertIdx;;
+		return insertIdx;
 	}
 	
 	
