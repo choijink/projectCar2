@@ -100,5 +100,37 @@ public class MemberDao extends SuperDao {
 
 		return bean; 
 	}
+	
+	public MemberBean selectMember(int mIdx) {
+		MemberBean bean = null;
+		PreparedStatement pstmt = null;
+		String sql = "SELECT * FROM Member WHERE m_idx = ?";
+
+		try {
+			conn = super.getConnection();
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setInt(1, mIdx);
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) { // 결과가 있을때만 MemberBean 객체생성
+				bean = new MemberBean();
+				bean.setName(rs.getString("name"));
+				bean.setAge(rs.getInt("age"));
+				bean.setresidentNumber(rs.getInt("residentNumber"));
+				bean.setGender(rs.getString("gender"));
+				bean.setAddress(rs.getString("address"));
+				bean.setPhone(rs.getString("phone"));
+				bean.setMail(rs.getString("mail"));
+			}
+			rs.close();
+			pstmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return bean; 
+	}
 
 }
