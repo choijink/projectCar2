@@ -406,7 +406,32 @@ public class CarDao extends SuperDao {
 		return insertIdx;
 	}
 	
-	
+	public boolean carDetail2Insert(CarBean carBean) {
+		boolean insertcheck = false;
+		String sql = "INSERT INTO carDetail2 (c_idx, trim, price) VALUES (?, ?, ?)";
+		
+		try {
+            conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setInt(1, carBean.getcIdx());
+            pstmt.setString(2, carBean.getTrim());
+            pstmt.setString(3, carBean.getPrice());
+
+            int result = pstmt.executeUpdate();
+            if (result > 0) {
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                	insertcheck = true;
+                }
+                rs.close();
+            }
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return insertcheck;
+    }
+}
 
 	
-}
+
