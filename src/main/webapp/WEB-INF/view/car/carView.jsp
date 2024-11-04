@@ -284,7 +284,7 @@ var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAtt
 		    for (var i = 0; i < trimOptions.length; i++) {
 		        html.push('<option value="' + trimOptions[i] + '">' + trimOptions[i] + '</option>');
 		    }
-		    $('#trimSelectBox').html(html.join(''));
+		    $('#trimSelectBox').append(html.join(''));
 	}
 	
 	function trimSelect(){

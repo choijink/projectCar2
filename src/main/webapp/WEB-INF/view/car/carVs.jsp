@@ -103,13 +103,14 @@ th {
 }
 
 .text-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px;   
-    }
+	display: flex;
+	justify-content: space-between;
+	padding: 8px;
+}
+
 .car-details .img {
-  height: 250px !important ;
-  }
+	height: 250px !important;
+}
 </style>
 
 <body>
@@ -137,9 +138,9 @@ th {
 							<div class="media-body py-md-3">
 								<div class="d-flex mb-3 align-items-center">
 									<div class="text">
-										<span class="col">차량 : </span>
-										 <select id="carNameSelectBox1" onChange="carNameSelect(1)">
-										 </select>
+										<span class="col">차량 : </span> <select id="carNameSelectBox1"
+											onChange="carNameSelect(1)">
+										</select>
 									</div>
 								</div>
 							</div>
@@ -150,9 +151,9 @@ th {
 							<div class="media-body py-md-3">
 								<div class="d-flex mb-3 align-items-center">
 									<div class="text">
-										<span class="col">등급 : </span>
-										 <select id="gradeSelectBox1" onChange="gradeSelect(1)">
-										 </select>
+										<span class="col">등급 : </span> <select id="gradeSelectBox1"
+											onChange="gradeSelect(1)">
+										</select>
 									</div>
 								</div>
 							</div>
@@ -163,59 +164,59 @@ th {
 							<div class="media-body py-md-3">
 								<div class="d-flex mb-3 align-items-center">
 									<div class="text">
-										<span class="col">트림 : </span>
-										<select id="trimSelectBox1" onChange="trimSelect(1)">
+										<span class="col">트림 : </span> <select id="trimSelectBox1"
+											onChange="trimSelect(1)">
 										</select>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					차량 비교 그래프
+					<%-- 차량 비교 그래프 --%>
 					<div class="container">
 						<div class="text-container">
-							<span>15.7</span>
-							<span>연비</span>
+							<span>15.7</span> <span>연비</span>
 						</div>
 						<div class="row justify-content: space-evenly">
 							<div class="progress-bar">
-								<div class="progress1" style="background: linear-gradient(to left, #f46c46 20%, transparent 20%"></div>
+								<div class="progress1"
+									style="background: linear-gradient(to left, #f46c46 20%, transparent 20%"></div>
 							</div>
 						</div>
 						<div class="text-container">
-							<span>180</span>
-							<span>출력</span>
+							<span>180</span> <span>출력</span>
 						</div>
 						<div class="row justify-content: space-evenly">
 							<div class="progress-bar">
-								<div class="progress1" style="background: linear-gradient(to left, #f46c46 50%, transparent 50%"></div>
+								<div class="progress1"
+									style="background: linear-gradient(to left, #f46c46 50%, transparent 50%"></div>
 							</div>
 						</div>
 						<div class="text-container">
-							<span>27</span>
-							<span>토크</span>
+							<span>27</span> <span>토크</span>
 						</div>
 						<div class="row justify-content: space-evenly">
 							<div class="progress-bar">
-								<div class="progress1" style="background: linear-gradient(to left, #f46c46 55%, transparent 55%"></div>
+								<div class="progress1"
+									style="background: linear-gradient(to left, #f46c46 55%, transparent 55%"></div>
 							</div>
 						</div>
 						<div class="text-container">
-							<span>1598</span>
-							<span>배기</span>
+							<span>1598</span> <span>배기</span>
 						</div>
 						<div class="row justify-content: space-evenly">
 							<div class="progress-bar">
-								<div class="progress1" style="background: linear-gradient(to left, #f46c46 30%, transparent 30%"></div>
+								<div class="progress1"
+									style="background: linear-gradient(to left, #f46c46 30%, transparent 30%"></div>
 							</div>
 						</div>
 						<div class="text-container">
-							<span>5</span>
-							<span>탑승</span>
+							<span>5</span> <span>탑승</span>
 						</div>
 						<div class="row justify-content: space-evenly">
 							<div class="progress-bar">
-								<div class="progress1" style="background: linear-gradient(to left, #f46c46 80%, transparent 80%"></div>
+								<div class="progress1"
+									style="background: linear-gradient(to left, #f46c46 80%, transparent 80%"></div>
 							</div>
 						</div>
 					</div>
@@ -228,7 +229,7 @@ th {
 								<div class="d-flex mb-3 align-items-center">
 									<div class="text">
 										<span class="col">차량 : </span> <select id="carNameSelectBox2"
-											onChange="gradeSelect(2)"></select>
+											onChange="carNameSelect(2)"></select>
 									</div>
 								</div>
 							</div>
@@ -261,8 +262,7 @@ th {
 					<%-- 차량 비교 그래프 --%>
 					<div class="container">
 						<div class="text-container">
-							<span>km/L</span>
-							<span>14.3</span>
+							<span>km/L</span> <span>14.3</span>
 						</div>
 						<div class="row justify-content: space-evenly">
 							<div class="progress-bar">
@@ -270,8 +270,7 @@ th {
 							</div>
 						</div>
 						<div class="text-container">
-							<span>km/L</span>
-							<span>194</span>
+							<span>km/L</span> <span>194</span>
 						</div>
 						<div class="row justify-content: space-evenly">
 							<div class="progress-bar">
@@ -279,8 +278,7 @@ th {
 							</div>
 						</div>
 						<div class="text-container">
-							<span>km/L</span>
-							<span>45</span>
+							<span>km/L</span> <span>45</span>
 						</div>
 						<div class="row justify-content: space-evenly">
 							<div class="progress-bar">
@@ -288,8 +286,7 @@ th {
 							</div>
 						</div>
 						<div class="text-container">
-							<span>km/L</span>
-							<span>2151</span>
+							<span>km/L</span> <span>2151</span>
 						</div>
 						<div class="row justify-content: space-evenly">
 							<div class="progress-bar">
@@ -297,8 +294,7 @@ th {
 							</div>
 						</div>
 						<div class="text-container">
-							<span>인원</span>
-							<span>5</span>
+							<span>인원</span> <span>5</span>
 						</div>
 						<div class="row justify-content: space-evenly">
 							<div class="progress-bar">
@@ -314,7 +310,6 @@ th {
 		<div class="table-container" style="margin: 60px auto">
 			<div class="gridClass1">
 				<h2>차량 제원</h2>
-				<div></div>
 
 				<%-- 	 
 			<% if ("admin".equals(userRole)) { %>
@@ -363,7 +358,8 @@ th {
 </body>
 <script>
 	const params = new URLSearchParams(window.location.search);
-	var cIdx = params.get('idx');
+	var cIdx = 0;
+		if(params.get('idx') != null) cIdx = params.get('idx');
 	var GradeMap = new Map();
 	var TrimMap = new Map();
 	var carData = [] ; // 전체 차량 데이터를 저장하는 전역 변수
@@ -372,7 +368,6 @@ th {
 
 	function init() {
 		carList(0);
-		viewCompare();
 	}
 	function view() {
 		$.ajax({
@@ -421,7 +416,7 @@ th {
 				$('#gradeSelectBox').append(html.join(''));
 				
 				var html = [];
-				html.push('<div class="img rounded" style="background-image: url(../../../carImage/' + response[0].carImage + ');"></div>');
+				html.push('<div class="img rounded" style="background-image: url(../../../carImage/' + response[0].car + ');"></div>');
 				html.push('<div class="text text-center">');
 				html.push('	<span class="subheading"><img class="brandMark" src=../../../carImage/' + response[0].brandMark + '></span>');
 				html.push('	<h2>' + response[0].brand + ' ' + response[0].carName + '</h2>');
@@ -439,12 +434,14 @@ th {
 		$.ajax({
 			url : "CarViewAjaxController", // 서버 서블릿 경로
 			method : "GET", // 요청 방식
+			async : false,
 			data : {
 				"idx" : cIdx
 			},
 			success : function(response) {
 				var CarName = new Set();
 				var Grade = new Set();
+				var Trim = new Set();
 				
 				GradeMap.clear();
 				TrimMap.clear();
@@ -483,54 +480,114 @@ th {
 		$('#gradeSelectBox').empty();
 		$('.table-container table').empty();
 		$('.table-container table').append('<tr><td colspan="4">해당 차량/등급/트림의 정보가 없습니다.</td></tr>');
+		if(num == 1){
+			var selectElement = document.getElementById("carNameSelectBox1");
+			var selectedValue = selectElement.value;
+			selectFirstCarIdx = selectedValue;
+			var carImage = selectElement.options[selectElement.selectedIndex].id;
+			cIdx = selectedValue;
+		}
+		if(num ==2){
+			var selectElement = document.getElementById("carNameSelectBox2");
+			var selectedValue = selectElement.value;
+			var carImage = selectElement.options[selectElement.selectedIndex].id;
+			cIdx = selectedValue;
+		}
+		carImageSelect(carImage, num);
 		
-		var selectElement = document.getElementById("carNameSelectBox1");
-		var selectedValue = selectElement.value;
-		selectFirstCarIdx = selectedValue;
-		
-		carList(1);
+		if(num == 1) {
+			carList(1);
+		}
+		viewCompare(cIdx);
 		
 		console.log("carNameSelect");
 		console.log(TrimMap);
+		console.log(TrimMap[0]);
 		// 선택한 carName에 맞는 grade 목록 가져오기
-	    var gradeOptions = GradeMap.get(selectedValue) || [];
-		
-		 var html = [];
-	    html.push('<option value="">선택</option>');
-	    for (var i = 0; i < gradeOptions.length; i++) {
-	        html.push('<option value="' + gradeOptions[i] + '">' + gradeOptions[i] + '</option>');
+		if(num==1){
+			$('#gradeSelectBox1').empty();
+			 var html = [];
+		    html.push('<option value="">선택</option>');
+	    	TrimMap.forEach((valueArray, key) => {
+	        html.push('<option value="' + key + '">' + key + '</option>');
+	    	    console.log("Key:", key);
+	    	});
+		    	
+		    $('#gradeSelectBox1').append(html.join(''));
 	    }
-	    $('#gradeSelectBox1').html(html.join(''));
+		if(num==2){
+			$('#gradeSelectBox2').empty();
+			 var html = [];
+		    html.push('<option value="">선택</option>');
+	    	TrimMap.forEach((valueArray, key) => {
+	        html.push('<option value="' + key + '">' + key + '</option>');
+	    	    console.log("Key:", key);
+	    	});
+		    	
+		    $('#gradeSelectBox2').append(html.join(''));
+		}
 	}
 	
-	function gradeSelect() {
+	function gradeSelect(num) {
+		if(num==1){
 		$('#trimSelectBox').empty();
 		$('.table-container table').empty();
 		$('.table-container table').append('<tr><td colspan="4">해당 등급/트림의 정보가 없습니다.</td></tr>');
 		
-		var selectCarName = document.getElementById("gradeSelectBox");
+		var selectCarName = document.getElementById("gradeSelectBox1");
 		var selectedValue = selectCarName.value;
 		
 		console.log(TrimMap);
 		// 선택한 grade에 맞는 trim 목록 가져오기
 	    var trimOptions = TrimMap.get(selectedValue) || [];
 		
-		 var html = [];
+	    $('#trimSelectBox1').empty();
+	    var html = [];
+	    html.push('<option value="">선택</option>');
+	    trimOptions.forEach(trim => {
+        html.push('<option value="' + trim + '">' + trim + '</option>');
+    	    
+    	});
+		    $('#trimSelectBox1').append(html.join(''));
+     	}
+		if(num==2){
+			$('#trimSelectBox').empty();
+			$('.table-container table').empty();
+			$('.table-container table').append('<tr><td colspan="4">해당 등급/트림의 정보가 없습니다.</td></tr>');
+			
+			var selectCarName = document.getElementById("gradeSelectBox2");
+			var selectedValue = selectCarName.value;
+			
+			console.log(TrimMap);
+			// 선택한 grade에 맞는 trim 목록 가져오기
+		    var trimOptions = TrimMap.get(selectedValue) || [];
+			
+		    $('#trimSelectBox2').empty();
+		    var html = [];
 		    html.push('<option value="">선택</option>');
-		    for (var i = 0; i < trimOptions.length; i++) {
-		        html.push('<option value="' + trimOptions[i] + '">' + trimOptions[i] + '</option>');
-		    }
-		    $('#trimSelectBox').html(html.join(''));
+		    trimOptions.forEach(trim => {
+	        html.push('<option value="' + trim + '">' + trim + '</option>');
+	    	    
+	    	});
+			    $('#trimSelectBox2').append(html.join(''));
+		}
 	}
 	
-	function trimSelect(){
+	function trimSelect(num){
+		if(num == 1){
+			var selectedGrade = $('#gradeSelectBox1').val();
+			var selectedTrim = $('#trimSelectBox1').val();
+			}
+		if(num == 2){
+			var selectedGrade = $('#gradeSelectBox2').val();
+			var selectedTrim = $('#trimSelectBox2').val();
+		}
 		// trim 선택에 따라서 테이블 업데이트
-		var selectedGrade = $('#gradeSelectBox').val();
-		var selectedTrim = $('#trimSelectBox').val();
-		updateTable(selectedGrade, selectedTrim);
+
+		updateTable(selectedGrade, selectedTrim, num);
 	}
 	
-	function updateTable(selectedGrade, selectedTrim){
+	function updateTable(selectedGrade, selectedTrim, num){
 		// 선택된 등급과 트림에 맞는 데이터를 carData 찾기
 		var filteredData = carData.find(item => {
 			return item.grade === selectedGrade && (!selectedTrim || item.trim === selectedTrim);
@@ -538,105 +595,106 @@ th {
 		console.log(selectedGrade);
 		console.log(selectedTrim);
 		console.log(filteredData);
-		
-		if (filteredData){
-			$('.table-container table').empty();
-			var html = [];
-			html.push('<thead>');
-			html.push('<tr>');
-			html.push('<th>세부 사항</th>');
-			html.push('<th>항목</th>');
-			html.push('<th>세부 사항</th>');
-			html.push('</tr>');
-			html.push('</thead>');
-			html.push('<tbody>');
-			html.push('<tr>');
-			html.push('<td>' + filteredData.brand + '</td>');
-			html.push('<td>제조사</td>');
-			html.push('<td>' + "-" + '</td>');
-			html.push('</tr>');
-			html.push('<tr>');
-			html.push('<td>' + filteredData.carName + '</td>');
-			html.push('<td>모델</td>');
-			html.push('<td>' + "-" + '</td>');
-			html.push('</tr>');
-			html.push('<tr>');
-			html.push('<td>' + filteredData.fuelType + '</td>');
-			html.push('<td>연료타입</td>');
-			html.push('<td>' + "-" + '</td>');
-			html.push('</tr>');
-			html.push('<tr>');
-			html.push('<td>' + filteredData.seatingCapacity + '</td>');
-			html.push('<td>인승</td>');
-			html.push('<td>' + "-" + '</td>');
-			html.push('</tr>');
-			html.push('<tr>');
-			html.push('<td>' + filteredData.engineType + '</td>');
-			html.push('<td>엔진형식</td>');
-			html.push('<td>' + "-" + '</td>');
-			html.push('</tr>');
-			html.push('<tr>');
-			html.push('<td>' + filteredData.driveType + '</td>');
-			html.push('<td>구동방식</td>');
-			html.push('<td>' + "-" + '</td>');
-			html.push('</tr>');
-			html.push('<tr>');
-			html.push('<td>' + filteredData.maxPower + '</td>');
-			html.push('<td>최고출력</td>');
-			html.push('<td>' + "-" + '</td>');
-			html.push('</tr>');
-			html.push('<tr>');
-			html.push('<td>' + filteredData.maxTorque + '</td>');
-			html.push('<td>최대토크</td>');
-			html.push('<td>' + "-" + '</td>');
-			html.push('</tr>');
-			html.push('<tr>');
-			html.push('<td>' + filteredData.fuelEfficiency + '</td>');
-			html.push('<td>연비</td>');
-			html.push('<td>' + "-" + '</td>');
-			html.push('</tr>');
-			html.push('<tr>');
-			html.push('<td>' + filteredData.displacement + '</td>')
-			html.push('<td>배기량</td>');
-			html.push('<td>' + "-" + '</td>')
-			html.push('</tr>');
-			html.push('<tr>');
-			html.push('<td>' + filteredData.length + '</td>');
-			html.push('<td>전장</td>');
-			html.push('<td>' + "-" + '</td>');
-			html.push('</tr>');
-			html.push('<tr>');
-			html.push('<td>' + filteredData.width + '</td>');
-			html.push('<td>전폭</td>');
-			html.push('<td>' + "-" + '</td>');
-			html.push('</tr>');
-			html.push('<tr>');
-			html.push('<td>' + filteredData.height + '</td>');
-			html.push('<td>전고</td>');
-			html.push('<td>' + "-" + '</td>');
-			html.push('</tr>');
-			html.push('<tr>');
-			html.push('<td>' + filteredData.wheelBase + '</td>');
-			html.push('<td>축거</td>');
-			html.push('<td>' + "-" + '</td>');
-			html.push('</tr>');
-			html.push('<tr>');
-			html.push('<td>' + filteredData.curbWeight + '</td>');
-			html.push('<td>공차중량</td>');
-			html.push('<td>' + "-" + '</td>');
-			html.push('</tr>');
-			html.push('<tr>');
-			html.push('<td>' + filteredData.price + '</td>');
-			html.push('<td>가격</td>');
-			html.push('<td>' + "-" + '</td>');
-			html.push('</tr>');
-			html.push('</tbody>');
-		
-			$('.table-container table').append(html.join(''));
-			recommendList(filteredData);
-		} else {
-			$('.table-container table').append('<tr><td colspan="4">해당 등급/트림의 정보가 없습니다.</td></tr>');
-			//recommendList(filteredData);
+		if(num==1){
+			if (filteredData){
+				$('.table-container table').empty();
+				var html = [];
+				html.push('<thead>');
+				html.push('<tr>');
+				html.push('<th>세부 사항</th>');
+				html.push('<th>항목</th>');
+				html.push('<th>세부 사항</th>');
+				html.push('</tr>');
+				html.push('</thead>');
+				html.push('<tbody>');
+				html.push('<tr>');
+				html.push('<td>' + filteredData.brand + '</td>');
+				html.push('<td>제조사</td>');
+				html.push('<td>' + "-" + '</td>');
+				html.push('</tr>');
+				html.push('<tr>');
+				html.push('<td>' + filteredData.carName + '</td>');
+				html.push('<td>모델</td>');
+				html.push('<td>' + "-" + '</td>');
+				html.push('</tr>');
+				html.push('<tr>');
+				html.push('<td>' + filteredData.fuelType + '</td>');
+				html.push('<td>연료타입</td>');
+				html.push('<td>' + "-" + '</td>');
+				html.push('</tr>');
+				html.push('<tr>');
+				html.push('<td>' + filteredData.seatingCapacity + '</td>');
+				html.push('<td>인승</td>');
+				html.push('<td>' + "-" + '</td>');
+				html.push('</tr>');
+				html.push('<tr>');
+				html.push('<td>' + filteredData.engineType + '</td>');
+				html.push('<td>엔진형식</td>');
+				html.push('<td>' + "-" + '</td>');
+				html.push('</tr>');
+				html.push('<tr>');
+				html.push('<td>' + filteredData.driveType + '</td>');
+				html.push('<td>구동방식</td>');
+				html.push('<td>' + "-" + '</td>');
+				html.push('</tr>');
+				html.push('<tr>');
+				html.push('<td>' + filteredData.maxPower + '</td>');
+				html.push('<td>최고출력</td>');
+				html.push('<td>' + "-" + '</td>');
+				html.push('</tr>');
+				html.push('<tr>');
+				html.push('<td>' + filteredData.maxTorque + '</td>');
+				html.push('<td>최대토크</td>');
+				html.push('<td>' + "-" + '</td>');
+				html.push('</tr>');
+				html.push('<tr>');
+				html.push('<td>' + filteredData.fuelEfficiency + '</td>');
+				html.push('<td>연비</td>');
+				html.push('<td>' + "-" + '</td>');
+				html.push('</tr>');
+				html.push('<tr>');
+				html.push('<td>' + filteredData.displacement + '</td>')
+				html.push('<td>배기량</td>');
+				html.push('<td>' + "-" + '</td>')
+				html.push('</tr>');
+				html.push('<tr>');
+				html.push('<td>' + filteredData.length + '</td>');
+				html.push('<td>전장</td>');
+				html.push('<td>' + "-" + '</td>');
+				html.push('</tr>');
+				html.push('<tr>');
+				html.push('<td>' + filteredData.width + '</td>');
+				html.push('<td>전폭</td>');
+				html.push('<td>' + "-" + '</td>');
+				html.push('</tr>');
+				html.push('<tr>');
+				html.push('<td>' + filteredData.height + '</td>');
+				html.push('<td>전고</td>');
+				html.push('<td>' + "-" + '</td>');
+				html.push('</tr>');
+				html.push('<tr>');
+				html.push('<td>' + filteredData.wheelBase + '</td>');
+				html.push('<td>축거</td>');
+				html.push('<td>' + "-" + '</td>');
+				html.push('</tr>');
+				html.push('<tr>');
+				html.push('<td>' + filteredData.curbWeight + '</td>');
+				html.push('<td>공차중량</td>');
+				html.push('<td>' + "-" + '</td>');
+				html.push('</tr>');
+				html.push('<tr>');
+				html.push('<td>' + filteredData.price + '</td>');
+				html.push('<td>가격</td>');
+				html.push('<td>' + "-" + '</td>');
+				html.push('</tr>');
+				html.push('</tbody>');
+			
+				$('.table-container table').append(html.join(''));
+				recommendList(filteredData);
+			} else {
+				$('.table-container table').append('<tr><td colspan="4">해당 등급/트림의 정보가 없습니다.</td></tr>');
+				//recommendList(filteredData);
+			}
 		}
 	}
 	
@@ -673,23 +731,48 @@ th {
 			carListController(function(response){
 				var html=[];
 				$("#carNameSelectBox1").empty();
+				html.push('<option value="">선택 해주세요.</option>');
 				for(var i=0; i < response.length; i++){
-					html.push('<option value="' + response[i].cIdx + '">' + response[i].carName + '</option>');
+					html.push('<option id="' + response[i].carImage + '" value="' + response[i].cIdx + '">' + response[i].carName + '</option>');
 				}
 				$("#carNameSelectBox1").append(html.join(''));
 			});
 		}
 		if(num == 1){
 			carListController(function(response){
-				var html=[];
 				$("#carNameSelectBox2").empty();
-				for(var i=0; i < response.length; i++){
+				var html=[];
+				html.push('<option value="">선택 해주세요.</option>');
+				for(var i=0; i < response.length; i++){	
 					if(response[i].cIdx != selectFirstCarIdx){
-						html.push('<option value="' + response[i].cIdx + '">' + response[i].carName + '</option>');
+						html.push('<option id="' + response[i].carImage + '" value="' + response[i].cIdx + '">' + response[i].carName + '</option>');
 					}
 				}
 				$("#carNameSelectBox2").append(html.join(''));
 			});
+		}
+	}
+	
+	function carImageSelect(carimage, num){
+		console.log(carimage);
+		console.log(num);
+		var html = [];
+		if(num == 1){
+			$('.car1 .car-details').empty();
+			$('.car2 .car-details').empty();
+			if(carNameSelectBox1.value != null){
+				html.push('<div class="img rounded" style="background-image: url(../../../carImage/' + carimage + ');"></div>');
+			}
+			$('.car1 .car-details').append(html.join(''));
+		}
+		
+		var html=[];
+		if(num == 2){
+			$('.car2 .car-details').empty();
+			if(carNameSelectBox2.value != null){
+				html.push('<div class="img rounded" style="background-image: url(../../../carImage/' + carimage + ');"></div>');	
+			}
+			$('.car2 .car-details').append(html.join(''));
 		}
 	}
 	
@@ -715,6 +798,7 @@ th {
 			}
 		});
 	}
+	
 	
 	$(document).ready(function() {
 		init();
