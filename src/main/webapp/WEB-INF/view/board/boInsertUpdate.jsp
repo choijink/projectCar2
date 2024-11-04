@@ -195,6 +195,11 @@ textarea {
     border-radius: 5px; /* 모서리 둥글게 */
     cursor: pointer; /* 커서 변경 */
     transition: background-color 0.3s; /* 배경 색상 변화 효과 */
+    margin-bottom: 20px; /* 버튼 아래쪽 여백 추가 */
+    display: inline-block; /* 버튼을 inline-block으로 설정 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    line-height: 1.5; /* 수직 정렬을 위한 라인 높이 조정 */
+    height: 50px; /* 버튼 높이 설정 */
 }
 
 .submit-button:hover {
@@ -218,45 +223,10 @@ textarea {
 		<div class="post-content">
 		</div>
 		<div class="button-container">
-		    <button class="submit-button">등록하기</button>
+		    <button class="submit-button"></button>
 		</div>
 
 	</div>
-
-	<!-- <div class="comment-section">
-		<h3>댓글 2개</h3>
-		<div class="comment-form">
-			<textarea class="comment-input" rows="3"
-				placeholder="모든 댓글은 서로 존중하는 마음으로 작성해 주세요. 비방, 욕설, 또는 타인을 상처 입히는 내용은 삼가해 주시기 바랍니다."></textarea>
-			<button class="action-btn"
-				style="background-color: var(--primary-color); color: white;">
-				댓글 작성</button>
-		</div>
-
-		<div class="comment-list">
-			<div class="comment">
-				<div class="comment-avatar">JK</div>
-				<div class="comment-content">
-					<div class="comment-header">
-						<span class="comment-author">김학선</span> <span class="comment-date"></span>
-					</div>
-					<p  class="comment-text">말씀하신 증상은 타이밍 벨트 쪽에서 발생하는 소리일 가능성이 높습니다.
-						가까운 정비소에서 점검을 받아보시는 것을 추천드립니다. 방치하시면 더 큰 문제가 될 수 있어요.</p>
-				</div>
-			</div>
-
-			<div class="comment">
-				<div class="comment-avatar">SJ</div>
-				<div class="comment-content">
-					<div class="comment-header">
-						<span class="comment-author">선진우</span> <span class="comment-date"></span>
-					</div>
-					<p class="comment-text">저도 비슷한 경험이 있었는데, 엔진오일 교체 시기가 된 것일 수도
-						있습니다. 주행거리가 어느 정도 되시나요?</p>
-				</div>
-			</div>
-		</div>
-	</div> -->
 	
 	<div class="navigation-buttons" style="display: flex; justify-content: center; margin-top: 2rem; padding: 0 2rem;">
 	    <a href="boList" class="nav-btn">목록으로</a>
@@ -336,7 +306,6 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 		
 	    var html = [];
 	    $(".post-header").empty();
-
 	    /* html.push('<h2>게시물 <span id="formTitle">등록</span></h2>');
 	    html.push('<p class="formTitle2">게시물을 등록하는 페이지입니다.</p>'); */
 	    html.push('<span class="post-category">자유게시판</span>');
@@ -362,6 +331,10 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 	    htmlContent.push('    </div>');
 	    htmlContent.push('</div>');
 	    $(".post-content").append(htmlContent.join(''));
+	    
+	    var html = [];
+	    $(".button-container").empty();
+	    $(".button-container").append('<button class="submit-button" onclick="submitForm(event)">등록하기</button>');
 	}
 
 	// 이미지 미리보기 함수
@@ -422,6 +395,10 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 					html.push('	</div>');
 					html.push('</div>');
 					$(".post-content").append(html.join(''));
+					
+					var html = [];
+					$(".button-container").empty();
+				    $(".button-container").append('<button class="submit-button">수정하기</button>');
 				},
 				error : function(xhr, status, error) {
 				console.error('요청 실패: ' + error); // 에러 출력
@@ -444,7 +421,7 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
             return false;
         }
 
-        var regdate = $('#regdate').val();
+/*         var regdate = $('#regdate').val();
         var regex = /^\d{4}[\/-][01]\d{1}[\/-][0123]\d{1}$/;
         var result = regex.test(regdate);
 
@@ -452,37 +429,35 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
             alert('날짜 형식은 반드시 yyyy/mm/dd 형식 또는 yyyy-mm-dd으로 작성해 주세요.');
             $('#regdate').focus();
             return false;
-        }
+        } */
     }
 
     function submitForm(event) {
         event.preventDefault();
-        if (!validCheck()) return;
+        /* if (!validCheck()) return; */
 
-        var command = $('#command').val();
         var formData = {
-            command: command,
-            bIdx: $('#bIdx').val(),
-            mIdx: $('#mIdx').val(),
-            title: $('#title').val(),
-            content: $('#content').val(),
-            regdate: $('#regdate').val(),
-            announcement: $('#announcement').val()
-        };
+		    mIdx: <%=session.getAttribute("mIdx") != null ? session.getAttribute("mIdx") : -1 %>,
+		    title: $('#title').val(),
+		    content: $('#content').val(),
+		    regdate: $('#regdate').val(),
+		};
+
 
         $.ajax({
-            type: "GET",
-            url: "boInsertUpdateController",
+            type: "POST", // POST 방식으로 변경
+            url: "boCreate", // 보낼 URL
             data: formData,
             success: function(response) {
                 alert('처리가 완료되었습니다.');
-                window.location.href = "home.jsp";
+                window.location.href = "/boList"; // 등록 후 이동할 페이지
             },
             error: function() {
                 alert('처리 중 오류가 발생했습니다.');
             }
         });
     }
+
     $(document).ready(function(){
     	console.log("init타는쪽");
     	init();

@@ -58,20 +58,20 @@
 }
 
 #btn-insert {
-	text-decoration: none;
-	padding: 0px 6px;
-	margin: 0 5px;
-	border: 1px solid #a38983;
-	border-radius: 5px;
-	color: #17202a;
-	transition: background-color 0.3s, color 0.3s;
-	background-color: white;
+    text-decoration: none;
+    padding: 0px 6px;
+    margin: 0 5px;
+    border: 1px solid #a38983;
+    border-radius: 5px;
+    color: white; /* 글자색을 흰색으로 설정 */
+    background-color: #a38983; /* 기본 배경색을 채워진 색으로 설정 */
 }
 
 #btn-insert:hover {
-	background-color: #a38983; /* 마우스 오버 시 배경색 */
-	color: white; /* 마우스 오버 시 글자색 */
+    background-color: #a38983; /* 마우스 오버 시 배경색 변경하지 않음 */
+    color: white; /* 글자색 유지 */
 }
+
 </style>
 
 </head>
@@ -164,23 +164,26 @@
 	    document.querySelector('.admin-management').style.display = 'none';
 	} */
 	
-	function init() {
+	function init(pageNumber = 1, pageSize = 5) {
 		$.ajax({
 			url : "boardAjaxController", // 서버 서블릿 경로
 			method : "GET", // 요청 방식
+			data : {
+				"pageNumber": pageNumber,
+	            "pageSize": pageSize
+			},
 			success : function(response) {
 				var html= [];
 				$(".table-responsive .table .tbody").empty();
-				var totalCount = response.length;
 				console.log(response);
-				for (var i = 0; i < response.length; i++) {
+				for (var i = 0; i < response.boards.length; i++) {
 					html.push('<tr>');
-					html.push('	<td>' + totalCount + '</td>');
-					html.push('	<td>' + response[i].name + '</td>');
-					html.push('	<td><a href="boDetail?bIdx=' + response[i].bIdx + '" class="post-title">' + response[i].title + '</a>');
+					html.push('	<td>' + (response.totalCount - (pageNumber - 1) * pageSize - i) + '</td>');
+					html.push('	<td>' + response.boards[i].name + '</td>');
+					html.push('	<td><a href="boDetail?bIdx=' + response.boards[i].bIdx + '" class="post-title">' + response.boards[i].title + '</a>');
 					html.push('		<span class="badge bg-secondary"></span>');
 					html.push('	</td>');
-					html.push('	<td>' + response[i].regdate + '</td>');
+					html.push('	<td>' + response.boards[i].regdate + '</td>');
 					if (adminCheck == 2) {
 						var html2 = [];
 						$(".table-responsive .table thead tr").empty();
@@ -192,15 +195,17 @@
 						$(".table-responsive .table thead tr").append(html2.join(''));
 						
 						html.push('	<td>');
-						html.push('		<button class="btn btn-sm btn-outline-primary" onclick="boInsertUpdate('+ response[i].bIdx +')">수정</button>');
-						html.push('		<button class="btn btn-sm btn-outline-danger" onclick="boDelete('+ response[i].bIdx +')">삭제</button>');
+						html.push('		<button class="btn btn-sm btn-outline-primary" onclick="boInsertUpdate('+ response.boards[i].bIdx +')">수정</button>');
+						html.push('		<button class="btn btn-sm btn-outline-danger" onclick="boDelete('+ response.boards[i].bIdx +')">삭제</button>');
 						html.push('	</td>');
 					} 
 					html.push('</tr>');
-					totalCount--;
+					
 				}
 				$(".countSpan").empty();
-				$(".countSpan").html("▷ 총 " + response.length + "개의 게시물이 있습니다.");
+				$(".countSpan").html("▷ 총 " + response.totalCount + "개의 게시물이 있습니다.");
+				var totalPages = Math.ceil(response.totalCount / pageSize); // totalCount는 서버에서 받아온 데이터 총 개수
+	            renderPagination(totalPages, pageNumber);
 				
 				$(".table-responsive .table .tbody").append(html.join(''));
 			},
@@ -208,6 +213,23 @@
 				console.error('요청 실패: ' + error); // 에러 출력
 			}
 		});
+	}
+	
+	function renderPagination(totalPages, currentPage) {
+	    var paginationHtml = '';
+	    $('.pagination').empty();
+	    for (var i = 1; i <= totalPages; i++) {
+	        paginationHtml += '<li class="page-item' + (i === currentPage ? ' active' : '') + '">';
+	        paginationHtml += '<a class="page-link pagination-link" href="#" data-page="' + i + '">' + i + '</a>';
+	        paginationHtml += '</li>';
+	    }
+	    $('.pagination').html(paginationHtml);
+
+	    // 페이지 링크 클릭 이벤트 핸들러 등록 (이벤트 위임 사용)
+	    $('.pagination').on('click', '.pagination-link', function() {
+	        var pageNumber = $(this).data('page');
+	        init(pageNumber, 5); // 10은 페이지 크기 예시
+	    });
 	}
 	
 	function boInsertUpdate(idx){
@@ -223,7 +245,7 @@
 	function boDelete(bIdx) {
 	    if (confirm("정말로 이 게시물을 삭제하시겠습니까?")) {
 	        $.ajax({
-	            url: "boardDeleteAjaxController", // 삭제 요청을 처리할 서블릿 경로
+	            url: "boDelete", // 삭제 요청을 처리할 서블릿 경로
 	            method: "GET",
 	            data: { bIdx: bIdx }, // 삭제할 게시물의 ID
 	            success: function(response) {

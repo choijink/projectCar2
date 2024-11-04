@@ -24,7 +24,7 @@ public class BoardDao extends SuperDao {
 	        mIdx = Integer.parseInt(mIdxString);
 	    }
 	    
-	    String sql = "SELECT T1.b_idx, T1.title, T1.content, T1.regdate, T2.name "
+	    String sql = "SELECT T1.b_idx, T1.title, T1.content, DATE_FORMAT(T1.regdate, '%Y-%m-%d') AS regdate, T2.name "
 	               + "FROM board AS T1 "
 	               + "INNER JOIN Member AS T2 ON T2.m_idx = T1.m_idx "
 	               + "WHERE 1=1";
@@ -32,7 +32,12 @@ public class BoardDao extends SuperDao {
 	    if (mIdx > 0) {
 	        sql += " AND T2.m_idx = ?";
 	    }
-	    sql += " LIMIT ?, ?"; // LIMIT 위치 수정
+	    
+	    sql += " ORDER BY T1.regdate desc";
+	    
+	    if (beginRow >= 0 && endRow > 0) {
+	    	sql += " LIMIT ?, ?"; // LIMIT 위치 수정
+	    }
 
 	    try {
 	        conn = super.getConnection();
@@ -43,8 +48,10 @@ public class BoardDao extends SuperDao {
 	        if (mIdx > 0) {
 	            pstmt.setInt(parameterIndex++, mIdx);
 	        }
-	        pstmt.setInt(parameterIndex++, beginRow); // 시작 인덱스
-	        pstmt.setInt(parameterIndex++, endRow - beginRow + 1); // 가져올 개수 설정
+	        if (beginRow >= 0 && endRow > 0) {
+	            pstmt.setInt(parameterIndex++, beginRow - 1); // 시작 인덱스
+	            pstmt.setInt(parameterIndex++, endRow - beginRow + 1); // 가져올 레코드 수
+	        }
 
 	        rs = pstmt.executeQuery();
 	        while (rs.next()) {
@@ -151,7 +158,7 @@ public class BoardDao extends SuperDao {
 
     public int insertData(BoardBean bean) {
         PreparedStatement pstmt = null;
-        String sql = "INSERT INTO board(m_idx, title, content, regdate, announcement) VALUES(?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO board(m_idx, title, content, regdate) VALUES(?, ?, ?, ?)";
 
         int cnt = -99999;
 
@@ -164,7 +171,6 @@ public class BoardDao extends SuperDao {
             pstmt.setString(2, bean.getTitle());
             pstmt.setString(3, bean.getContent());
             pstmt.setString(4, bean.getRegdate());
-            pstmt.setString(5, bean.getAnnouncement());
 
             cnt = pstmt.executeUpdate();
             conn.commit();
