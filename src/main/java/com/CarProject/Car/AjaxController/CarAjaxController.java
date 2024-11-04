@@ -38,7 +38,6 @@ public class CarAjaxController extends HttpServlet {
 
         response.setContentType("application/json; charset=UTF-8");
         PrintWriter out = response.getWriter();
-
         try {
             List<CarBean> carList = carDao.selectAll(domestic, brand, model, name, pageString, pageSizeString); // DAO에서 차량 목록 가져오기
             

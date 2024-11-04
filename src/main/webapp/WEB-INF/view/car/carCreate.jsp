@@ -175,64 +175,71 @@ th {
 			 </thead> 
 			 <tbody> 
 			 <tr> 
-			 <td>국산/수입</td> 
-			 <td><input type="text" id="brandInput" class="centered-input" placeholder="국산 / 수입"></td>
-			 <td></td> 
-			 <td></td> 
-			 </tr> 
 			 <td>제조사</td> 
 			 <td><input type="text" id="brandInput" class="centered-input" placeholder="벤츠"></td>
-			 <td>연비</td> 
-			 <td><input type="text" id="fuelEfficiencyInput" class="centered-input" placeholder="14.8km/L(kWh)"></td>
-			 </tr> 
-			 <tr> 
-			 <td>모델</td>
+			 <td>국산/수입</td> 
+			 <td><input type="text" id="domesticImportInput" class="centered-input" placeholder="국산 / 수입"></td>
+			 </tr>
+			 <tr>
+			 <td>차량 이름</td>
 			 <td><input type="text" id="carNameInput" class="centered-input" placeholder="아반떼"></td>
+			 <td>차량크기</td> 
+			 <td><input type="text" id="vehicleSizeInput" class="centered-input" placeholder="중형, 대형"></td>
+			 </tr> 
+			 <tr>
+			 <td>연료타입</td>
+			 <td><input type="text" id="fuelTypeInput" class="centered-input" placeholder="가솔린"></td> 
 			 <td>배기량</td> 
 			 <td><input type="text" id="displacementInput" class="centered-input" placeholder="1,598cc"></td>
 			 </tr> 
 			 <tr> 
-			 <td>연료타입</td>
-			 <td><input type="text" id="trimInput" class="centered-input" placeholder="가솔린"></td>
-			 <td>전장</td> 
-			 <td><input type="text" id="trimInput" class="centered-input" placeholder="4,710mm"></td>
+			 <td>구동방식</td> 
+			 <td><input type="text" id="driveTypeInput" class="centered-input" placeholder="전륜"></td>
+			 <td>연비</td> 
+			 <td><input type="text" id="fuelEfficiencyInput" class="centered-input" placeholder="14.8km/L(kWh)"></td>
 			 </tr> 
 			 <tr> 
 			 <td>인승</td> 
-			 <td><input type="text" id="trimInput" class="centered-input" placeholder="5"></td>
+			 <td><input type="text" id="seatingCapacityInput" class="centered-input" placeholder="5"></td>
 			 <td>전폭</td> 
-			 <td><input type="text" id="trimInput" class="centered-input" placeholder="1,825mm"></td>
+			 <td><input type="text" id="widthInput" class="centered-input" placeholder="1,825mm"></td>
 			 </tr> 
 			 <tr> 
 			 <td>엔진형식</td> 
-			 <td><input type="text" id="trimInput" class="centered-input small-font" placeholder="I4"></td>
+			 <td><input type="text" id="engineTypeInput" class="centered-input small-font" placeholder="I4"></td>
 			 <td>전고</td> 
-			 <td><input type="text" id="trimInput" class="centered-input" placeholder="1,420mm"></td>
+			 <td><input type="text" id="heightInput" class="centered-input" placeholder="1,420mm"></td>
 			 </tr> 
 			 <tr> 
-			 <td>구동방식</td> 
-			 <td><input type="text" id="trimInput" class="centered-input" placeholder="전륜"></td>
+			 <td>전장</td> 
+			 <td><input type="text" id="lengthInput" class="centered-input" placeholder="4,710mm"></td>
 			 <td>축거</td> 
-			 <td><input type="text" id="trimInput" class="centered-input" placeholder="2,720mm"></td>
+			 <td><input type="text" id="wheelBaseInput" class="centered-input" placeholder="2,720mm"></td>
 			 </tr> 
 			 <tr> 
 			 <td>최고출력</td> 
-			 <td><input type="text" id="trimInput" class="centered-input" placeholder="123hp / 385kW"></td>
+			 <td><input type="text" id="maxPowerInput" class="centered-input" placeholder="123hp / 385kW"></td>
 			 <td>공차중량</td> 
-			 <td><input type="text" id="trimInput" class="centered-input" placeholder="1,260kg"></td>
+			 <td><input type="text" id="curbWeightInput" class="centered-input" placeholder="1,260kg"></td>
 			 </tr> 
 			 <tr> 
 			 <td>최대토크</td> 
-			 <td><input type="text" id="trimInput" class="centered-input" placeholder="15.7kg.m / 765Nm"></td>
+			 <td><input type="text" id="maxTorqueInput" class="centered-input" placeholder="15.7kg.m / 765Nm"></td>
 			 <td>가격</td>
-			 <td><input type="text" id="trimInput" class="centered-input" placeholder="1,994만원"></td>
+			 <td><input type="text" id="priceInput" class="centered-input" placeholder="1,994만원"></td>
+			 </tr> 
+			 <tr> 
+			 <td>차종</td> 
+			 <td><input type="text" id="carModelInput" class="centered-input" placeholder="세단, suv.."></td>
+			 <td></td>
+			 <td></td>
 			 </tr> 
 			 </tbody> 
 			</table>
 		</div>
 		<!-- 등록 완료 버튼 -->
 		<div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
-			<button class="gridButton1"  id="registerButton">등록 완료</button>
+			<button class="gridButton1" onclick="clickInsert()" id="insertButton">등록 완료</button>
 		</div>
 	</section>
 
@@ -334,18 +341,70 @@ th {
 	    }
 	}
 
-	// '등록 완료' 버튼 클릭 시의 동작
-	document.getElementById('registerButton').addEventListener('click', function() {
-	    // 입력 필드에서 값을 가져와서 처리하는 로직 추가
-	    const grade = document.getElementById('gradeInput').value;
-	    const trim = document.getElementById('trimInput').value;
-	    // 차량 등록 로직 추가 (예: 서버에 POST 요청)
+	function clickInsert() {
+		
+		 // FormData 객체 생성
+	    const formData = new FormData();
+	    
+	    // 폼 데이터 추가
+		formData.append('grade', document.getElementById('gradeInput').value);
+	    formData.append('trim', document.getElementById('trimInput').value);
+	    formData.append('domesticImport', document.getElementById('domesticImportInput').value);
+	    formData.append('brand', document.getElementById('brandInput').value);
+	    formData.append('fuelEfficiency', document.getElementById('fuelEfficiencyInput').value);
+	    formData.append('carName', document.getElementById('carNameInput').value);
+	    formData.append('displacement', document.getElementById('displacementInput').value);
+	    formData.append('fuelType', document.getElementById('fuelTypeInput').value);
+	    formData.append('length', document.getElementById('lengthInput').value);
+	    formData.append('seatingCapacity', document.getElementById('seatingCapacityInput').value);
+	    formData.append('width', document.getElementById('widthInput').value);
+	    formData.append('engineType', document.getElementById('engineTypeInput').value);
+	    formData.append('driveType', document.getElementById('driveTypeInput').value);
+	    formData.append('maxPower', document.getElementById('maxPowerInput').value);
+	    formData.append('maxTorque', document.getElementById('maxTorqueInput').value);
+	    formData.append('curbWeight', document.getElementById('curbWeightInput').value);
+	    formData.append('price', document.getElementById('priceInput').value);
+	    formData.append('vehicleSize', document.getElementById('vehicleSizeInput').value);
+	    formData.append('carModel', document.getElementById('carModelInput').value);
 
-	    alert(`차량 등록 완료: 등급=${grade}, 트림=${trim}`);
-	});
+	    // 파일도 포함 (이미지가 업로드된 경우만)
+	    const carImage = document.getElementById('imageUpload1').files[0];
+	    const brandMark = document.getElementById('imageUpload2').files[0];
+	    console.log(carImage);
+	    console.log(brandMark);
+	    if (carImage) formData.append('carImage', carImage);
+	    if (brandMark) formData.append('brandMark', brandMark);
+		return;
+	   
+	    // AJAX 요청 (fetch API 사용)
+	    $.ajax({
+	        url: "carInsertAjaxController",
+	        type: "POST",
+	        data: formData,
+	        contentType: false, // 필수
+	        processData: false, // 필수
+	        dataType: "json",
+	        success: function(response) {
+	            console.log("Success:", response);
+	            if(response.status === "success") {
+	                alert('차량 등록 완료');
+	                window.location.href = "/carList";
+	            } else {
+	                alert('차량 등록 실패 : ' + response.message);
+	            }
+	        },
+	        error: function(xhr, status, error) {
+	            console.error("Error details:", xhr.responseText);
+	            alert('차량등록 중 오류가 발생했습니다.');
+	        }
+	    });
+		
+	}
+	
+	   
 
 	$(document).ready(function() {
-		init(); // 문서가 준비되면 초기화 함수
+		init(); 
 	});
 </script>
 </html>		

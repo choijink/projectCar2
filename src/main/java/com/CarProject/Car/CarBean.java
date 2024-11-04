@@ -2,14 +2,14 @@ package com.CarProject.Car;
 
 public class CarBean {
 //	 car main
-	private int cIdx ; // 차량 식별 번
-	private String domesticImport ; // 국내/수
-	private String brand ; // 브랜
+	private int cIdx ; // 차량 식별 번호
+	private String domesticImport ; // 국내/수입
+	private String brand ; // 브랜드
 	private String vehicleSize ; // 차량크기(대형, 중형, 등등...)
 	private String carModel ; // 차종(세단, 스포, 등등...)
 	private String carName ; // 모델명(k5, AMG A클래스, 등등...)
-	private String brandMark ; // 브랜드 로고 이미
-	private String carImage ; // 차량 이미
+	private String brandMark ; // 브랜드 로고 이미지
+	private String carImage ; // 차량 이미지
 	
 
 //	 cardetail1
