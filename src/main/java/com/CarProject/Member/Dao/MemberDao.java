@@ -16,6 +16,47 @@ import com.CarProject.Car.CarBean;
 import com.CarProject.Member.MemberBean;
 
 public class MemberDao extends SuperDao {
+	
+	public boolean validateUserEmail(String id, String email) {
+	    String sql = "SELECT COUNT(*) FROM Member WHERE id = ? AND mail = ?";
+	    System.out.println("실행되는 SQL: " + sql);
+	    System.out.println("검증할 ID: " + id);
+	    System.out.println("검증할 Email: " + email);
+	    
+	    try (Connection conn = super.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        
+	        pstmt.setString(1, id);
+	        pstmt.setString(2, email);
+	        
+	        ResultSet rs = pstmt.executeQuery();
+	        if (rs.next()) {
+	        	int count = rs.getInt(1);
+	            System.out.println("조회된 결과 수: " + count);
+	            return count > 0;
+	        }
+	    } catch (SQLException e) {
+	    	System.out.println("DB 에러 발생: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+	    return false;
+	}
+
+	public boolean updatePassword(String id, String newPassword) {
+	    String sql = "UPDATE Member SET password = ? WHERE id = ?";
+	    try (Connection conn = super.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        
+	        pstmt.setString(1, newPassword);
+	        pstmt.setString(2, id);
+	        
+	        int result = pstmt.executeUpdate();
+	        return result > 0;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
 
 	public boolean checkIdDuplicate(String id) {
 		String sql = "SELECT COUNT(*) FROM Member WHERE id = ?";
@@ -100,7 +141,7 @@ public class MemberDao extends SuperDao {
 
 		return bean; 
 	}
-	
+
 	public MemberBean selectMember(int mIdx) {
 		MemberBean bean = null;
 		PreparedStatement pstmt = null;

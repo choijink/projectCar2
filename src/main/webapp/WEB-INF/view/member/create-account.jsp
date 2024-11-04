@@ -4,6 +4,7 @@
 <html lang="ko">
 <head>
 <%@ include file="/WEB-INF/view/common/css.jsp"%>
+<%@ include file="/WEB-INF/view/common/header.jsp"%>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>회원가입</title>
@@ -97,7 +98,6 @@ div[style*="display: flex"] {
 	cursor: pointer;
 	margin-top: 0px;
 	margin-bottom: 10px;
-	
 }
 
 .btn:active {

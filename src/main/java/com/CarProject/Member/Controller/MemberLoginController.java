@@ -11,9 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/memberLogin")
 public class MemberLoginController extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 비즈니스 로직 처리 (필요 시)
-        
-        // hello.jsp로 포워딩
         request.getRequestDispatcher("/WEB-INF/view/member/login.jsp").forward(request, response);
     }
 }
