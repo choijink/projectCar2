@@ -13,48 +13,66 @@ import com.CarProject.Board.BoardBean;
 
 public class BoardDao extends SuperDao {
 
-	public List<BoardBean> selectAll() {
-		// 게시물 전체 목록을 읽어 들입니다.
-		List<BoardBean> lists = new ArrayList<BoardBean>();
+	// 수정된 selectAll 메소드
+	public List<BoardBean> selectAll(String mIdxString, int beginRow, int endRow) {
+	    List<BoardBean> boardList = new ArrayList<>();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    int mIdx = 0;
+	    if (mIdxString != null) {
+	        System.out.println(mIdxString);
+	        mIdx = Integer.parseInt(mIdxString);
+	    }
+	    
+	    String sql = "SELECT T1.b_idx, T1.title, T1.content, T1.regdate, T2.name "
+	               + "FROM board AS T1 "
+	               + "INNER JOIN Member AS T2 ON T2.m_idx = T1.m_idx "
+	               + "WHERE 1=1";
 
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+	    if (mIdx > 0) {
+	        sql += " AND T2.m_idx = ?";
+	    }
+	    sql += " LIMIT ?, ?"; // LIMIT 위치 수정
 
-		// 게시물 번호 역순으로 정렬
-		String sql = " select T1.*, T2.Name from board as T1";
-		sql += " INNER JOIN Member AS T2 ON T2.m_idx = T1.m_idx";
-		sql += " order by T1.b_idx desc";
+	    try {
+	        conn = super.getConnection();
+	        pstmt = conn.prepareStatement(sql);
 
-		try {
-			conn = super.getConnection();
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
+	        // 매개변수 설정
+	        int parameterIndex = 1;
+	        if (mIdx > 0) {
+	            pstmt.setInt(parameterIndex++, mIdx);
+	        }
+	        pstmt.setInt(parameterIndex++, beginRow); // 시작 인덱스
+	        pstmt.setInt(parameterIndex++, endRow - beginRow + 1); // 가져올 개수 설정
 
-			while (rs.next()) {
-				lists.add(getBeanData(rs));
-			}
+	        rs = pstmt.executeQuery();
+	        while (rs.next()) {
+	            BoardBean board = new BoardBean();
+	            board.setbIdx(rs.getInt("b_idx"));
+	            board.setTitle(rs.getString("title")); // 제목
+	            board.setContent(rs.getString("content")); // 내용
+	            board.setRegdate(rs.getString("regdate")); // 등록일
+	            board.setName(rs.getString("name")); // 작성자 이름
+	            boardList.add(board);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        // 리소스 정리
+	        try {
+	            if (rs != null) rs.close();
+	            if (pstmt != null) pstmt.close();
+	            if (conn != null) conn.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (Exception e2) {
-				e2.printStackTrace();
-			}
-		}
-		System.out.println(lists);
-		return lists;
+	    return boardList;
 	}
+
+
 
 	private BoardBean getBeanData(ResultSet rs) {
 		BoardBean bean = null;
@@ -240,4 +258,52 @@ public class BoardDao extends SuperDao {
 
 	    return success;
 	}
+	
+	public int getTotalCount(String mIdxString) {
+		int mIdx = 0;
+		if (mIdxString != null) {
+            System.out.println(mIdxString);
+            mIdx = Integer.parseInt(mIdxString);
+        }
+	    int totalCount = 0;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String sql = "select COUNT(T1.b_idx) from board as T1 "
+	    		+ "INNER JOIN Member AS T2 ON T2.m_idx = T1.m_idx "
+	    		+ "WHERE 1=1";
+
+	    if (mIdx > 0) {
+	    	sql += " AND T2.m_idx = ?";
+	    }
+
+	    try {
+	        conn = super.getConnection();
+	        pstmt = conn.prepareStatement(sql);
+
+	        // 매개변수 설정
+	        int paramIndex = 1;
+	        if (mIdx > 0) {
+	            pstmt.setInt(paramIndex++, mIdx);
+	        }
+
+	        rs = pstmt.executeQuery();
+	        if (rs.next()) {
+	            totalCount = rs.getInt(1);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        // 리소스 정리
+	        try {
+	            if (rs != null) rs.close();
+	            if (pstmt != null) pstmt.close();
+	            if (conn != null) conn.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    return totalCount;
+	}
+
 }
