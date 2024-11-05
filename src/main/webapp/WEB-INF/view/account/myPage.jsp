@@ -191,7 +191,6 @@ nav.open ~ .overlay {
 			</div>
 		</div>
 		<div class="container">
-			<h2>회원 정보</h2>
 			<table class="table">
 				<tbody id="member-info">
 					<!-- 회원 정보가 여기에 동적으로 추가됩니다. -->
