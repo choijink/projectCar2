@@ -88,7 +88,7 @@ th {
 			<div
 				class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
 				<div class="col-md-9 ftco-animate pb-5">
-					<h1 class="mb-3 bread">Car Details</h1>
+					<h1 class="mb-3 bread">차량 상세정보</h1>
 				</div>
 			</div>
 		</div>
