@@ -827,9 +827,7 @@ th {
          if(carNameSelectBox1.value != null){
             html.push('<div class="img rounded" style="background-image: url(../../../carImage/' + carimage + ');"></div>');
          }
-         else if(carimage == ""){
-        	 html.push('<div class="img rounded" style="background-image: url(../../../carImage/myCar1.png);"></div>');
-         }
+         
          $('.car1 .car-details').append(html.join(''));
       }
       
@@ -839,8 +837,6 @@ th {
          if(carNameSelectBox2.value != null){
             html.push('<div class="img rounded" style="background-image: url(../../../carImage/' + carimage + ');"></div>');
             
-         }else if(carimage == ""){
-        	 html.push('<div class="img rounded" style="background-image: url(../../../carImage/myCar1.png);"></div>');
          }
          $('.car2 .car-details').append(html.join(''));
       }
