@@ -17,6 +17,30 @@ import com.CarProject.Member.MemberBean;
 
 public class MemberDao extends SuperDao {
 	
+    public String findUserId(String userName, String birthDate) {
+        String sql = "SELECT id FROM Member WHERE name = ? AND residentNumber LIKE ?";
+        String userId = null;
+        
+        try (Connection conn = super.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setString(1, userName);
+            pstmt.setString(2, birthDate);
+            
+            ResultSet rs = pstmt.executeQuery();
+            
+            if (rs.next()) {
+                userId = rs.getString("id");
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return userId;
+    }
+    
+	
 	public boolean validateUserEmail(String id, String email) {
 	    String sql = "SELECT COUNT(*) FROM Member WHERE id = ? AND mail = ?";
 	    System.out.println("실행되는 SQL: " + sql);

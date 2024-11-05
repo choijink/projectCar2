@@ -49,6 +49,11 @@ public class MemberLoginAjaxController extends HttpServlet {
             session.setAttribute("adminCheck", bean.getadminCheck());
             session.setAttribute("name", bean.getName());
             
+            System.out.println("Session mIdx: " + session.getAttribute("mIdx"));
+            System.out.println("Session id: " + session.getAttribute("id"));
+            System.out.println("Session adminCheck: " + session.getAttribute("adminCheck"));
+            System.out.println("Session name: " + session.getAttribute("name"));
+            
             // 세션 타임아웃
             session.setMaxInactiveInterval(1800);
             

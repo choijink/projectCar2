@@ -7,7 +7,7 @@
 <%@ include file="/WEB-INF/view/common/header.jsp"%>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>회원가입</title>
+<title>vsCAR : 회원가입</title>
 <style>
 /* 페이지 전체를 중앙에 배치 */
 body, html {
