@@ -37,7 +37,7 @@
 	text-align: center;
 }
 .btn {
-	width: 60%;
+	width: 150px;
 	height: 40px;
 	font-size: 16px;
 	font-weight: bold;
@@ -228,8 +228,8 @@ nav.open ~ .overlay {
 
 	function init() {
 		$.ajax({
-			url : "memberAjaxController", // 서버 서블릿 경로
-			method : "GET", // 요청 방식
+			url : "memberAjaxController", 
+			method : "GET", 
 			data : {
 				"idx" : mIdx,
 			},
@@ -237,19 +237,20 @@ nav.open ~ .overlay {
 				console.log(response);
 				$('#member-info').empty(); // 기존 데이터를 제거
 				
+				var sex = response.gender === 'M' ?'남자' :'여자';
+				
 				var html = [];
 	            html.push('<tr><th>이름</th><td>' + response.name + '</td></tr>');
-	            html.push('<tr><th>성별</th><td>' + response.gender + '</td></tr>');
+	            html.push('<tr><th>성별</th><td>' + sex + '</td></tr>');
 	            html.push('<tr><th>전화번호</th><td>' + response.phone + '</td></tr>');
-	            html.push('<tr><th>나이</th><td>' + response.age + '</td></tr>');
+	            html.push('<tr><th>생년월일</th><td>' + response.residentNumber  + '</td></tr>');
+	            html.push('<tr><th>주소</th><td>' + response.address  + '</td></tr>');
 	            html.push('<tr><th>이메일</th><td>' + response.mail + '</td></tr>');
-	            html.push('<tr><th>주민번호</th><td>' + response.residentNumber + '</td></tr>');
 	            $('#member-info').append(html.join(''));
 
-				// 페이지네이션을 위한 전체 페이지 수 확인
 			},
 			error : function(xhr, status, error) {
-				console.error('요청 실패: ' + error); // 에러 출력
+				console.error('요청 실패: ' + error); 
 			}
 		});
 	}
