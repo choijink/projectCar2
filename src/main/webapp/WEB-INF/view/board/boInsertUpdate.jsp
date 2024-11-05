@@ -44,7 +44,7 @@ body {
 }
 
 .post-header {
-    background-color: #949e85 !important;
+    background-color: #6c757d80 !important;
     color: white;
     padding: 2rem;
 }
@@ -152,12 +152,14 @@ textarea {
 }
 
 .nav-btn {
-    padding: 0.5rem 1rem;
+    padding: 10px 20px;
     border: 1px solid var(--primary-color);
     border-radius: 5px;
     color: var(--primary-color);
     text-decoration: none;
     transition: all 0.3s ease;
+    margin-bottom: 20px;
+    margin-left: 30px;
 }
 
 .nav-btn:hover {
@@ -167,9 +169,7 @@ textarea {
 .container.main{
 	margin-top: 100px;
 }
-.bg-dark {
-    background-color: #343a40 !important;
-}
+
 .large-input {
     width: 820px; /* 원하는 너비 설정 */
     height: 500px; /* 원하는 높이 설정 */
@@ -182,15 +182,16 @@ textarea {
 
 .button-container {
     display: flex;
-    justify-content: center; /* 가로 가운데 정렬 */
+    justify-content: space-between; /* 가로 가운데 정렬 */
     margin-top: 20px; /* 위쪽 여백 추가 */
+    align-items: center;
 }
 
 .submit-button {
     padding: 10px 20px; /* 버튼의 패딩 */
     font-size: 16px; /* 글자 크기 */
     color: white; /* 글자 색상 */
-    background-color: #949e85; /* 버튼 배경 색상 */
+    background-color: #495057d6; /* 버튼 배경 색상 */
     border: none; /* 기본 테두리 제거 */
     border-radius: 5px; /* 모서리 둥글게 */
     cursor: pointer; /* 커서 변경 */
@@ -200,37 +201,70 @@ textarea {
     text-align: center; /* 텍스트 가운데 정렬 */
     line-height: 1.5; /* 수직 정렬을 위한 라인 높이 조정 */
     height: 50px; /* 버튼 높이 설정 */
+    margin-right: 30px;
 }
 
 .submit-button:hover {
     background-color: #218838; /* 호버 시 배경 색상 변화 */
 }
 
+.formTitle2 {
+    color: white;
+}
+
+/* .hero-wrap .overlay {
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    content: '' !important;
+    background: #000000 !important;
+    
+} */
 
 </style>
 </head>
-<body>
-<div style="background-image: url('images/image_5.jpg');"/>
+<body style="">
+
 <%@ include file="/WEB-INF/view/common/header.jsp"%>
-<div class="container main">
-    <h2>게시물 <span id="formTitle"></span></h2>
-    <p class="formTitle2"></p>
 
-    <div class="post-container">
-		<div class="post-header">
+	<section class="hero-wrap hero-wrap-2 js-fullheight"
+		style="background-image: url('images/bg_7.jpg');"
+		data-stellar-background-ratio="0.5">
+		<div class="overlay"></div>
+		<div class="container">
+			<div
+				class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+				<div class="col-md-9 ftco-animate pb-5">
+					<p class="breadcrumbs">
+						<span class="mr-2"><a href="index.html">Home <i
+								class="ion-ios-arrow-forward"></i></a></span> <span>community <i
+							class="ion-ios-arrow-forward"></i></span>
+					</p>
+					<h1 class="mb-3 bread">게시물 등록</h1>
+				</div>
+			</div>
 		</div>
-
-		<div class="post-content">
-		</div>
-		<div class="button-container">
-		    <button class="submit-button"></button>
-		</div>
-
-	</div>
+	</section>
 	
-	<div class="navigation-buttons" style="display: flex; justify-content: center; margin-top: 2rem; padding: 0 2rem;">
+	<section>
+	    <div class="post-container">
+	        <div class="post-header">
+	        </div>
+	        <div class="post-content">
+	        </div>
+	        <div class="button-container">
+	            <!-- <button class="submit-button" onclick="submitForm(event)">등록하기</button> -->
+	            <a href="boList" class="nav-btn">목록으로</a>
+	        </div>
+	    </div>
+	</section>
+
+	
+	<!-- <div class="navigation-buttons" style="display: flex; justify-content: center; margin-top: 2rem; padding: 0 2rem;">
 	    <a href="boList" class="nav-btn">목록으로</a>
-	</div>
+	</div> -->
     <%@ include file="/WEB-INF/view/common/footer.jsp"%>
 </div>
 <%@ include file="/WEB-INF/view/common/js.jsp"%>
@@ -301,7 +335,7 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 	    
 		var html = [];
 	    $(".formTitle2").empty();
-	    html.push('<p class="formTitle2">게시물을 등록하는 페이지입니다.</p>');
+	    html.push('<p class="formTitle2" style="color: white;">게시물을 등록하는 페이지입니다.</p>');
 	    $(".formTitle2").append(html.join(''));
 		
 	    var html = [];
@@ -333,7 +367,7 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 	    $(".post-content").append(htmlContent.join(''));
 	    
 	    var html = [];
-	    $(".button-container").empty();
+	    //$(".button-container").empty();
 	    $(".button-container").append('<button class="submit-button" onclick="submitForm(event)">등록하기</button>');
 	}
 
@@ -420,21 +454,10 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
             $('#content').focus();
             return false;
         }
-
-/*         var regdate = $('#regdate').val();
-        var regex = /^\d{4}[\/-][01]\d{1}[\/-][0123]\d{1}$/;
-        var result = regex.test(regdate);
-
-        if(result == false){
-            alert('날짜 형식은 반드시 yyyy/mm/dd 형식 또는 yyyy-mm-dd으로 작성해 주세요.');
-            $('#regdate').focus();
-            return false;
-        } */
     }
 
     function submitForm(event) {
         event.preventDefault();
-        /* if (!validCheck()) return; */
 
         var formData = {
 		    mIdx: <%=session.getAttribute("mIdx") != null ? session.getAttribute("mIdx") : -1 %>,

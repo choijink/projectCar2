@@ -16,8 +16,8 @@
 
 .table th, .table td {
 	border-top: unset;
-	text-align: center;
-	font-weight: bold;
+	width: 100px;      
+    text-align: center;
 }
 
 .carName {
@@ -136,21 +136,8 @@ nav.open ~ .overlay {
 	left: 260px;
 	pointer-events: auto;
 }
-
-.btn {
-	width: 150px;
-	height: 40px;
-	font-size: 16px;
-	font-weight: bold;
-	border: 0;
-	border-radius: 20px;
-	background-color: rgb(164, 199, 255);
-	cursor: pointer;
-	margin-top: 0px;
-	margin-bottom: 10px;
-}
-
 </style>
+
 <body>
 	<%@ include file="/WEB-INF/view/common/header.jsp"%>
 	<!-- END nav -->
@@ -194,16 +181,6 @@ nav.open ~ .overlay {
 		<div class="container">
 			<h2>회원 정보</h2>
 			<table class="table">
-				<thead class="thead-primary">
-					<tr>
-						<th>이름</th>
-						<th>성별</th>
-						<th>전화번호</th>
-						<th>생년월일</th>
-						<th>주소</th>
-						<th>이메일</th>
-					</tr>
-				</thead>
 				<tbody id="member-info">
 					<!-- 회원 정보가 여기에 동적으로 추가됩니다. -->
 				</tbody>
@@ -248,19 +225,14 @@ nav.open ~ .overlay {
 				console.log(response);
 				$('#member-info').empty(); // 기존 데이터를 제거
 				
-				var sex = response.gender === 'M' ?'남자' :'여자';
-
 				var html = [];
-				html.push('<tr>');
-				html.push('<td>' + response.name + '</td>');
-				html.push('<td>' + sex + '</td>');
-				html.push('<td>' + response.phone + '</td>');
-				html.push('<td>' + response.residentNumber + '</td>');
-				html.push('<td>' + response.address + '</td>');
-				html.push('<td>' + response.mail + '</td>');
-				
-				html.push('</tr>');
-				$('#member-info').append(html.join(''));
+	            html.push('<tr><th>이름</th><td>' + response.name + '</td></tr>');
+	            html.push('<tr><th>성별</th><td>' + response.gender + '</td></tr>');
+	            html.push('<tr><th>전화번호</th><td>' + response.phone + '</td></tr>');
+	            html.push('<tr><th>나이</th><td>' + response.age + '</td></tr>');
+	            html.push('<tr><th>이메일</th><td>' + response.mail + '</td></tr>');
+	            html.push('<tr><th>주민번호</th><td>' + response.residentNumber + '</td></tr>');
+	            $('#member-info').append(html.join(''));
 
 				// 페이지네이션을 위한 전체 페이지 수 확인
 			},

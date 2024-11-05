@@ -57,14 +57,34 @@
 	font-weight: bold;
 }
 
+.table {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 1rem;
+    color: #212529;
+}
+
+.table thead th {
+    text-align: center;
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody tr td {
+    text-align: center;                          /* 텍스트 중앙 정렬 */
+    vertical-align: middle;                      /* 수직 정렬 중앙 */
+    padding: 30px 0;                            /* 상하 패딩 설정 */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important; /* 하단 경계선 설정 */
+}
+
 #btn-insert {
     text-decoration: none;
     padding: 0px 6px;
     margin: 0 5px;
-    border: 1px solid #a38983;
+    border: 1px solid #000000;
     border-radius: 5px;
     color: white; /* 글자색을 흰색으로 설정 */
-    background-color: #a38983; /* 기본 배경색을 채워진 색으로 설정 */
+    background-color: #495057d6; /* 기본 배경색을 채워진 색으로 설정 */
 }
 
 #btn-insert:hover {
@@ -79,7 +99,7 @@
 	<%@ include file="/WEB-INF/view/common/header.jsp"%>
 
 	<section class="hero-wrap hero-wrap-2 js-fullheight"
-		style="background-image: url('images/bg_3.jpg');"
+		style="background-image: url('images/bg_9.jpg');"
 		data-stellar-background-ratio="0.5">
 		<div class="overlay"></div>
 		<div class="container">
@@ -104,7 +124,7 @@
 			</div>
 			<form id="searchForm">
 			    <span class="countSpan"></span>
-			    <span class="right" style="margin-left: 400px;">
+			    <span class="right" style="margin-left: 580px;">
 			        <select id="searchCriteria">
 			            <option value="title">제목</option>
 			            <option value="author">작성자</option>
