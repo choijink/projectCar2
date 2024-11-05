@@ -36,6 +36,18 @@
 .table tbody tr td {
 	text-align: center;
 }
+.btn {
+	width: 60%;
+	height: 40px;
+	font-size: 16px;
+	font-weight: bold;
+	border: 0;
+	border-radius: 20px;
+	background-color: rgb(164, 199, 255);
+	cursor: pointer;
+	margin-top: 0px;
+	margin-bottom: 10px;
+}
 
 /* Google Fonts - Poppins */
 @import
