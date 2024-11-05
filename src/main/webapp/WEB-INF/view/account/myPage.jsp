@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Carbook - Free Bootstrap 4 Template by Colorlib</title>
+<title>vsCAR : 마이페이지</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -16,6 +16,8 @@
 
 .table th, .table td {
 	border-top: unset;
+	text-align: center;
+	font-weight: bold;
 }
 
 .carName {
@@ -134,6 +136,20 @@ nav.open ~ .overlay {
 	left: 260px;
 	pointer-events: auto;
 }
+
+.btn {
+	width: 150px;
+	height: 40px;
+	font-size: 16px;
+	font-weight: bold;
+	border: 0;
+	border-radius: 20px;
+	background-color: rgb(164, 199, 255);
+	cursor: pointer;
+	margin-top: 0px;
+	margin-bottom: 10px;
+}
+
 </style>
 <body>
 	<%@ include file="/WEB-INF/view/common/header.jsp"%>
@@ -183,15 +199,19 @@ nav.open ~ .overlay {
 						<th>이름</th>
 						<th>성별</th>
 						<th>전화번호</th>
-						<th>나이</th>
+						<th>생년월일</th>
+						<th>주소</th>
 						<th>이메일</th>
-						<th>주민번호</th>
 					</tr>
 				</thead>
 				<tbody id="member-info">
 					<!-- 회원 정보가 여기에 동적으로 추가됩니다. -->
 				</tbody>
 			</table>
+			<div style="text-align: right;">
+				<a href="memberUpdate" class="btn">회원정보변경</a>
+				<a href="memberFindPassword" class="btn">비밀번호변경</a>
+			</div>
 		</div>
 	</section>
 
@@ -212,6 +232,7 @@ nav.open ~ .overlay {
 <script>
 	const params = new URLSearchParams(window.location.search);
 	var mIdx = params.get('midx');
+	console.log(mIdx);
 	$(".FavoriteCar").attr("href", "/myFavoriteCar?midx=" + mIdx);
 	$(".mypage").attr("href", "/mypage?midx=" + mIdx);
 	$(".board").attr("href", "/myboard?midx=" + mIdx);
@@ -226,14 +247,18 @@ nav.open ~ .overlay {
 			success : function(response) {
 				console.log(response);
 				$('#member-info').empty(); // 기존 데이터를 제거
+				
+				var sex = response.gender === 'M' ?'남자' :'여자';
+
 				var html = [];
 				html.push('<tr>');
 				html.push('<td>' + response.name + '</td>');
-				html.push('<td>' + response.gender + '</td>');
+				html.push('<td>' + sex + '</td>');
 				html.push('<td>' + response.phone + '</td>');
-				html.push('<td>' + response.age + '</td>');
-				html.push('<td>' + response.mail + '</td>');
 				html.push('<td>' + response.residentNumber + '</td>');
+				html.push('<td>' + response.address + '</td>');
+				html.push('<td>' + response.mail + '</td>');
+				
 				html.push('</tr>');
 				$('#member-info').append(html.join(''));
 

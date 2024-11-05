@@ -17,33 +17,33 @@ import com.google.gson.Gson;
 
 @WebServlet("/memberAjaxController")
 public class MemberAjaxController extends HttpServlet {
-	private MemberDao memberDao;
+    private MemberDao memberDao;
 
-	public void init() throws ServletException {
-		memberDao = new MemberDao();
-	}
+    public void init() throws ServletException {
+        memberDao = new MemberDao();
+    }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String idx = request.getParameter("idx");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String idx = request.getParameter("idx");
 
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
 
-		try {
-			MemberBean bean = memberDao.selectMember(Integer.parseInt(idx));
+        try {
+            MemberBean bean = memberDao.selectMember(Integer.parseInt(idx));
 
-			Gson gson = new Gson();
-			String jsonResponse = gson.toJson(bean);
+            Gson gson = new Gson();
+            String jsonResponse = gson.toJson(bean);
 
-			out.print(jsonResponse); // JSON 응답 보내기
-		} catch (Exception e) {
-			e.printStackTrace();
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		} finally {
-			out.close();
-		}
-	}
+            out.print(jsonResponse); // JSON 응답 보내기
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } finally {
+            out.close();
+        }
+    }
 
 }

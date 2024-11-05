@@ -17,6 +17,34 @@ import com.CarProject.Member.MemberBean;
 
 public class MemberDao extends SuperDao {
 	
+	public boolean updateMember(int mIdx, String name, String email, String birthday, String gender, String address,
+			String phone) {
+		String sql = "UPDATE Member SET name=?, mail=?, residentNumber=?, "
+				+ "gender=?, address=?, phone=?, age=? WHERE m_idx=?";
+
+		try (Connection conn = super.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+			LocalDate birthdate = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("yyyyMMdd"));
+			int age = Period.between(birthdate, LocalDate.now()).getYears() + 2;
+
+			pstmt.setString(1, name);
+			pstmt.setString(2, email);
+			pstmt.setString(3, birthday.substring(2)); // 생년월일 형식으로 변환
+			pstmt.setString(4, gender);
+			pstmt.setString(5, address);
+			pstmt.setString(6, phone);
+			pstmt.setInt(7, age);
+			pstmt.setInt(8, mIdx);
+
+			int result = pstmt.executeUpdate();
+			return result > 0;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
     public String findUserId(String userName, String birthDate) {
         String sql = "SELECT id FROM Member WHERE name = ? AND residentNumber LIKE ?";
         String userId = null;
@@ -180,6 +208,7 @@ public class MemberDao extends SuperDao {
 
 			if (rs.next()) { // 결과가 있을때만 MemberBean 객체생성
 				bean = new MemberBean();
+				bean.setId(rs.getString("id"));
 				bean.setName(rs.getString("name"));
 				bean.setAge(rs.getInt("age"));
 				bean.setresidentNumber(rs.getInt("residentNumber"));

@@ -6,10 +6,9 @@
 			<div class="col-md">
 				<div class="ftco-footer-widget mb-4">
 					<h2 class="ftco-heading-2">
-						<a href="#" class="logo">JingkaWingka</a>
+						<a href="#" class="logo">vsCAR</a>
 					</h2>
-					<p>저희 징카윙카는 장인 최진경씨가 어쩌구저쩌구 그냥 막 적고 있는데 걍 뭐 별 거 없음 푸시푸시베이베
-						예이야이잉이야.</p>
+					<p>vsCAR : 국내/외 차량 비교 플랫폼 입니다. 차량 목록, 1:1 비교, 인기순위, 커뮤니티 등 을 운영중입니다.</p>
 					<ul
 						class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
 						<li class="ftco-animate"><a href="#"><span

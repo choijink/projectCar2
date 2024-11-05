@@ -232,7 +232,6 @@ let checkedId = "";
 		html.push('</div>');
 		html.push('<input type="text" name="address" id="sample6_address" class="textA" placeholder="주소">');
 		html.push('<input type="text" name="detailAddress" id="sample6_detailAddress" class="textA" placeholder="상세주소">');
-		html.push('<input type="text" class="textA" id="sample6_extraAddress" placeholder="참고항목">');
 		html.push('<input type="hidden" name="fullAddress" id="fullAddress">');
 		html.push('</td>');
 		html.push('</tr>');
@@ -267,7 +266,6 @@ let checkedId = "";
 		new daum.Postcode({
 				oncomplete : function(data) {
 					var addr = ''; // 주소 변수
-					var extraAddr = ''; // 참고항목 변수
 					var zonecode = ''; // 우편번호
 	
 					// 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
@@ -277,16 +275,6 @@ let checkedId = "";
 						addr = data.jibunAddress;
 					}
 	
-					// 참고항목이 있을 경우, 이를 추가한다.
-					if (data.bname !== '') {
-						extraAddr += data.bname;
-					}
-					if (data.buildingName !== '') {
-						extraAddr += (extraAddr !== '' ? ', '
-								+ data.buildingName : data.buildingName);
-					}
-					// 참고항목이 있을 경우, 해당 필드에 넣어준다 .
-					document.getElementById("sample6_extraAddress").value = extraAddr;
 					// 우편번호와 주소 정보를 해당 필드에 넣는다.
 					document.getElementById('sample6_postcode').value = data.zonecode; // 우편번호
 					document.getElementById("sample6_address").value = addr; // 주소
@@ -421,18 +409,13 @@ let checkedId = "";
 	        alert("아이디 중복 체크를 해주세요.");
 	        return false;
 	    }
-	 // 주소 조합을 위한 변수들
-	    const postcode = document.getElementById("sample6_postcode").value;
-	    const baseAddress = document.getElementById("sample6_address").value;
-	    const detailAddress = document.getElementById("sample6_detailAddress").value;
+	    var postcode = document.getElementById("sample6_postcode").value;
+	    var address = document.getElementById("sample6_address").value;
+	    var detailAddress = document.getElementById("sample6_detailAddress").value;
 	    
-	    // 주소 조합
-	    const fullAddress = [
-	        postcode,
-	        baseAddress,
-	        detailAddress
-	    ].filter(Boolean).join(' ');
+	    var fullAddress = postcode + ',' + address + ',' + detailAddress;
 	    
+
 	    // 폼 데이터 수집
 	    var formData = {
 	        name: document.getElementById("name").value,

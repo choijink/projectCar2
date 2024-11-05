@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>vsCAR : 로그인</title>
 <style>
-/* 페이지 전체를 중앙에 배치 */
+
 body, html {
     height: 100%;
     margin: 0;

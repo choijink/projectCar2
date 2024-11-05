@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>vsCAR : 비밀번호 찾기</title>
 <style>
-/* 기본 스타일 - 로그인 페이지와 동일 */
+
 body, html {
     height: 100%;
     margin: 0;
