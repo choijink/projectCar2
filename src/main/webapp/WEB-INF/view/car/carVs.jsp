@@ -135,7 +135,7 @@ th {
 				<div class="col-md-6 car1">
 					<div class="car-details">
 						<div class="img rounded"
-							style="background-image: url(../../../carImage/myCar1.png);"></div>
+							style="background-image: url(../../../carImage/myCar.png);"></div>
 					</div>
 					<div class="choice1">
 						<div class="media block-3 services">
@@ -143,7 +143,7 @@ th {
 								<div class="d-flex mb-3 align-items-center">
 									<div class="text">
 										<span class="col">차량 : </span> <select id="carNameSelectBox1"
-											onChange="carNameSelect(1)">
+											onChange="carNameSelect(1)"><option value="">선택</option>
 										</select>
 									</div>
 								</div>
@@ -156,7 +156,7 @@ th {
 								<div class="d-flex mb-3 align-items-center">
 									<div class="text">
 										<span class="col">등급 : </span> <select id="gradeSelectBox1"
-											onChange="gradeSelect(1)">
+											onChange="gradeSelect(1)"><option value="">선택</option>
 										</select>
 									</div>
 								</div>
@@ -169,7 +169,7 @@ th {
 								<div class="d-flex mb-3 align-items-center">
 									<div class="text">
 										<span class="col">트림 : </span> <select id="trimSelectBox1"
-											onChange="trimSelect(1)">
+											onChange="trimSelect(1)"><option value="">선택</option>
 										</select>
 									</div>
 								</div>
@@ -213,7 +213,7 @@ th {
 				<div class="col-md-6 car2">
 					<div class="car-details">
 						<div class="img rounded"
-							style="background-image: url(../../../carImage/myCar1.png);"></div>
+							style="background-image: url(../../../carImage/myCar.png);"></div>
 					</div>
 					<div class="choice1">
 						<div class="media block-3 services">
@@ -221,7 +221,7 @@ th {
 								<div class="d-flex mb-3 align-items-center">
 									<div class="text">
 										<span class="col">차량 : </span> <select id="carNameSelectBox2"
-											onChange="carNameSelect(2)"></select>
+											onChange="carNameSelect(2)"><option value="">1번째 차량을 먼저 선택하세요.</option></select>
 									</div>
 								</div>
 							</div>
@@ -233,7 +233,7 @@ th {
 								<div class="d-flex mb-3 align-items-center">
 									<div class="text">
 										<span class="col">등급 : </span> <select id="gradeSelectBox2"
-											onChange="gradeSelect(2)"></select>
+											onChange="gradeSelect(2)"><option value="">선택</option></select>
 									</div>
 								</div>
 							</div>
@@ -263,29 +263,25 @@ th {
 							<span>출력</span> <span class="maxPower2"></span>
 						</div>
 						<div class="row justify-content: space-evenly">
-							<div class="progress-bar 7">
-							</div>
+							<div class="progress-bar 7"></div>
 						</div>
 						<div class="text-container">
 							<span>토크</span> <span class="maxTorque2"></span>
 						</div>
 						<div class="row justify-content: space-evenly">
-							<div class="progress-bar 8">
-							</div>
+							<div class="progress-bar 8"></div>
 						</div>
 						<div class="text-container">
 							<span>배기</span> <span class="displacement2"></span>
 						</div>
 						<div class="row justify-content: space-evenly">
-							<div class="progress-bar 9">
-							</div>
+							<div class="progress-bar 9"></div>
 						</div>
 						<div class="text-container">
 							<span>인원</span> <span class="seatingCapacity2"></span>
 						</div>
 						<div class="row justify-content: space-evenly">
-							<div class="progress-bar 10">
-							</div>
+							<div class="progress-bar 10"></div>
 						</div>
 					</div>
 				</div>
@@ -402,19 +398,6 @@ th {
 		</div>
 	</section>
 
-	<section class="ftco-section ftco-no-pt">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-md-12 heading-section text-center ftco-animate mb-5">
-					<span class="subheading">차량 선택</span>
-					<h2 class="mb-2">추천 차량</h2>
-				</div>
-			</div>
-
-			<div class="recommend-row"></div>
-		</div>
-	</section>
-
 	<%@ include file="/WEB-INF/view/common/footer.jsp"%>
 
 	<!-- loader -->
@@ -441,66 +424,6 @@ th {
 
    function init() {
       carList(0);
-   }
-   function view() {
-      $.ajax({
-         url : "CarViewAjaxController", // 서버 서블릿 경로
-         method : "GET", // 요청 방식
-         data : {
-            "idx" : cIdx
-         },
-         success : function(response) {
-            carData = response;
-            // 응답 데이터를 순회하여 중복 제거
-            var FuelEfficiency = new Set();
-            var FuelType = new Set();
-            var Displacement = new Set();
-            var MaxPower = new Set();
-            var CurbWeight = new Set();
-            var MaxTorque = new Set();
-            var Grade = new Set();
-            var Price = new Set();
-            
-            TrimMap.clear();
-
-            for (var i = 0; i < response.length; i++) {
-               FuelEfficiency.add(response[i].fuelEfficiency); // 브랜드 추가
-               FuelType.add(response[i].fuelType); // 모델 이름 추가
-               Displacement.add(response[i].displacement); // 모델 이름 추가
-               MaxPower.add(response[i].maxPower); // 모델 이름 추가
-               CurbWeight.add(response[i].curbWeight); // 모델 이름 추가
-               MaxTorque.add(response[i].maxTorque); // 모델 이름 추가
-               Grade.add(response[i].grade); // 모델 이름 추가
-               Price.add(response[i].price); // 모델 이름 추가
-               // grade별로 trim 추가
-                   if (!TrimMap.has(response[i].grade)) {
-                       TrimMap.set(response[i].grade, []);
-                   }
-                   TrimMap.get(response[i].grade).push(response[i].trim);
-            }
-            var html = [];
-            html.push('<option value="">선택</option>');
-            var gradeArray = Array.from(Grade);
-            for (var i = 0; i < gradeArray.length; i++) {
-               console.log(gradeArray[i]);
-               html.push('<option value="' + gradeArray[i] + '">'
-                     + gradeArray[i] + '</option>');
-            }
-            $('#gradeSelectBox').append(html.join(''));
-            
-            var html = [];
-            html.push('<div class="img rounded" style="background-image: url(../../../carImage/' + response[0].car + ');"></div>');
-            html.push('<div class="text text-center">');
-           	html.push('<span class="subheading"><img class="brandMark" src=../../../carImage/' + response[0].brandMark + '></span>');
-            html.push('<h2>' + response[0].brand + ' ' + response[0].carName + '</h2>');
-            html.push('</div>');
-            $('.car1 .car-details').append(html.join(''));
-
-         },
-         error : function(xhr, status, error) {
-            console.error('요청 실패: ' + error); // 에러 출력
-         }
-      });
    }
 
    function viewCompare(num){ // 비교하기 버튼 실행하는 코드 만들기
@@ -535,16 +458,6 @@ th {
                    }
                    TrimMap.get(response[i].grade).push(response[i].trim);
             }
-            
-            var html = [];
-            html.push('<option value="">선택</option>');
-            var carNameArray = Array.from(CarName);
-            for (var i = 0 ; i < carNameArray.length; i++){
-               console.log("carNameArray[i]");
-               console.log(carNameArray[i]);
-               html.push('<option value="' + carNameArray[i] +'">' + carNameArray[i] + '</option>');
-            }
-            $('#carNameSelectBox').append(html.join(''));
          }
       });
    }
@@ -552,7 +465,6 @@ th {
    
    
    function carNameSelect(num){
-      $('#gradeSelectBox').empty();
       if(num == 1){
          var selectElement = document.getElementById("carNameSelectBox1");
          var selectedValue = selectElement.value;
@@ -560,20 +472,15 @@ th {
          var carImage = selectElement.options[selectElement.selectedIndex].id;
          cIdx = selectedValue;
       }
-      if(num ==2){
+      else if(num == 2){
          var selectElement = document.getElementById("carNameSelectBox2");
          var selectedValue = selectElement.value;
          var carImage = selectElement.options[selectElement.selectedIndex].id;
          cIdx = selectedValue;
       }
-      console.log("탐");
-      console.log(carImage);
-      console.log(num);
+      
       carImageSelect(carImage, num);
       
-      if(num == 1) {
-         carList(1);
-      }
       viewCompare(num);
       
       // 선택한 carName에 맞는 grade 목록 가져오기
@@ -585,8 +492,8 @@ th {
            html.push('<option value="' + key + '">' + key + '</option>'); });
              
           $('#gradeSelectBox1').append(html.join(''));
-       }
-      if(num==2){
+        }
+       if(num==2){
          $('#gradeSelectBox2').empty();
           var html = [];
           html.push('<option value="">선택</option>');
@@ -599,7 +506,7 @@ th {
    
    function gradeSelect(num) {
       if(num==1){
-      $('#trimSelectBox').empty();
+      $('#trimSelectBox1').empty();
       //$('.table-container table').empty();
       //$('.table-container table').append('<tr><td colspan="4">해당 등급/트림의 정보가 없습니다.</td></tr>');
       
@@ -617,9 +524,14 @@ th {
            
        });
           $('#trimSelectBox1').append(html.join(''));
+          
+          // 왼쪽 트림까지 선택되었을 때 오른쪽 SelectBox 활성화
+          if ($('#carNameSelectBox1').val() && $('#gradeSelectBox1').val() && $('#trimSelectBox1').val()) {
+              $('#carNameSelectBox2').prop('disabled', false); // 오른쪽 차량 SelectBox 활성화
+          }
         }
-      if(num==2){
-         $('#trimSelectBox').empty();
+      else if(num==2){
+         $('#trimSelectBox2').empty();
          //$('.table-container table').empty();
          //$('.table-container table').append('<tr><td colspan="4">해당 등급/트림의 정보가 없습니다.</td></tr>');
          
@@ -633,7 +545,7 @@ th {
           var html = [];
           html.push('<option value="">선택</option>');
           trimOptions.forEach(trim => {
-           html.push('<option value="' + trim + '">' + trim + '</option>');
+          html.push('<option value="' + trim + '">' + trim + '</option>');
               
           });
              $('#trimSelectBox2').append(html.join(''));
@@ -641,7 +553,9 @@ th {
    }
    
    function trimSelect(num){
-      if(num == 1){
+      if(num == 1 && $('#carNameSelectBox1').val() && $('#gradeSelectBox1').val()){
+    	 carList(1);
+         viewCompare(num);
          var selectedGrade = $('#gradeSelectBox1').val();
          var selectedTrim = $('#trimSelectBox1').val();
          }
@@ -650,7 +564,6 @@ th {
          var selectedTrim = $('#trimSelectBox2').val();
       }
       // trim 선택에 따라서 테이블 업데이트
-
       updateTable(selectedGrade, selectedTrim, num);
    }
    
@@ -678,7 +591,7 @@ th {
        	var cleanMaxTorque = filteredData1.maxTorque.replace(/[^0-9.]/g, "");
        	// 문자열을 숫자로 변환하고 소수점이 하나만 남도록 처리 ex)36.6kg.m 일때
        	var numMaxTorque = parseFloat(cleanMaxTorque);
-       	var maxTorquePercentage = (numMaxTorque / 90) * 100;
+     	var maxTorquePercentage = ((numMaxTorque >=90 ? numMaxTorque/10 : numMaxTorque)/ 90) * 100;
        	var cleanDisplacement = filteredData1.displacement.replace(/[^0-9.]/g, "");
      	var numDisplacement = Number(cleanDisplacement);
      	var displacementPercentage = (numDisplacement / 5000) * 100;
@@ -726,13 +639,13 @@ th {
          	var cleanMaxTorque = filteredData2.maxTorque.replace(/[^0-9.]/g, "");
          	// 문자열을 숫자로 변환하고 소수점이 하나만 남도록 처리 ex)36.6kg.m 일때
          	var numMaxTorque = parseFloat(cleanMaxTorque);
-         	var maxTorquePercentage = (numMaxTorque / 90) * 100;
+         	var maxTorquePercentage = ((numMaxTorque >=90 ? numMaxTorque/10 : numMaxTorque)/ 90) * 100;
          	var cleanDisplacement = filteredData2.displacement.replace(/[^0-9.]/g, "");
-       	var numDisplacement = Number(cleanDisplacement);
-       	var displacementPercentage = (numDisplacement / 5000) * 100;
-       	var cleanSeatingCapacity = filteredData2.seatingCapacity.replace(/[^0-9.]/g, "");
-       	var numSeatingCapacity = Number(cleanSeatingCapacity);
-       	var seatingCapacityPercentage = (numSeatingCapacity / 10) * 100;
+	       	var numDisplacement = Number(cleanDisplacement);
+	       	var displacementPercentage = (numDisplacement / 5000) * 100;
+	       	var cleanSeatingCapacity = filteredData2.seatingCapacity.replace(/[^0-9.]/g, "");
+	       	var numSeatingCapacity = Number(cleanSeatingCapacity);
+	       	var seatingCapacityPercentage = (numSeatingCapacity / 10) * 100;
          $(".brand2").html(filteredData2.brand);
          $(".model2").html(filteredData2.carName);
          $(".fuelType2").html(filteredData2.fuelType);
@@ -795,7 +708,7 @@ th {
          carListController(function(response){
             var html=[];
             $("#carNameSelectBox1").empty();
-            html.push('<option value="">선택 해주세요.</option>');
+            html.push('<option value="">선택</option>');
             for(var i=0; i < response.length; i++){
                html.push('<option id="' + response[i].carImage + '" value="' + response[i].cIdx + '">' + response[i].carName + '</option>');
             }
@@ -806,7 +719,7 @@ th {
          carListController(function(response){
             $("#carNameSelectBox2").empty();
             var html=[];
-            html.push('<option value="">선택 해주세요.</option>');
+            html.push('<option value="">선택</option>');
             for(var i=0; i < response.length; i++){   
                if(response[i].cIdx != selectFirstCarIdx){
                   html.push('<option id="' + response[i].carImage + '" value="' + response[i].cIdx + '">' + response[i].carName + '</option>');
@@ -823,20 +736,15 @@ th {
       var html = [];
       if(num == 1){
          $('.car1 .car-details').empty();
-         $('.car2 .car-details').empty();
          if(carNameSelectBox1.value != null){
             html.push('<div class="img rounded" style="background-image: url(../../../carImage/' + carimage + ');"></div>');
          }
-         
          $('.car1 .car-details').append(html.join(''));
       }
-      
-      var html=[];
-      if(num == 2){
+      else if(num == 2){
          $('.car2 .car-details').empty();
          if(carNameSelectBox2.value != null){
             html.push('<div class="img rounded" style="background-image: url(../../../carImage/' + carimage + ');"></div>');
-            
          }
          $('.car2 .car-details').append(html.join(''));
       }
