@@ -20,13 +20,13 @@ import javax.servlet.http.Part;
 import com.CarProject.Car.CarBean;
 import com.CarProject.Car.Dao.CarDao;
 
-@WebServlet("/carMainInsertAjaxController")
+@WebServlet("/carMainUpdateAjaxController")
 @MultipartConfig(
     fileSizeThreshold = 1024 * 1024 * 1, // 1MB
     maxFileSize = 1024 * 1024 * 10,      // 10MB
     maxRequestSize = 1024 * 1024 * 100   // 100MB
 )
-public class CarMainInsertAjaxController extends HttpServlet {
+public class CarMainUpdateAjaxController extends HttpServlet {
     private CarDao carDao;
     private CarBean carBean;
 
@@ -67,11 +67,15 @@ public class CarMainInsertAjaxController extends HttpServlet {
     	String uploadPath = getServletContext().getRealPath("/carImage");
     	System.out.println(uploadPath);
     	request.setCharacterEncoding("UTF-8"); // 요청 인코딩 설정
+    	carBean.setcIdx(Integer.parseInt(request.getParameter("cIdx")));
         carBean.setDomesticImport(request.getParameter("domesticImport"));
         carBean.setBrand(request.getParameter("brand"));
         carBean.setVehicleSize(request.getParameter("vehicleSize"));
         carBean.setCarModel(request.getParameter("carModel"));
         carBean.setCarName(request.getParameter("carName"));
+        String isCarImageFileChange = request.getParameter("isCarImageFileChange");
+        String isBrandImageFileChange = request.getParameter("isBrandImageFileChange");
+        System.out.println(carBean.toString());
         
         // carImage 디렉토리가 없으면 생성
         System.out.println(uploadPath);
@@ -81,40 +85,38 @@ public class CarMainInsertAjaxController extends HttpServlet {
         }
 
         // 파일 처리
-        Part carImagePart = request.getPart("carImage");
-        Part brandMarkPart = request.getPart("brandMark");
-
-        if (carImagePart != null && carImagePart.getSize() > 0) {
-            String carImageFileName = extractFileName(carImagePart);
-            String carImageFilePath = uploadPath + File.separator + carImageFileName;
-            carImagePart.write(carImageFilePath);
-            carBean.setCarImage(carImageFileName); // 파일명 또는 경로를 Bean에 저장
+        if(isCarImageFileChange.equals("true")) {
+	        Part carImagePart = request.getPart("carImage");
+	        if (carImagePart != null && carImagePart.getSize() > 0) {
+	            String carImageFileName = extractFileName(carImagePart);
+	            String carImageFilePath = uploadPath + File.separator + carImageFileName;
+	            carImagePart.write(carImageFilePath);
+	            carBean.setCarImage(carImageFileName); // 파일명 또는 경로를 Bean에 저장
+	        }
         }
-
-        if (brandMarkPart != null && brandMarkPart.getSize() > 0) {
-            String brandMarkFileName = extractFileName(brandMarkPart);
-            String brandMarkFilePath = uploadPath + File.separator + brandMarkFileName;
-            brandMarkPart.write(brandMarkFilePath);
-            carBean.setBrandMark(brandMarkFileName); // 파일명 또는 경로를 Bean에 저장
+        if(isBrandImageFileChange.equals("true")) {
+	        Part brandMarkPart = request.getPart("brandMark");
+	        if (brandMarkPart != null && brandMarkPart.getSize() > 0) {
+	            String brandMarkFileName = extractFileName(brandMarkPart);
+	            String brandMarkFilePath = uploadPath + File.separator + brandMarkFileName;
+	            brandMarkPart.write(brandMarkFilePath);
+	            carBean.setBrandMark(brandMarkFileName); // 파일명 또는 경로를 Bean에 저장
+	        }
         }
-
-        // 이후 데이터베이스에 저장 등 필요한 처리 수행
-        System.out.println("Car Image: " + carBean.getCarImage());
-        System.out.println("Brand Mark: " + carBean.getBrandMark());
 
         response.setContentType("application/json; charset=UTF-8");
         PrintWriter out = response.getWriter();
-        boolean insertCheck = false;
-        int cIdx = 0;
+        boolean UpdateCheck = false;
 
-        cIdx = carDao.carMainInsert(carBean);
+        UpdateCheck = carDao.carMainUpdate(carBean);
+        System.out.println(UpdateCheck);
 
-        if (cIdx > 0) {
+        if (UpdateCheck) {
             // 성공
-            out.print("{\"status\":\"success\", \"message\":\"carMain 등록에 성공 했습니다.\"}");
+            out.print("{\"status\":\"success\", \"message\":\"carMain 수정에 성공 했습니다.\"}");
         } else {
             // 실패
-            out.print("{\"status\":\"fail\", \"message\":\"carMain 등록에 실패 했습니다.\"}");
+            out.print("{\"status\":\"fail\", \"message\":\"carMain 수정에 실패 했습니다.\"}");
         }
     }
 }

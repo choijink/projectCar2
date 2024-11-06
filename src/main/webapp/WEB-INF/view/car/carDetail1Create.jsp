@@ -100,7 +100,7 @@ th {
 		</div>
 	</section>
 	<section>
-		<div style="text-align: center; margin-top: 60px;">
+		<div class="carNameClass" style="text-align: center; margin-top: 60px;">
 			<span class="col">차량 : </span> <select id="carNameSelect"></select>
 		</div>
 	</section>
@@ -120,8 +120,7 @@ th {
 								<div class="icon d-flex align-items-center justify-content-center" style="margin-right: 10px; margin-left: 70px;">
 									<span class="flaticon-dashboard"></span>
 								</div>
-								<div class="text">
-									<span class="col">등급 : </span> <input type="text" id="gradeInput">
+								<div class="text grade">
 								</div>
 							</div>
 						</div>
@@ -190,7 +189,7 @@ th {
 			</table>
 		</div>
 		<!-- 등록 완료 버튼 -->
-		<div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+		<div class="buttonClass" style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
 			<button class="gridButton1" onclick="clickInsert()" id="insertButton">등록 완료</button>
 		</div>
 	</section>
@@ -212,31 +211,64 @@ th {
 	var cIdx = params.get('idx'); // URL에서 인덱스 값 가져오기
 	var TrimMap = new Map(); // 트림 정보를 저장할 Map
 	var carData = []; // 전체 차량 데이터를 저장하는 전역 변수
-
+	var TrimMap = new Map();
+	var Grade = new Set();
+	var cd1_idx = 0;
+	
 	function init() {
-		$.ajax({
-			url : "ajaxController", // 서버 서블릿 경로
-			method : "GET", // 요청 방식
-			data : {
-				"domestic" : "",
-				"brand" : "",
-				"model" : "",
-				"name" : "",
-				"page" : "",
-				"pageSize" : ""
-			},
-			success : function(response) {
-				var html = [];
-				html.push('<option value="">선택하세요</option>');
-				for(var i =0; i < response.length; i++){
-					html.push('<option value="' + response[i].cIdx + '">' + response[i].carName + '</option>');
-				}
-				$("#carNameSelect").append(html.join(''));
-			},
-			error : function(xhr, status, error) {
-				console.error('요청 실패: ' + error); // 에러 출력
+		if(cIdx > 0){
+			carView(1);
+			document.title = "차량 수정하기";
+			$(".mb-3.bread").html("차량 수정하기");
+			$(".gridClass1 h2").html("차량 제원 수정하기");
+			$(".text.grade").empty();
+			
+			$(".buttonClass").empty();
+			var html=[];
+			html.push('<button class="gridButton1" onclick="clickUpdate()" id="updateButton">수정 완료</button>');
+			$(".buttonClass").append(html.join(''));
+			
+			var html = [];
+			$(".text.grade").empty(html.join(''));
+			html.push('<select id="gradeInput" onchange="carView(2)">');
+			html.push('	<option value="">선택해주세요</option>');
+			var gradeArray = Array.from(Grade);
+			for (var i = 0; i < gradeArray.length; i++) {
+				html.push('<option value="' + gradeArray[i] + '">' + gradeArray[i] + '</option>');
 			}
-		});
+			html.push('</select>');
+			$(".text.grade").append(html.join(''));
+			
+		} else {
+			$(".text.grade").empty();
+			var html = [];
+			html.push('<span class="col">등급 : </span> <input type="text" id="gradeInput">');
+			$(".text.grade").append(html.join(''));
+			
+			$.ajax({
+				url : "ajaxController", // 서버 서블릿 경로
+				method : "GET", // 요청 방식
+				data : {
+					"domestic" : "",
+					"brand" : "",
+					"model" : "",
+					"name" : "",
+					"page" : "",
+					"pageSize" : ""
+				},
+				success : function(response) {
+					var html = [];
+					html.push('<option value="">선택하세요</option>');
+					for(var i =0; i < response.length; i++){
+						html.push('<option value="' + response[i].cIdx + '">' + response[i].carName + '</option>');
+					}
+					$("#carNameSelect").append(html.join(''));
+				},
+				error : function(xhr, status, error) {
+					console.error('요청 실패: ' + error); // 에러 출력
+				}
+			});
+		}
 	}
 	
     function previewCar(event) {
@@ -315,6 +347,107 @@ th {
 	        }
 	    });
 		
+	}
+
+	function clickUpdate() {
+		
+		 // FormData 객체 생성
+	    const formData = new FormData();
+	    
+	    // 폼 데이터 추가
+	    formData.append('cd1Idx', cd1_idx);
+	    formData.append('cIdx', cIdx);
+	    formData.append('fuelType', document.getElementById('fuelTypeInput').value);
+	    formData.append('displacement', document.getElementById('displacementInput').value);
+	    formData.append('fuelEfficiency', document.getElementById('fuelEfficiencyInput').value);
+	    formData.append('seatingCapacity', document.getElementById('seatingCapacityInput').value);
+	    formData.append('engineType', document.getElementById('engineTypeInput').value);
+	    formData.append('driveType', document.getElementById('driveTypeInput').value);
+	    formData.append('maxPower', document.getElementById('maxPowerInput').value);
+	    formData.append('maxTorque', document.getElementById('maxTorqueInput').value);
+	    formData.append('length', document.getElementById('lengthInput').value);
+	    formData.append('width', document.getElementById('widthInput').value);
+	    formData.append('height', document.getElementById('heightInput').value);
+	    formData.append('wheelBase', document.getElementById('wheelBaseInput').value);
+	    formData.append('curbWeight', document.getElementById('curbWeightInput').value);
+	    formData.append('grade', document.getElementById('gradeInput').value);
+
+	    // AJAX 요청 (fetch API 사용)
+	    $.ajax({
+	        url: "carDetail1UpdateAjaxController",
+	        type: "POST",
+	        data: formData,
+	        contentType: false, // 필수
+	        processData: false, // 필수
+	        success: function(response) {
+	            console.log("Success:", response);
+	            if(response.status === "success") {
+	                alert('carDetail1 수정 완료');
+	                window.location.href = "/carList";
+	            } else {
+	                alert('carDetail1 수정 실패 : ' + response.message);
+	            }
+	        },
+	        error: function(xhr, status, error) {
+	            console.error("Error details:", xhr.responseText);
+	            alert('차량등록 중 오류가 발생했습니다.');
+	        }
+	    });
+		
+	}
+	
+	function carView(num){
+		$.ajax({
+			url : "CarViewAjaxController", // 서버 서블릿 경로
+			method : "GET", // 요청 방식
+			data : {
+				"idx" : cIdx
+			},
+			async : false,
+			success : function(response) {
+				if(num == 1){		
+					$(".carNameClass").empty();
+					var html=[];
+					html.push('<span class="col">차량 : </span><a>' + response[0].carName + '</a>');
+					$(".carNameClass").append(html.join(''));
+					TrimMap.clear();
+					for (var i = 0; i < response.length; i++) {
+						Grade.add(response[i].grade);
+						if (!TrimMap.has(response[i].grade)) {
+		                    TrimMap.set(response[i].grade, []);
+		                }
+		                TrimMap.get(response[i].grade).push(response[i].trim);
+					} 
+					
+				}
+				if(num == 2){
+					var selectedValue = document.getElementById('gradeInput').value;
+					var index = 0;
+					for(var i =0; i < response.length; i++){
+						if(response[i].grade == selectedValue){ index = i; }
+					}
+					console.log(response[index]);
+					cd1_idx = response[index].cd1Idx;
+					$("#fuelTypeInput").val(response[index].fuelType);
+					$("#displacementInput").val(response[index].displacement);
+					$("#fuelEfficiencyInput").val(response[index].fuelEfficiency);
+					$("#seatingCapacityInput").val(response[index].seatingCapacity);
+					$("#engineTypeInput").val(response[index].engineType);
+					$("#driveTypeInput").val(response[index].driveType);
+					$("#maxPowerInput").val(response[index].maxPower);
+					$("#maxTorqueInput").val(response[index].maxTorque);
+					$("#lengthInput").val(response[index].length);
+					$("#widthInput").val(response[index].width);
+					$("#heightInput").val(response[index].height);
+					$("#wheelBaseInput").val(response[index].wheelBase);
+					$("#curbWeightInput").val(response[index].curbWeight);
+				}
+				
+			},
+			error : function(xhr, status, error) {
+				console.error('요청 실패: ' + error); // 에러 출력
+			}
+		});
 	}
 	
 	   

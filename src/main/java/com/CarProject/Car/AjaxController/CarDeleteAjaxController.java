@@ -10,17 +10,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.CarProject.Car.CarBean;
 import com.CarProject.Car.Dao.CarDao;
-import com.google.gson.Gson;
+import com.CarProject.Favorite.FavoriteBean;
+import com.CarProject.Favorite.Dao.FavoriteDAO;
 
 
 @WebServlet("/CarDeleteAjaxController")
 public class CarDeleteAjaxController extends HttpServlet {
 	private CarDao carDao;
+	private FavoriteDAO favoritesDao;
 
     public void init() throws ServletException {
         carDao = new CarDao(); // DAO 인스턴스 생성
+        favoritesDao = new FavoriteDAO();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,16 +31,13 @@ public class CarDeleteAjaxController extends HttpServlet {
         
         response.setContentType("application/json; charset=UTF-8");
         PrintWriter out = response.getWriter();
-        boolean carFavoliteDelete = false;
-        boolean carDetail2Delete = false;
-        boolean carDetail1Delete = false;
-        boolean carMainDelete = false;
+        boolean deleteCheck = false;
         
-        carFavoliteDelete = carDao.carFavoriteDelete(Integer.parseInt(adminCheck));
-        if(carFavoliteDelete) { carDetail2Delete = carDao.carDetail2Delete(Integer.parseInt(adminCheck)); }
-        if(carDetail2Delete) { carDetail1Delete = carDao.carDetail1Delete(Integer.parseInt(adminCheck)); }
-        if(carDetail1Delete) { carMainDelete = carDao.carMainDelete(Integer.parseInt(adminCheck)); }
-        if(carMainDelete) {
+    	carDao.carFavoriteDelete(Integer.parseInt(cIdx));
+    	carDao.carDetail2Delete(Integer.parseInt(cIdx));
+    	carDao.carDetail1Delete(Integer.parseInt(cIdx));
+    	deleteCheck = carDao.carMainDelete(Integer.parseInt(cIdx));
+        if(deleteCheck) {
         	out.print("{\"status\":\"success\", \"message\":\"차량 삭제에 성공 했습니다.\"}");
         } else {
         	out.print("{\"status\":\"success\", \"message\":\"차량 삭제에 실패 했습니다.\"}");

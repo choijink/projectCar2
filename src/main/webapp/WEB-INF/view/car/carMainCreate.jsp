@@ -164,7 +164,7 @@ th {
 			</table>
 		</div>
 		<!-- 등록 완료 버튼 -->
-		<div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+		<div class="buttonClass" style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
 			<button class="gridButton1" onclick="clickInsert()" id="insertButton">등록 완료</button>
 		</div>
 	</section>
@@ -187,13 +187,25 @@ th {
 	console.log(cIdx);
 	var TrimMap = new Map(); // 트림 정보를 저장할 Map
 	var carData = []; // 전체 차량 데이터를 저장하는 전역 변수
+	var isCarImageFileChange = false;
+	var isBrandImageFileChange = false;
 
 	function init() {
-		if(cIdx > 0){ carView(); }
+		if(cIdx > 0){
+			carView();
+			document.title = "차량 수정하기";
+			$(".mb-3.bread").html("차량 수정하기");
+			$(".gridClass1 h2").html("차량 제원 수정하기");
+			$(".buttonClass").empty();
+			var html=[];
+			html.push('<button class="gridButton1" onclick="clickUpdate()" id="updateButton">수정 완료</button>');
+			$(".buttonClass").append(html.join(''));
+		}
 	 // 초기화 함수 호출
 	}
 	
     function previewCar(event) {
+    	if(cIdx > 0){ isCarImageFileChange = true; console.log("바뀜1"); }
         const file = event.target.files[0]; // 선택한 파일 가져오기
         const reader = new FileReader(); // FileReader 객체 생성
         
@@ -209,6 +221,7 @@ th {
     }
     
     function previewMark(event) {
+    	if(cIdx > 0){ isBrandImageFileChange = true; console.log("바뀜2");}
         const file = event.target.files[0]; // 선택한 파일 가져오기
         const reader = new FileReader(); // FileReader 객체 생성
         
@@ -263,6 +276,54 @@ th {
 	        }
 	    });
 	}
+
+	function clickUpdate() {
+		 // FormData 객체 생성
+	    const formData = new FormData();
+	    
+	    // 폼 데이터 추가
+	    formData.append('cIdx', cIdx);
+	    formData.append('domesticImport', document.getElementById('domesticImportInput').value);
+	    formData.append('brand', document.getElementById('brandInput').value);
+	    formData.append('vehicleSize', document.getElementById('vehicleSizeInput').value);
+	    formData.append('carModel', document.getElementById('carModelInput').value);
+	    formData.append('carName', document.getElementById('carNameInput').value);
+	    formData.append('isCarImageFileChange', isCarImageFileChange);
+	    formData.append('isBrandImageFileChange', isBrandImageFileChange);
+	    
+	    // 파일도 포함 (이미지가 업로드된 경우만)
+	    if(isCarImageFileChange){
+	    	const carImage = document.getElementById('imageUpload1').files[0];
+	    	if (carImage) formData.append('carImage', carImage);
+	    }
+	    if(isBrandImageFileChange){
+		    const brandMark = document.getElementById('imageUpload2').files[0];
+		    if (brandMark) formData.append('brandMark', brandMark);
+		}
+	   
+	    // AJAX 요청 (fetch API 사용)
+	    $.ajax({
+	        url: "carMainUpdateAjaxController",
+	        type: "POST",
+	        data: formData,
+	        contentType: false, // 필수
+	        processData: false, // 필수
+	        dataType: "json",
+	        success: function(response) {
+	            console.log("Success:", response);
+	            if(response.status === "success") {
+	                alert('carMain 수정 완료');
+	                window.location.href = "/carList";
+	            } else {
+	                alert('carMain 수정 실패 : ' + response.message);
+	            }
+	        },
+	        error: function(xhr, status, error) {
+	            console.error("Error details:", xhr.responseText);
+	            alert('차량등록 중 오류가 발생했습니다.');
+	        }
+	    });
+	}
 	
 	function carView(){
 		$.ajax({
@@ -273,6 +334,8 @@ th {
 			},
 			success : function(response) {
 				console.log(response);
+				$("#uploadButton1").attr('src', 'carImage/' + response[0].carImage)
+				$("#uploadButton2").attr('src', 'carImage/' + response[0].brandMark)
 				$("#domesticImportInput").val(response[0].domesticImport);
 				$("#brandInput").val(response[0].brand);
 				$("#vehicleSizeInput").val(response[0].vehicleSize);

@@ -22,10 +22,10 @@ import com.CarProject.Car.Dao.CarDao;
 
 @WebServlet("/carDetail2InsertAjaxController")
 @MultipartConfig(
-    fileSizeThreshold = 1024 * 1024 * 1, // 1MB
-    maxFileSize = 1024 * 1024 * 10,      // 10MB
-    maxRequestSize = 1024 * 1024 * 100   // 100MB
-)
+	    fileSizeThreshold = 1024 * 1024 * 1, // 1MB
+	    maxFileSize = 1024 * 1024 * 10,      // 10MB
+	    maxRequestSize = 1024 * 1024 * 100   // 100MB
+	)
 public class CarDetail2InsertAjaxController extends HttpServlet {
     private CarDao carDao;
     private CarBean carBean;

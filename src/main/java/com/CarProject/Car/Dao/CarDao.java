@@ -412,6 +412,52 @@ public class CarDao extends SuperDao {
 		
 	}
 
+	public boolean carMainUpdate(CarBean carBean) {
+		boolean updateCheck = false;
+		PreparedStatement pstmt = null;
+		String sql = "UPDATE carmain SET";
+		if(carBean.getDomesticImport() != null) { sql += " DomesticImport = ? "; }
+		if(carBean.getBrand() != null) { sql += ", Brand = ? "; }
+		if(carBean.getVehicleSize() != null) { sql += ", VehicleSize = ? "; }
+		if(carBean.getCarModel() != null) { sql += ", CarModel = ? "; }
+		if(carBean.getCarName() != null) { sql += ", CarName = ? "; }
+		if(carBean.getBrandMark() != null) { sql += ", BrandMark = ? "; }
+		if(carBean.getCarImage() != null) { sql += ", CarImage = ? "; }
+		sql += " WHERE c_idx = ?";
+		
+		System.out.println(sql);
+		try {
+			conn = super.getConnection();
+			int paramIndex = 1;
+			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS); // 자동 생성된 키 반환 옵션 설정
+			if(carBean.getDomesticImport() != null) { pstmt.setString(paramIndex++, carBean.getDomesticImport()); }
+			if(carBean.getBrand() != null)	{ pstmt.setString(paramIndex++, carBean.getBrand()); }
+			if(carBean.getVehicleSize() != null) { pstmt.setString(paramIndex++, carBean.getVehicleSize()); }
+			if(carBean.getCarModel() != null) { pstmt.setString(paramIndex++, carBean.getCarModel()); }
+			if(carBean.getCarName() != null) { pstmt.setString(paramIndex++, carBean.getCarName()); }
+			if(carBean.getBrandMark() != null) { pstmt.setString(paramIndex++, carBean.getBrandMark()); }
+			if(carBean.getCarImage() != null) { pstmt.setString(paramIndex++, carBean.getCarImage()); }
+			pstmt.setInt(paramIndex++, carBean.getcIdx());
+			
+			int result = pstmt.executeUpdate(); // INSERT 실행
+			if (result > 0) {
+				updateCheck = true;
+            }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return updateCheck;
+		
+	}
+
 	public int carDetail1Insert(CarBean carBean) {
 		int insertIdx= 0;
 		PreparedStatement pstmt = null;
@@ -456,6 +502,66 @@ public class CarDao extends SuperDao {
 		return insertIdx;
 	}
 	
+	public boolean carDetail1Update(CarBean carBean) {
+		boolean updateCheck = false;
+		PreparedStatement pstmt = null;
+		String sql = "UPDATE cardetail1 set ";
+		sql += " fuelType = ? , ";
+		sql += " displacement = ? , ";
+		sql += " fuelEfficiency = ? , ";
+		sql += " seatingCapacity = ?, ";
+		sql += " engineType = ? ,";
+		sql += " driveType = ? , ";
+		sql += " maxPower = ? , ";
+		sql += " maxTorque = ? , ";
+		sql += " length = ? , ";
+		sql += " width = ? , ";
+		sql += " height = ? , ";
+		sql += " wheelBase = ? , ";
+		sql += " curbWeight = ? , ";
+		sql += " grade = ?";
+		
+		sql += " WHERE cd1_idx = ?";
+		
+		System.out.println(sql);
+		try {
+			conn = super.getConnection();
+			int paramIndex = 1;
+			pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS); // 자동 생성된 키 반환 옵션 설정
+			pstmt.setString(paramIndex++, carBean.getFuelType());
+			pstmt.setString(paramIndex++, carBean.getDisplacement());
+			pstmt.setString(paramIndex++, carBean.getFuelEfficiency());
+			pstmt.setString(paramIndex++, carBean.getSeatingCapacity());
+			pstmt.setString(paramIndex++, carBean.getEngineType());
+			pstmt.setString(paramIndex++, carBean.getDriveType());
+			pstmt.setString(paramIndex++, carBean.getMaxPower());
+			pstmt.setString(paramIndex++, carBean.getMaxTorque());
+			pstmt.setString(paramIndex++, carBean.getLength());
+			pstmt.setString(paramIndex++, carBean.getWidth());
+			pstmt.setString(paramIndex++, carBean.getHeight());
+			pstmt.setString(paramIndex++, carBean.getWheelBase());
+			pstmt.setString(paramIndex++, carBean.getCurbWeight());
+			pstmt.setString(paramIndex++, carBean.getGrade());
+			pstmt.setInt(paramIndex++, carBean.getCd1Idx());
+			
+			int result = pstmt.executeUpdate(); // INSERT 실행
+			if (result > 0) {
+				updateCheck = true;
+            }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null) pstmt.close();
+				if (conn != null) conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return updateCheck;
+	}
+	
 	public boolean carDetail2Insert(CarBean carBean) {
 		boolean insertcheck = false;
 		String sql = "INSERT INTO carDetail2 (cd1_idx, trim, price) VALUES (?, ?, ?)";
@@ -480,6 +586,32 @@ public class CarDao extends SuperDao {
             e.printStackTrace();
         }
         return insertcheck;
+    }
+	
+	public boolean carDetail2Update(CarBean carBean) {
+		boolean updateCheck = false;
+		String sql = "UPDATE carDetail2 SET ";
+				sql += " trim = ? ,";
+				sql += " price = ? ";
+				sql += " WHERE cd2_idx = ?";
+		
+		try {
+            conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            int paramIndex = 1;
+            pstmt.setString(paramIndex++, carBean.getTrim());
+            pstmt.setString(paramIndex++, carBean.getPrice());
+            pstmt.setInt(paramIndex++, carBean.getCd2Idx());
+
+            int result = pstmt.executeUpdate();
+            if (result > 0) {
+				updateCheck = true;
+            }
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return updateCheck;
     }
 }
 

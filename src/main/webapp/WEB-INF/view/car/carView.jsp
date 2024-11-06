@@ -182,19 +182,17 @@ var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAtt
 	var TrimMap = new Map();
 	var carData = [] ; // 전체 차량 데이터를 저장하는 전역 변수
 	
-	/* <h2>차량 제원</h2>
-	<div></div>
-	<button class="gridButton1">비교하기</button>
-	<button class="gridButton2">관심등록</button> */
-
 	function init() {
 		view();
 		if(adminCheck ==2){
+			$(".gridClass1").css('grid-template-columns', '1fr 200px 1fr 1fr 1fr 1fr');
 			var html = [];
 			html.push('<h2>차량 제원</h2>');
 			html.push('<div></div>');
-			html.push('<button class="gridButton1">수정하기</button>');
-			html.push('<button class="gridButton2">삭제하기</button>');
+			html.push('<button class="gridButton1" onclick="carMainUpdate()">Main 수정하기</button>');
+			html.push('<button class="gridButton1" onclick="carDetail1Update()">Detail1 수정하기</button>');
+			html.push('<button class="gridButton1" onclick="carDetail2Update()">Detail2 수정하기</button>');
+			html.push('<button class="gridButton2" onclick="carDelete()">삭제하기</button>');
 			$(".gridClass1").append(html.join(''));
 		} else {
 			var html = [];
@@ -253,9 +251,9 @@ var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAtt
 				$('#gradeSelectBox').append(html.join(''));
 								
 				var html = [];
-				html.push('<div class="img rounded" style="background-image: url(../../../carImage/' + response[0].carImage + ');"></div>');
+				html.push('<div class="img rounded" style="background-image: url(carImage/' + response[0].carImage + ');"></div>');
 				html.push('<div class="text text-center">');
-				html.push('	<span class="subheading"><img class="brandMark" src=../../../carImage/' + response[0].brandMark + '></span>');
+				html.push('	<span class="subheading"><img class="brandMark" src="carImage/' + response[0].brandMark + '"></span>');
 				html.push('	<h2>' + response[0].brand + ' ' + response[0].carName + '</h2>');
 				html.push('</div>');
 				$('.car-details').append(html.join(''));
@@ -466,6 +464,31 @@ var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAtt
 	        }
 	    });
 	}
+	
+	function carDelete(){
+		if(adminCheck == 2){
+			$.ajax({
+				url : "CarDeleteAjaxController", // 서버 서블릿 경로
+				method : "GET", // 요청 방식
+				data : {
+					"idx" : cIdx,
+					"adminCheck" : adminCheck,
+				},
+				success : function(response) {
+					if (response.status === "success") {
+	                    alert(response.message);
+	                    window.location.href = "/carList";
+	                } else {
+	                    // 로그인 실패 시 에러 메시지 출력
+	                    alert(response.message);
+	                }
+				},
+				error : function(xhr, status, error) {
+					console.error('요청 실패: ' + error); // 에러 출력
+				}
+			});
+		}
+	}
 
 	function getRandomElements(arr, num){
 		 console.log("arr");
@@ -479,6 +502,15 @@ var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAtt
 	    }
 	    // 첫 num개 반환
 	    return shuffle.slice(0, num);
+	}
+	function carMainUpdate(){
+		window.location.href = "/carMainCreate?idx=" + cIdx;
+	}
+	function carDetail1Update(){
+		window.location.href = "/carDetail1Create?idx=" + cIdx;
+	}
+	function carDetail2Update(){
+		window.location.href = "/carDetail2Create?idx=" + cIdx;
 	}
 	
 	$(document).ready(function() {

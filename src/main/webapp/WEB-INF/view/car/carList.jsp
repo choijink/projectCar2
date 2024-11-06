@@ -11,7 +11,6 @@
 </head>
 <style>
 .d-block {width: 100%;justify-content: center;gap: 10px;}
-.btn-danger {font-size: 0.8rem !important;border: 1px solid !important;border-width: 0px !important;line-height: 3.5;width: 30% !important;}
 .mr-1 {color: black !important; line-height: 2.5;}
 .car-wrap .text p.d-block a {width: 78%;}
 .request-form.ftco-animate.bg-primary.fadeInUp.ftco-animated {width: 100%;margin-top: 200px;}
@@ -22,7 +21,7 @@
 .ftco-section {padding: 2em 0;}
 .ftco-footer {height: 350px;}
 .form-group.main {display: grid;grid-template-columns: 80px 1fr 80px 1fr 80px 1fr 80px 1fr;gap: 15px;}
-.form-group.search {justify-content: center;display: grid;margin-top: 2rem;gap: 10px;grid-template-columns: 1fr 1fr 100px 100px 100px;}
+.form-group.search {justify-content: center;display: grid;margin-top: 2rem;gap: 10px;grid-template-columns: 1fr 1fr 1fr 1fr}
 .form-group.search .btn {width: unset;}
 .request-form label.label {text-align: center;font-size: 15px;}
 .mt-5, .my-5 {margin-top: unset !important;}
@@ -31,7 +30,7 @@
     border: 2px solid !important;
     border-width: 0px !important;
     line-height: 3.5;
-    width: 26% !important;
+    width: 30% !important;
 }
 label {display: inline-block;margin-bottom: unset;}
 </style>
@@ -65,18 +64,11 @@ label {display: inline-block;margin-bottom: unset;}
 						</select>
 					</div>
 					<div class="form-group search">
+						<div></div>
 							<input type="submit" value="해당 조건 차량 검색"
 							class="btn btn-secondary py-3 px-4"> 
-							<input type="cancel"
-							onclick="javascript:reload();" value="검색 초기화"
-							class="btn btn-secondary py-3 px-4">
+							<input type="cancel" onclick="javascript:reload();" value="검색 초기화" class="btn btn-secondary py-3 px-4">
 							<!--관리자 차량 등록버  -->
-							<input type="button" id="registerButton" value="메인등록"
-							class="btn btn-secondary py-3 px-4" onclick="javascript:gotoCreate(1);" style="display: none;">
-							<input type="button" id="registerButton" value="detail1등록"
-							class="btn btn-secondary py-3 px-4" onclick="javascript:gotoCreate(2);" style="display: none;">
-							<input type="button" id="registerButton" value="detail2등록"
-							class="btn btn-secondary py-3 px-4" onclick="javascript:gotoCreate(3);" style="display: none;">
 						<div></div>
 					</div>
 				</form>
@@ -144,6 +136,18 @@ label {display: inline-block;margin-bottom: unset;}
 		name = nameParam;
 
 	function init(domestic, brand, model, name, checkNum) {
+		if(adminCheck == 2){
+			$(".form-group.search").empty();
+			$(".form-group.search").css('grid-template-columns', '1fr 1fr 1fr 1fr 1fr');
+			var html = [];
+			html.push('<input type="submit" value="해당 조건 차량 검색" class="btn btn-secondary py-3 px-4">');
+			html.push('<input type="cancel" onclick="javascript:reload();" value="검색 초기화" class="btn btn-secondary py-3 px-4">');
+			html.push('<input type="button" id="registerButton" value="메인등록" class="btn btn-secondary py-3 px-4" onclick="javascript:gotoCreate(1);" style="display: none;">');
+			html.push('<input type="button" id="registerButton" value="detail1등록" class="btn btn-secondary py-3 px-4" onclick="javascript:gotoCreate(2);" style="display: none;">');
+			html.push('<input type="button" id="registerButton" value="detail2등록" class="btn btn-secondary py-3 px-4" onclick="javascript:gotoCreate(3);" style="display: none;">');
+			$(".form-group.search").append(html.join(''));
+		}
+		
 		var check = 0;
 		if (domesticParam != null) {
 			domestic = domesticParam;
@@ -578,7 +582,8 @@ label {display: inline-block;margin-bottom: unset;}
 				url : "CarDeleteAjaxController", // 서버 서블릿 경로
 				method : "GET", // 요청 방식
 				data : {
-					"idx" : idx
+					"idx" : idx,
+					"adminCheck" : adminCheck,
 				},
 				success : function(response) {
 					if (response.status === "success") {

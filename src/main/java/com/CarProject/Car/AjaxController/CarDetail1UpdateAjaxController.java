@@ -1,32 +1,26 @@
 package com.CarProject.Car.AjaxController;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.util.Map;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
 import com.CarProject.Car.CarBean;
 import com.CarProject.Car.Dao.CarDao;
 
-@WebServlet("/carDetail1InsertAjaxController")
+@WebServlet("/carDetail1UpdateAjaxController")
 @MultipartConfig(
 	    fileSizeThreshold = 1024 * 1024 * 1, // 1MB
 	    maxFileSize = 1024 * 1024 * 10,      // 10MB
 	    maxRequestSize = 1024 * 1024 * 100   // 100MB
 	)
-public class CarDetail1InsertAjaxController extends HttpServlet {
+public class CarDetail1UpdateAjaxController extends HttpServlet {
     private CarDao carDao;
     private CarBean carBean;
 
@@ -39,6 +33,7 @@ public class CarDetail1InsertAjaxController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	request.setCharacterEncoding("UTF-8"); // 요청 인코딩 설정
+    	carBean.setCd1Idx(Integer.parseInt(request.getParameter("cd1Idx")));
     	carBean.setcIdx(Integer.parseInt(request.getParameter("cIdx")));
         carBean.setFuelType(request.getParameter("fuelType"));
         carBean.setDisplacement(request.getParameter("displacement"));
@@ -54,13 +49,14 @@ public class CarDetail1InsertAjaxController extends HttpServlet {
         carBean.setWheelBase(request.getParameter("wheelBase"));
         carBean.setCurbWeight(request.getParameter("curbWeight"));
         carBean.setGrade(request.getParameter("grade"));
+
         
+        System.out.println(carBean);
         response.setContentType("application/json; charset=UTF-8");
         PrintWriter out = response.getWriter();
-        int cd1Idx = 0;
-        cd1Idx = carDao.carDetail1Insert(carBean);
+        boolean updateCheck = carDao.carDetail1Update(carBean);
 
-        if (cd1Idx > 0) {
+        if (updateCheck) {
             // 성공
             out.print("{\"status\":\"success\", \"message\":\"carDetail1 등록에 성공 했습니다.\"}");
         } else {
