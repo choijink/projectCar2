@@ -308,10 +308,12 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 	    
 	    if(bIdx == null){
 			console.log("등록");
+			$(".mb-3.bread").html("게시물 등록")
 			boardCreate(); 
 		}
 		else {
 			console.log("수정");
+			$(".mb-3.bread").html("게시물 수정")
 			boardUpdate(); 
 		}
 	    
@@ -431,7 +433,7 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 					$(".post-content").append(html.join(''));
 					
 					var html = [];
-					$(".button-container").empty();
+					//$(".button-container").empty();
 				    $(".button-container").append('<button class="submit-button">수정하기</button>');
 				},
 				error : function(xhr, status, error) {
