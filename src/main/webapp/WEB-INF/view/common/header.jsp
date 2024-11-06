@@ -18,7 +18,7 @@
 				<li class="nav-item"><a href="carList" class="nav-link">차량
 						목록</a></li>
 				<li class="nav-item"><a href="/carCompare" class="nav-link">비교</a></li>
-				<li class="nav-item"><a href="pricing.html" class="nav-link">인기순위</a></li>
+				<li class="nav-item"><a href="/popularityRanking" class="nav-link">인기순위</a></li>
 				<li class="nav-item"><a href="/boList" class="nav-link">커뮤니티</a></li>
 			</ul>
 		</div>
