@@ -8,55 +8,48 @@
 					<h2 class="ftco-heading-2">
 						<a href="#" class="logo">vsCAR</a>
 					</h2>
-					<p>vsCAR : 국내/외 차량 비교 플랫폼 입니다. 차량 목록, 1:1 비교, 인기순위, 커뮤니티 등 을 운영중입니다.</p>
-					<ul
-						class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-						<li class="ftco-animate"><a href="#"><span
-								class="icon-twitter"></span></a></li>
-						<li class="ftco-animate"><a href="#"><span
-								class="icon-facebook"></span></a></li>
-						<li class="ftco-animate"><a href="#"><span
-								class="icon-instagram"></span></a></li>
-					</ul>
+					<p>원하는 차량의 상세정보를 확인하고 비교하는 플랫폼입니다.
+					국산/수입, 브랜드, 차종별로 차량을 검색하고 원하는 차량을 1:1로 비교할 수 있습니다. 
+					또한 커뮤니티를 통해 차량에 대한 다양한 정보를 제공받을 수 있습니다. </p>
 				</div>
 			</div>
 			<div class="col-md">
 				<div class="ftco-footer-widget mb-4 ml-md-5">
-					<h2 class="ftco-heading-2">Information</h2>
+					<h2 class="ftco-heading-2">중고차 판매 사이트</h2>
 					<ul class="list-unstyled">
-						<li><a href="#" class="py-2 d-block">About</a></li>
-						<li><a href="#" class="py-2 d-block">Services</a></li>
-						<li><a href="#" class="py-2 d-block">Term and Conditions</a></li>
-						<li><a href="#" class="py-2 d-block">Best Price Guarantee</a></li>
-						<li><a href="#" class="py-2 d-block">Privacy &amp;
-								Cookies Policy</a></li>
+						<li><a href="http://www.kcar.com" class="py-2 d-block">K Car</a></li>
+						<li><a href="http://www.encar.com/index.do" class="py-2 d-block">엔카</a></li>
+						<li><a href="https://m.kbchachacha.com/" class="py-2 d-block">KB 차차차</a></li>
 					</ul>
 				</div>
 			</div>
 			<div class="col-md">
 				<div class="ftco-footer-widget mb-4">
-					<h2 class="ftco-heading-2">Customer Support</h2>
+					<h2 class="ftco-heading-2"></h2>
 					<ul class="list-unstyled">
-						<li><a href="#" class="py-2 d-block">FAQ</a></li>
-						<li><a href="#" class="py-2 d-block">Payment Option</a></li>
-						<li><a href="#" class="py-2 d-block">Booking Tips</a></li>
-						<li><a href="#" class="py-2 d-block">How it works</a></li>
-						<li><a href="#" class="py-2 d-block">Contact Us</a></li>
+						<li><a href="#" class="py-2 d-block"></a></li>
+						<li><a href="#" class="py-2 d-block"></a></li>
+						<li><a href="#" class="py-2 d-block"></a></li>
+						<li><a href="#" class="py-2 d-block"></a></li>
+						<li><a href="#" class="py-2 d-block"></a></li>
 					</ul>
 				</div>
 			</div>
 			<div class="col-md">
 				<div class="ftco-footer-widget mb-4">
-					<h2 class="ftco-heading-2">Have a Questions?</h2>
+					<h2 class="ftco-heading-2">사업자 정보</h2>
 					<div class="block-23 mb-3">
 						<ul>
+							<li><span class="icon icon-user"></span><span
+								class="text">대표자 : 최진경</span></li>
+							<li><span class="icon icon-user"></span><span
+								class="text">개인정보보호 책임자 : 조승현</span></li>
 							<li><span class="icon icon-map-marker"></span><span
-								class="text">203 Fake St. Mountain View, San Francisco,
-									California, USA</span></li>
+								class="text">서울특별시 마포구 백범로 23</span></li>
 							<li><a href="#"><span class="icon icon-phone"></span><span
-									class="text">+2 392 3929 210</span></a></li>
+									class="text">+02 123 4567</span></a></li>
 							<li><a href="#"><span class="icon icon-envelope"></span><span
-									class="text">info@yourdomain.com</span></a></li>
+									class="text">team1_ict@email.com</span></a></li>
 						</ul>
 					</div>
 				</div>
