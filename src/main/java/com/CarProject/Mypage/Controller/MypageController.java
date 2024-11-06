@@ -1,4 +1,4 @@
-package com.CarProject.Mypage;
+package com.CarProject.Mypage.Controller;
 
 import java.io.IOException;
 

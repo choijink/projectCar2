@@ -17,11 +17,9 @@ public class FavoriteDAO extends SuperDao {
         int mIdx = 0;
         int cIdx = 0;
         if (mIdxString != null) {
-            System.out.println(mIdxString);
             mIdx = Integer.parseInt(mIdxString);
         }
         if (cIdxString != null) {
-            System.out.println(cIdxString);
             cIdx = Integer.parseInt(cIdxString);
         }
 
@@ -41,6 +39,7 @@ public class FavoriteDAO extends SuperDao {
 	        sql += " LIMIT ?, ?";
 	    }
 	
+	   System.out.println(sql);
 	   try {
 	       conn = super.getConnection();
 	       pstmt = conn.prepareStatement(sql);
@@ -73,6 +72,7 @@ public class FavoriteDAO extends SuperDao {
 	           e.printStackTrace();
 	       }
 	   }
+	   System.out.println(lists);
 	   return lists;
     }
 
@@ -122,11 +122,9 @@ public class FavoriteDAO extends SuperDao {
         int mIdx = 0;
         int cIdx = 0;
         if (mIdxString != null) {
-            System.out.println(mIdxString);
             mIdx = Integer.parseInt(mIdxString);
         }
         if (cIdxString != null) {
-            System.out.println(cIdxString);
             cIdx = Integer.parseInt(cIdxString);
         }
         int totalCount = 0;
@@ -154,7 +152,7 @@ public class FavoriteDAO extends SuperDao {
                 pstmt.setInt(paramIndex++, mIdx);
             }
             if (cIdx > 0) {
-                pstmt.setInt(paramIndex, cIdx);
+                pstmt.setInt(paramIndex++, cIdx);
             }
 
             rs = pstmt.executeQuery();
