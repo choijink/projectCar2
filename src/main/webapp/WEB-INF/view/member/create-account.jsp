@@ -183,6 +183,8 @@ input[type="radio"]:checked+.gender-btn {
 <script>
 let isIdChecked = false;
 let checkedId = "";
+let userEmailLocal = "";
+let userEmailDomain = "";
 	function init(){
 		var html = [];
 		html.push('<tr>');
@@ -397,56 +399,167 @@ let checkedId = "";
 	
 	function handleSubmit(event) {
 	    event.preventDefault();
+	    if (!isIdChecked || document.getElementById("id").value !== checkedId) {
+	        alert("아이디 중복 확인을 해주세요.");
+	        return false;
+	    }
+	    
 	    if(validCheck()) {
-	        memberCreate();
+	    	
+	    	var postcode = document.getElementById("sample6_postcode").value;
+		    var address = document.getElementById("sample6_address").value;
+		    var detailAddress = document.getElementById("sample6_detailAddress").value;
+		    
+		    var fullAddress = postcode + ',' + address + ',' + detailAddress;
+	    	
+	        // 폼 데이터 저장
+	        window.tempFormData = {
+	        		name: document.getElementById("name").value,
+	    	        emailLocal: document.getElementById("emailLocal").value,
+	    	        emailDomain: document.getElementById("domainSelect").value === "direct" 
+	    	            ? document.getElementById("emailDomain").value 
+	    	            : document.getElementById("domainSelect").value,
+	    	        id: document.getElementById("id").value,
+	    	        password: document.getElementById("password").value,
+	    	        birthday: document.getElementById("birthdate").value,
+	    	        gender: document.querySelector('input[name="gender"]:checked').value,
+	    	        address: fullAddress,
+	    	        phone: document.getElementById("phone").value
+	    	    };
+	        
+	        // 이메일 인증 프로세스 시작
+	        sendVerificationEmail();
 	    }
 	    return false;
 	}
-	
-	function memberCreate() {
-	    // id 중복체크확인
-	    if(!isIdChecked || document.getElementById("id").value !== checkedId){
-	        alert("아이디 중복 체크를 해주세요.");
-	        return false;
+	    
+
+	function sendVerificationEmail() {
+		 // 이메일 로컬 부분과 도메인 부분 가져오기
+	    const emailLocal = document.getElementById("emailLocal").value;
+	    const emailDomain = document.getElementById("domainSelect").value === "direct" 
+	        ? document.getElementById("emailDomain").value 
+	        : document.getElementById("domainSelect").value;
+	    
+	    // 값이 비어있는지 확인
+	    if (!emailLocal || !emailDomain) {
+	        alert("이메일을 올바르게 입력해주세요.");
+	        return;
 	    }
-	    var postcode = document.getElementById("sample6_postcode").value;
-	    var address = document.getElementById("sample6_address").value;
-	    var detailAddress = document.getElementById("sample6_detailAddress").value;
-	    
-	    var fullAddress = postcode + ',' + address + ',' + detailAddress;
-	    
 
-	    // 폼 데이터 수집
-	    var formData = {
-	        name: document.getElementById("name").value,
-	        emailLocal: document.getElementById("emailLocal").value,
-	        emailDomain: document.getElementById("domainSelect").value === "direct" 
-	            ? document.getElementById("emailDomain").value 
-	            : document.getElementById("domainSelect").value,
-	        id: document.getElementById("id").value,
-	        password: document.getElementById("password").value,
-	        birthday: document.getElementById("birthdate").value,
-	        gender: document.querySelector('input[name="gender"]:checked').value,
-	        address: fullAddress,
-	        phone: document.getElementById("phone").value
-	    };
+	    // 전체 이메일 주소 조합
+	    const email = emailLocal + "@" + emailDomain;
 	    
-	   // 전송 전 데이터 확인
-	    console.log("전송할 데이터:", fullAddress);
+	    console.log("전송할 이메일:", email); // 디버깅용 로그
+	    
+	    $.ajax({
+	        url: "sendVerificationCodeAjaxController",
+	        type: "POST",
+	        data: { 
+	            type: "signup",
+	            email: email
+	        },
+	        success: function(response) {
+	            console.log("서버 응답:", response); // 디버깅용 로그
+	            if(response.status === "success") {
+	            	alert('이메일로 인증번호를 전송하였습니다.')
+	                // 전역 변수에 이메일 정보 저장
+	                userEmailLocal = emailLocal;
+	                userEmailDomain = emailDomain;
+	                showVerificationForm();
+	            } else {
+	                alert('이미 존재하는 이메일입니다.');
+	            }
+	        },
+	        error: function(xhr, status, error) {
+	            console.error("에러 상세:", xhr.responseText);
+	            alert('이메일 발송 중 오류가 발생했습니다.');
+	        }
+	    });
+	}
 
-	    // AJAX 요청
+
+	function showVerificationForm() {
+	    var table = document.querySelector('.memberClass');
+	    table.innerHTML = ''; // 기존 내용 삭제
+	    
+	    var html = [
+	        '<tr>',
+	        '<td><h1><a href="home">vsCAR</a></h1></td>',
+	        '</tr>',
+	        '<tr>',
+	        '<td><h2>이메일 인증</h2></td>',
+	        '</tr>',
+	        '<tr>',
+	        '<td><p>입력하신 이메일로 인증번호가 전송되었습니다.</p></td>',
+	        '</tr>',
+	        '<tr>',
+	        '<td><input type="text" id="verificationCode" class="text" placeholder="인증번호 입력" required></td>',
+	        '</tr>',
+	        '<tr>',
+	        '<td><input type="button" value="인증확인" onclick="verifyCode()" class="btn"></td>',
+	        '</tr>'
+	    ];
+	    
+	    html.forEach(row => {
+	        var tr = document.createElement('tr');
+	        tr.innerHTML = row;
+	        table.appendChild(tr);
+	    });
+	}
+
+	function verifyCode() {
+		
+		const emailLocal = document.getElementById("emailLocal").value;
+	    const emailDomain = document.getElementById("domainSelect").value === "direct" 
+	        ? document.getElementById("emailDomain").value 
+	        : document.getElementById("domainSelect").value;
+	        
+		const email = emailLocal + "@" + emailDomain;
+	    var code = document.getElementById("verificationCode").value;
+	    if (!code) {
+	        alert("인증번호를 입력해주세요.");
+	        return;
+	    }
+	    
+	    $.ajax({
+	    	url: "sendVerificationCodeAjaxController",
+	        type: "POST",
+	        data: { 
+	            type: "signup",
+	            code: code,
+	            email: email
+	        },
+	        success: function(response) {
+	            if(response.status === "success") {
+	                memberCreate();
+	            } else {
+	                alert('인증번호가 일치하지 않습니다.');
+	            }
+	        },
+	        error: function(xhr, status, error) {
+	            alert('인증 확인 중 오류가 발생했습니다.');
+	        }
+	    });
+	}
+
+	function memberCreate() {
+	    if (!window.tempFormData) {
+	        alert('회원 정보가 유실되었습니다. 다시 시도해주세요.');
+	        return;
+	    }
+
 	    $.ajax({
 	        url: "memberCreateAjaxController",
 	        type: "POST",
-	        data: formData,
+	        data: window.tempFormData,
 	        dataType: "json",
 	        success: function(response) {
-	            console.log("Success:", response);
 	            if(response.status === "success") {
 	                alert('회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
 	                window.location.href = "memberLogin";
 	            } else {
-	                alert('회원가입 실패: ' + response.message);
+	                alert('회원가입 실패: ' + (response.message || '알 수 없는 오류가 발생했습니다.'));
 	            }
 	        },
 	        error: function(xhr, status, error) {

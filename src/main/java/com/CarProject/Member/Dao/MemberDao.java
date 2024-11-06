@@ -17,6 +17,23 @@ import com.CarProject.Member.MemberBean;
 
 public class MemberDao extends SuperDao {
 	
+	public boolean isEmailExists(String email) {
+	    String sql = "SELECT COUNT(*) FROM Member WHERE mail = ?";
+	    try (Connection conn = super.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        
+	        pstmt.setString(1, email);
+	        ResultSet rs = pstmt.executeQuery();
+	        
+	        if (rs.next()) {
+	            return rs.getInt(1) > 0; // 이메일이 존재하면 true 반환
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return false;
+	}
+	
 	public boolean updateMember(int mIdx, String name, String email, String birthday, String gender, String address,
 			String phone) {
 		String sql = "UPDATE Member SET name=?, mail=?, residentNumber=?, "
