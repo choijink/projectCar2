@@ -22,7 +22,7 @@
 .ftco-section {padding: 2em 0;}
 .ftco-footer {height: 350px;}
 .form-group.main {display: grid;grid-template-columns: 80px 1fr 80px 1fr 80px 1fr 80px 1fr;gap: 15px;}
-.form-group.search {justify-content: center;display: grid;margin-top: 2rem;gap: 10px;grid-template-columns: 1fr 1fr 1fr 1fr;}
+.form-group.search {justify-content: center;display: grid;margin-top: 2rem;gap: 10px;grid-template-columns: 1fr 1fr 100px 100px 100px;}
 .form-group.search .btn {width: unset;}
 .request-form label.label {text-align: center;font-size: 15px;}
 .mt-5, .my-5 {margin-top: unset !important;}
@@ -65,15 +65,18 @@ label {display: inline-block;margin-bottom: unset;}
 						</select>
 					</div>
 					<div class="form-group search">
-						<div></div>
 							<input type="submit" value="해당 조건 차량 검색"
 							class="btn btn-secondary py-3 px-4"> 
 							<input type="cancel"
 							onclick="javascript:reload();" value="검색 초기화"
 							class="btn btn-secondary py-3 px-4">
 							<!--관리자 차량 등록버  -->
-							<input type="button" id="registerButton" value="차량등록"
-							class="btn btn-secondary py-3 px-4" onclick="javascript:gotoCreate();" style="display: none;">
+							<input type="button" id="registerButton" value="메인등록"
+							class="btn btn-secondary py-3 px-4" onclick="javascript:gotoCreate(1);" style="display: none;">
+							<input type="button" id="registerButton" value="detail1등록"
+							class="btn btn-secondary py-3 px-4" onclick="javascript:gotoCreate(2);" style="display: none;">
+							<input type="button" id="registerButton" value="detail2등록"
+							class="btn btn-secondary py-3 px-4" onclick="javascript:gotoCreate(3);" style="display: none;">
 						<div></div>
 					</div>
 				</form>
@@ -405,6 +408,7 @@ label {display: inline-block;margin-bottom: unset;}
 				var html = [];
 				$(".ftco-section.bg-light .container .row.list").empty();
 				for (var i = 0; i < response.length; i++) {
+					console.log(response[i].carImage);
 					html.push('<div class="col-md-4">');
 					html.push('	<div class="car-wrap rounded ftco-animate fadeInUp ftco-animated">');
 					html.push('		<div class="img rounded d-flex align-items-end"');
@@ -449,7 +453,9 @@ label {display: inline-block;margin-bottom: unset;}
 			method : "GET", // 요청 방식
 			data : {
 				"mIdx" : midx,
-				"cIdx" : cIdx
+				"cIdx" : cIdx,
+				"pageNumber": 0,
+	            "pageSize": 0
 			},
 			success : function(response) {
 				if(response.length > 0){
@@ -512,9 +518,10 @@ label {display: inline-block;margin-bottom: unset;}
 		});
 	}
 	
-	function gotoCreate() {
-		
-		window.location.href = window.location.origin + "/carCreate";
+	function gotoCreate(num) {
+		if(num == 1) { window.location.href = window.location.origin + "/carMainCreate"; }
+		if(num == 2) { window.location.href = window.location.origin + "/carDetail1Create"; }
+		if(num == 3) { window.location.href = window.location.origin + "/carDetail2Create"; }
 	}
 	
 	function reload() {
@@ -553,7 +560,9 @@ label {display: inline-block;margin-bottom: unset;}
 			html.push('				<p class="price ml-auto">'+ response[i].brand + '</p>');
 			html.push('			</div>');
 			html.push('			<p class="d-flex mb-0 d-block">');
-			html.push('				<a href="carView?idx=' + response[i].cIdx + '" class="btn btn-light py-2 mr-1" style="color: black !important;">상세보기</a> <a href="carView" class="btn btn-danger" style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">관심등록</a>');
+			html.push('				<a href="carView?idx=' + response[i].cIdx + '" class="btn btn-light py-2 mr-1" style="color: black !important;">상세보기</a>');
+			if(adminCheck == 2){ html.push('<a href="javascript:carDelete(' + response[i].cIdx + ');" class="btn btn-danger" style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">삭제하기</a>'); }
+			else{ html.push('<a href="javascript:carFavorite(' + response[i].cIdx + ');" class="btn btn-danger style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">찜하기</a>'); }
 			html.push('			</p>');
 			html.push('		</div>');
 			html.push('	</div>');

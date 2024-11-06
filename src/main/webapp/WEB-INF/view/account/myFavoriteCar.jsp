@@ -151,13 +151,13 @@ nav.open ~ .overlay {
 	              </a>
 	            </li>
 	            <li class="list">
-	              <a href="/myFavoreteCar" class="nav-link FavoriteCar">
+	              <a href="/myFavoriteCar" class="nav-link FavoriteCar">
 	                <i class="bx bx-home-alt icon"></i>
 	                <span class="link">찜 목록 차량</span>
 	              </a>
 	            </li>
 	            <li class="list">
-	              <a href="/myFavoreteCar" class="nav-link board">
+	              <a href="/myBoard" class="nav-link board">
 	                <i class="bx bx-home-alt icon"></i>
 	                <span class="link">내가 쓴 게시글</span>
 	              </a>
@@ -204,17 +204,14 @@ nav.open ~ .overlay {
 
 </body>
 <script>
-	const params = new URLSearchParams(window.location.search);
-	var mIdx = params.get('midx');
-	$(".FavoriteCar").attr("href", "/myFavoriteCar?midx=" + mIdx);
-	$(".mypage").attr("href", "/mypage?midx=" + mIdx);
+	var midx = '<%=session.getAttribute("mIdx") != null ? session.getAttribute("mIdx") : 0%>';
 	
 	function init(pageNumber = 1, pageSize = 3){
 		$.ajax({
 			url : "favoriteController", // 서버 서블릿 경로
 			method : "GET", // 요청 방식
 			data : {
-				"mIdx" : mIdx,
+				"mIdx" : midx,
 				"pageNumber": pageNumber,
 	            "pageSize": pageSize
 			},

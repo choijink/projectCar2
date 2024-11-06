@@ -111,7 +111,7 @@ public class CarDao extends SuperDao {
 		
 
 		// 기본 쿼리
-		String sql = "select t1.c_idx, t1.Brand, t1.BrandMark, t1.CarImage, t1.CarName, t2.FuelEfficiency,";
+		String sql = "select t1.c_idx, t1.DomesticImport, t1.VehicleSize, t1.CarModel, t1.Brand, t1.BrandMark, t1.CarImage, t1.CarName, t2.FuelEfficiency,";
 		sql += " t2.cd1_idx, t2.SeatingCapacity, t2.FuelType, t2.Length, t2.Displacement,";
 		sql += " t2.Width, t2.EngineType, t2.Height, t2.DriveType, t2.WheelBase,";
 		sql += " t2.MaxPower, t2.CurbWeight, t2.MaxTorque, t2.Grade,";
@@ -141,6 +141,53 @@ public class CarDao extends SuperDao {
 
 		return lists;
 	}
+
+	public List<CarBean> selectGrade(String cIdx) {
+		List<CarBean> lists = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		// 기본 쿼리
+		String sql = "select t1.c_idx, t1.Brand,";
+		sql += " t2.cd1_idx, t2.Grade from carmain as t1";
+		sql += " inner join carDetail1 as t2 on t2.c_idx = t1.c_Idx";
+		sql += " where t1.c_Idx = ?";
+		
+		System.out.println(sql);
+		try {
+			conn = super.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, cIdx);
+			
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				lists.add(getBeanGradeData(rs));
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			// 리소스 정리
+		}
+		
+		return lists;
+	}
+	
+	private CarBean getBeanGradeData(ResultSet rs) {
+		CarBean bean = null;
+		try {
+			bean = new CarBean();
+			bean.setCd1Idx(Integer.parseInt(rs.getString("cd1_idx")));
+			bean.setGrade(rs.getString("Grade"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return bean;
+	}
 	
 	private CarBean getBeanViewData(ResultSet rs) {
 		CarBean bean = null;
@@ -152,10 +199,13 @@ public class CarDao extends SuperDao {
 			bean.setCd2Idx(Integer.parseInt(rs.getString("cd2_idx")));
 			
 			
+			bean.setDomesticImport(rs.getString("DomesticImport"));
 			bean.setBrand(rs.getString("Brand"));
 			bean.setBrandMark(rs.getString("BrandMark"));
 			bean.setCarImage(rs.getString("CarImage"));			
 			bean.setCarName(rs.getString("CarName"));
+			bean.setVehicleSize(rs.getString("VehicleSize"));
+			bean.setCarModel(rs.getString("CarModel"));
 			
 			bean.setFuelEfficiency(rs.getString("FuelEfficiency"));
 			bean.setSeatingCapacity(rs.getString("SeatingCapacity"));
@@ -408,12 +458,12 @@ public class CarDao extends SuperDao {
 	
 	public boolean carDetail2Insert(CarBean carBean) {
 		boolean insertcheck = false;
-		String sql = "INSERT INTO carDetail2 (c_idx, trim, price) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO carDetail2 (cd1_idx, trim, price) VALUES (?, ?, ?)";
 		
 		try {
             conn = getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setInt(1, carBean.getcIdx());
+            pstmt.setInt(1, carBean.getCd1Idx());
             pstmt.setString(2, carBean.getTrim());
             pstmt.setString(3, carBean.getPrice());
 

@@ -101,22 +101,7 @@ th {
 	</section>
 	<section>
 		<div style="text-align: center; margin-top: 60px;">
-			<img id="uploadButton1" src="../../../buttonImage/imageInsert.png" alt="차량 이미지 업로드 버튼"
-				onclick="document.getElementById('imageUpload1').click()"
-				style="cursor: pointer; width: 500px; height: 400px;">
-
-			<input type="file" id="imageUpload1" accept="image/*"
-				style="display: none;" onchange="previewCar(event)">
-		</div>
-	</section>
-	<section>
-		<div style="text-align: center; margin-top: 20px;">
-			<img id="uploadButton2" src="../../../buttonImage/brandMarkInsert.png" alt="제조사 로고 업로드 버튼"
-				onclick="document.getElementById('imageUpload2').click()"
-				style="cursor: pointer; width: 180px; height: 100px;">
-				
-			<input type="file" id="imageUpload2" accept="image/*"
-				style="display: none;" onchange="previewMark(event)">
+			<span class="col">차량 : </span> <select id="carNameSelect"></select>
 		</div>
 	</section>
 	<section class="ftco-section ftco-car-details">
@@ -142,21 +127,6 @@ th {
 						</div>
 					</div>
 				</div>
-				<!-- 트림 입력 -->
-				<div class="choice1">
-					<div class="media block-6 services text-center">
-						<div class="media-body py-md-4">
-							<div class="d-flex mb-3 align-items-center">
-								<div class="icon d-flex align-items-center justify-content-center" style="margin-right: 20px; margin-left: 70px;">
-									<span class="flaticon-diesel"></span>
-								</div>
-								<div class="text">
-									<span class="col">트림 : </span> <input type="text" id="trimInput">
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 		<div class="table-container">
@@ -174,18 +144,6 @@ th {
 			 </tr> 
 			 </thead> 
 			 <tbody> 
-			 <tr> 
-			 <td>제조사</td> 
-			 <td><input type="text" id="brandInput" class="centered-input" placeholder="벤츠"></td>
-			 <td>국산/수입</td> 
-			 <td><input type="text" id="domesticImportInput" class="centered-input" placeholder="국산 / 수입"></td>
-			 </tr>
-			 <tr>
-			 <td>차량 이름</td>
-			 <td><input type="text" id="carNameInput" class="centered-input" placeholder="아반떼"></td>
-			 <td>차량크기</td> 
-			 <td><input type="text" id="vehicleSizeInput" class="centered-input" placeholder="중형, 대형"></td>
-			 </tr> 
 			 <tr>
 			 <td>연료타입</td>
 			 <td><input type="text" id="fuelTypeInput" class="centered-input" placeholder="가솔린"></td> 
@@ -225,13 +183,7 @@ th {
 			 <tr> 
 			 <td>최대토크</td> 
 			 <td><input type="text" id="maxTorqueInput" class="centered-input" placeholder="15.7kg.m / 765Nm"></td>
-			 <td>가격</td>
-			 <td><input type="text" id="priceInput" class="centered-input" placeholder="1,994만원"></td>
-			 </tr> 
-			 <tr> 
-			 <td>차종</td> 
-			 <td><input type="text" id="carModelInput" class="centered-input" placeholder="세단, suv.."></td>
-			 <td></td>
+			 <td></td> 
 			 <td></td>
 			 </tr> 
 			 </tbody> 
@@ -262,7 +214,29 @@ th {
 	var carData = []; // 전체 차량 데이터를 저장하는 전역 변수
 
 	function init() {
-	 // 초기화 함수 호출
+		$.ajax({
+			url : "ajaxController", // 서버 서블릿 경로
+			method : "GET", // 요청 방식
+			data : {
+				"domestic" : "",
+				"brand" : "",
+				"model" : "",
+				"name" : "",
+				"page" : "",
+				"pageSize" : ""
+			},
+			success : function(response) {
+				var html = [];
+				html.push('<option value="">선택하세요</option>');
+				for(var i =0; i < response.length; i++){
+					html.push('<option value="' + response[i].cIdx + '">' + response[i].carName + '</option>');
+				}
+				$("#carNameSelect").append(html.join(''));
+			},
+			error : function(xhr, status, error) {
+				console.error('요청 실패: ' + error); // 에러 출력
+			}
+		});
 	}
 	
     function previewCar(event) {
@@ -295,102 +269,44 @@ th {
         }
     }
 	
-	
-	function updateTable(selectedGrade, selectedTrim){
-	    // 선택된 등급과 트림에 맞는 데이터를 carData에서 찾기
-	    var filteredData = carData.find(item => {
-	        return item.grade === selectedGrade && (!selectedTrim || item.trim === selectedTrim);
-	    });
-	    
-	    $('.table-container table').empty(); // 기존 테이블 내용 지우기
-
-	    if (filteredData){
-	        var html = [];
-	        html.push('<thead>');
-	        html.push('<tr>');
-	        html.push('<th>항목</th>');
-	        html.push('<th>입력 값 1</th>');
-	        html.push('<th>항목</th>');
-	        html.push('<th>입력 값 2</th>');
-	        html.push('</tr>');
-	        html.push('</thead>');
-	        html.push('<tbody>');
-
-	        // 필터링된 데이터의 정보를 입력 필드로 추가
-	        html.push('<tr>');
-	        html.push('<td>제조사</td>');
-	        html.push('<td><input type="text" value="' + filteredData.brand + '"></td>');
-	        html.push('<td>연비</td>');
-	        html.push('<td><input type="text" value="' + filteredData.fuelEfficiency + '"></td>');
-	        html.push('</tr>');
-	        
-	        html.push('<tr>');
-	        html.push('<td>모델</td>');
-	        html.push('<td><input type="text" value="' + filteredData.carName + '"></td>');
-	        html.push('<td>인승</td>');
-	        html.push('<td><input type="text" value="' + filteredData.seatingCapacity + '"></td>');
-	        html.push('</tr>');
-	        
-	        // 모든 다른 필드에 대해 계속 추가
-
-	        html.push('</tbody>');
-	        
-	        $('.table-container table').append(html.join('')); // 테이블에 새로운 내용 추가
-	    } else {
-	        $('.table-container table').append('<tr><td colspan="4">해당 등급/트림의 정보가 없습니다.</td></tr>');
-	    }
-	}
-
 	function clickInsert() {
 		
 		 // FormData 객체 생성
 	    const formData = new FormData();
 	    
 	    // 폼 데이터 추가
-		formData.append('grade', document.getElementById('gradeInput').value);
-	    formData.append('trim', document.getElementById('trimInput').value);
-	    formData.append('domesticImport', document.getElementById('domesticImportInput').value);
-	    formData.append('brand', document.getElementById('brandInput').value);
-	    formData.append('fuelEfficiency', document.getElementById('fuelEfficiencyInput').value);
-	    formData.append('carName', document.getElementById('carNameInput').value);
-	    formData.append('displacement', document.getElementById('displacementInput').value);
+	    
+	    formData.append('cIdx', document.getElementById('carNameSelect').value)
 	    formData.append('fuelType', document.getElementById('fuelTypeInput').value);
-	    formData.append('length', document.getElementById('lengthInput').value);
+	    formData.append('displacement', document.getElementById('displacementInput').value);
+	    formData.append('fuelEfficiency', document.getElementById('fuelEfficiencyInput').value);
 	    formData.append('seatingCapacity', document.getElementById('seatingCapacityInput').value);
-	    formData.append('width', document.getElementById('widthInput').value);
 	    formData.append('engineType', document.getElementById('engineTypeInput').value);
 	    formData.append('driveType', document.getElementById('driveTypeInput').value);
 	    formData.append('maxPower', document.getElementById('maxPowerInput').value);
 	    formData.append('maxTorque', document.getElementById('maxTorqueInput').value);
+	    formData.append('length', document.getElementById('lengthInput').value);
+	    formData.append('width', document.getElementById('widthInput').value);
+	    formData.append('height', document.getElementById('heightInput').value);
+	    formData.append('wheelBase', document.getElementById('wheelBaseInput').value);
 	    formData.append('curbWeight', document.getElementById('curbWeightInput').value);
-	    formData.append('price', document.getElementById('priceInput').value);
-	    formData.append('vehicleSize', document.getElementById('vehicleSizeInput').value);
-	    formData.append('carModel', document.getElementById('carModelInput').value);
-
-	    // 파일도 포함 (이미지가 업로드된 경우만)
-	    const carImage = document.getElementById('imageUpload1').files[0];
-	    const brandMark = document.getElementById('imageUpload2').files[0];
-	    console.log(carImage);
-	    console.log(brandMark);
-	    if (carImage) formData.append('carImage', carImage);
-	    if (brandMark) formData.append('brandMark', brandMark);
-		return;
-	   
+	    formData.append('grade', document.getElementById('gradeInput').value);
+	    
 	    // AJAX 요청 (fetch API 사용)
 	    $.ajax({
-	        url: "carInsertAjaxController",
+	        url: "carDetail1InsertAjaxController",
 	        type: "POST",
 	        data: formData,
-	        contentType: false, // 필수
-	        processData: false, // 필수
+	        contentType: false, // 기본 content type을 사용하지 않음
+	        processData: false, // jQuery가 데이터를 처리하지 않도록 설정
 	        dataType: "json",
 	        success: function(response) {
 	            console.log("Success:", response);
 	            if(response.status === "success") {
-	                alert('차량 등록 완료');
+	                alert('carDetail1 등록 완료');
 	                window.location.href = "/carList";
 	            } else {
-	                alert('차량 등록 실패 : ' + response.message);
+	                alert('carDetail1 등록 실패 : ' + response.message);
 	            }
 	        },
 	        error: function(xhr, status, error) {
@@ -408,3 +324,4 @@ th {
 	});
 </script>
 </html>		
+	
