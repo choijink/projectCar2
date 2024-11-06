@@ -246,11 +246,22 @@ body {
 	font-weight: bold;
 }
 
+.element.style {
+    background-image: url(images/bg_9.jpg);
+    background-size: cover;
+    background-position: 50% 50%;
+    height: 500px;
+}
+
 </style>
 </head>
 <body>
 <%@ include file="/WEB-INF/view/common/header.jsp" %>
-<section style="background-image: url('images/bg_7.jpg'); background-size: cover; background-position: center center; height: 100vh;" data-stellar-background-ratio="0.5">
+<section class="hero-wrap hero-wrap-2 js-fullheight"
+style="background-image: url('images/bg_9.jpg');
+			background-size: cover; background-position: 
+			center center; height: 100vh;" data-stellar-background-ratio="0.5">
+	<div class="overlay"></div>
     <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
             <div class="col-md-9 ftco-animate pb-5">
@@ -291,7 +302,7 @@ body {
 	<div class="navigation-buttons" style="display: flex; justify-content: center; margin-top: 2rem; padding: 0 2rem;">
     	<a href="boList" class="nav-btn">목록으로</a>
 	</div>
-	</section>
+</section>
 
 	<%@ include file="/WEB-INF/view/common/footer.jsp" %>
 	<%@ include file="/WEB-INF/view/common/js.jsp"%>
