@@ -212,8 +212,7 @@ th {
 				</div>
 				<div class="col-md-6 car2">
 					<div class="car-details">
-						<div class="img rounded"
-							style="background-image: url(../../../carImage/myCar.png);"></div>
+						<div class="img rounded" style="background-image: url(../../../carImage/myCar.png);"></div>
 					</div>
 					<div class="choice1">
 						<div class="media block-3 services">
@@ -468,6 +467,10 @@ th {
       if(num == 1){
          var selectElement = document.getElementById("carNameSelectBox1");
          var selectedValue = selectElement.value;
+         if(selectedValue == ""){
+			$(".car1 .img.rounded").css('background-image', 'url(../../../carImage/myCar.png)');
+			return;
+         }
          selectFirstCarIdx = selectedValue;
          var carImage = selectElement.options[selectElement.selectedIndex].id;
          cIdx = selectedValue;
@@ -475,6 +478,10 @@ th {
       else if(num == 2){
          var selectElement = document.getElementById("carNameSelectBox2");
          var selectedValue = selectElement.value;
+         if(selectedValue == ""){
+ 			$(".car2 .img.rounded").css('background-image', 'url(../../../carImage/myCar.png)');
+ 			return;
+          }
          var carImage = selectElement.options[selectElement.selectedIndex].id;
          cIdx = selectedValue;
       }
@@ -709,6 +716,7 @@ th {
             var html=[];
             $("#carNameSelectBox1").empty();
             html.push('<option value="">선택</option>');
+            response.sort((a, b) => a.carName.localeCompare(b.carName));
             for(var i=0; i < response.length; i++){
                html.push('<option id="' + response[i].carImage + '" value="' + response[i].cIdx + '">' + response[i].carName + '</option>');
             }
@@ -720,6 +728,7 @@ th {
             $("#carNameSelectBox2").empty();
             var html=[];
             html.push('<option value="">선택</option>');
+            response.sort((a, b) => a.carName.localeCompare(b.carName));
             for(var i=0; i < response.length; i++){   
                if(response[i].cIdx != selectFirstCarIdx){
                   html.push('<option id="' + response[i].carImage + '" value="' + response[i].cIdx + '">' + response[i].carName + '</option>');
