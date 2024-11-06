@@ -412,6 +412,12 @@ th {
 </body>
 <script>
    const params = new URLSearchParams(window.location.search);
+   var gradeParam = params.get('grade');
+   var trimParam = params.get('trim');
+   
+   // cIdx는 차량 select하는 함수로 던져주세요.
+   // gradeParam은 grade 선택하는 함수로 던져주세요.
+   // trimParam은 trim 선택하는 함수로 던져주세요.
    var cIdx = 0;
       if(params.get('idx') != null) cIdx = params.get('idx');
    var GradeMap = new Map();
@@ -425,7 +431,7 @@ th {
       carList(0);
    }
 
-   function viewCompare(num){ // 비교하기 버튼 실행하는 코드 만들기
+   function viewCompare(num){ 
       $.ajax({
          url : "CarViewAjaxController", // 서버 서블릿 경로
          method : "GET", // 요청 방식

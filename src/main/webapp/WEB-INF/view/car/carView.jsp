@@ -72,9 +72,10 @@ th {
 }
 
 .recommend-row {
-    display: flex;
-    flex-wrap: nowrap; /* 차량이 가로로 나란히 표시되도록 */
-    gap: 20px; /* 추천 차량 간의 간격 설정 */
+	display: flex;
+	flex-wrap: wrap; /* 차량이 가로로 나란히 표시되도록 */
+	margin-right: -15px;
+    margin-left: -15px;
 }
 </style>
 
@@ -128,8 +129,8 @@ th {
 									<span class="flaticon-diesel"></span>
 								</div>
 								<div class="text">
-									<span class="col">트림 : </span> <select id="trimSelectBox" onChange="trimSelect()"><option
-											value="">선택</option></select>
+									<span class="col">트림 : </span> <select id="trimSelectBox"
+										onChange="trimSelect()"><option value="">선택</option></select>
 								</div>
 							</div>
 						</div>
@@ -138,10 +139,11 @@ th {
 			</div>
 		</div>
 		<div class="table-container">
-			<div class="gridClass1">
-			</div>
+			<div class="gridClass1"></div>
 			<table>
-				<tr><td colspan="4">해당 등급/트림의 정보가 없습니다.</td></tr>
+				<tr>
+					<td colspan="4">해당 등급/트림의 정보가 없습니다.</td>
+				</tr>
 			</table>
 		</div>
 	</section>
@@ -154,9 +156,9 @@ th {
 					<h2 class="mb-2">추천 차량</h2>
 				</div>
 			</div>
-		
+
 			<div class="recommend-row">
-				
+			
 			</div>
 		</div>
 	</section>
@@ -181,29 +183,49 @@ var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAtt
 	var cIdx = params.get('idx');
 	var TrimMap = new Map();
 	var carData = [] ; // 전체 차량 데이터를 저장하는 전역 변수
+	var grade = "" ;
+	var trim = "" ;
 	
 	function init() {
 		view();
 		if(adminCheck ==2){
-			$(".gridClass1").css('grid-template-columns', '1fr 200px 1fr 1fr 1fr 1fr');
+            $(".gridClass1").css('grid-template-columns', '1fr 200px 1fr 1fr 1fr 1fr');
 			var html = [];
 			html.push('<h2>차량 제원</h2>');
 			html.push('<div></div>');
-			html.push('<button class="gridButton1" onclick="carMainUpdate()">Main 수정하기</button>');
-			html.push('<button class="gridButton1" onclick="carDetail1Update()">Detail1 수정하기</button>');
-			html.push('<button class="gridButton1" onclick="carDetail2Update()">Detail2 수정하기</button>');
-			html.push('<button class="gridButton2" onclick="carDelete()">삭제하기</button>');
+            html.push('<button class="gridButton1" onclick="carMainUpdate()">Main 수정하기</button>');
+            html.push('<button class="gridButton1" onclick="carDetail1Update()">Detail1 수정하기</button>');
+            html.push('<button class="gridButton1" onclick="carDetail2Update()">Detail2 수정하기</button>');
+            html.push('<button class="gridButton2" onclick="carDelete()">삭제하기</button>');
 			$(".gridClass1").append(html.join(''));
 		} else {
 			var html = [];
 			html.push('<h2>차량 제원</h2>');
 			html.push('<div></div>');
-			html.push('<button class="gridButton1">비교하기</button>');
+			html.push('<button class="gridButton1" onclick="comPare()">비교하기</button>');
 			html.push('<button class="gridButton2">관심등록</button>');
 			$(".gridClass1").append(html.join(''));
 		}
-		
+	
 	}
+
+	function comPare(){
+		$.ajax({
+			url : "CarViewAjaxController",
+			method : "GET",
+			data : {
+				"idx" : cIdx
+				
+			},
+			success : function(response){
+				window.location.href="/carCompare?idx=" + cIdx + "&grade=" + grade + "&trim=" + trim ;
+			},
+			error : function(xhr, status, error) {
+				console.error('요청 실패: ' + error); // 에러 출력
+			}
+		});
+	}
+	
 	function view() {
 		$.ajax({
 			url : "CarViewAjaxController", // 서버 서블릿 경로
@@ -251,9 +273,9 @@ var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAtt
 				$('#gradeSelectBox').append(html.join(''));
 								
 				var html = [];
-				html.push('<div class="img rounded" style="background-image: url(carImage/' + response[0].carImage + ');"></div>');
+                html.push('<div class="img rounded" style="background-image: url(carImage/' + response[0].carImage + ');"></div>');
 				html.push('<div class="text text-center">');
-				html.push('	<span class="subheading"><img class="brandMark" src="carImage/' + response[0].brandMark + '"></span>');
+                html.push('    <span class="subheading"><img class="brandMark" src="carImage/' + response[0].brandMark + '"></span>');
 				html.push('	<h2>' + response[0].brand + ' ' + response[0].carName + '</h2>');
 				html.push('</div>');
 				$('.car-details').append(html.join(''));
@@ -283,6 +305,7 @@ var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAtt
 		        html.push('<option value="' + trimOptions[i] + '">' + trimOptions[i] + '</option>');
 		    }
 		    $('#trimSelectBox').append(html.join(''));
+		    grade = selectedValue ;
 	}
 	
 	function trimSelect(){
@@ -290,6 +313,7 @@ var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAtt
 		var selectedGrade = $('#gradeSelectBox').val();
 		var selectedTrim = $('#trimSelectBox').val();
 		updateTable(selectedGrade, selectedTrim);
+		trim = selectedTrim ;
 	}
 	
 	function updateTable(selectedGrade, selectedTrim){
@@ -438,9 +462,9 @@ var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAtt
 		        	$('.recommend-row').empty();
 		            var html = [];
 		            for (var i = 0; i < recommendCars.length; i++) {
-		            	html.push('<div class="col-md-3">');
+		            	html.push('<div class="col-md-4">');
 		            	html.push('<div class="car-wrap rounded ftco-animate">');
-		                html.push('<div class="img rounded d-flex align-items-end" style="background-image: url(../../../carImage/' + recommendCars[i].carImage + ');"></div>');
+		                html.push('<div class="img rounded d-flex align-items-end" style="background-image: url(carImage/' + recommendCars[i].carImage + ');"></div>');
 		                html.push('<div class="text">');
 		                html.push('<h2 class="mb-0">');
 		                html.push('<a href="carView?idx=' + recommendCars[i].cIdx + '">' + recommendCars[i].carName + '</a>');
@@ -448,11 +472,11 @@ var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAtt
 		                html.push('<div class="d-flex mb-3">');
 		                html.push('<a class="cat">' + recommendCars[i].brand + '</a>');
 		                html.push('<p class="price ml-auto">');
-		                html.push('<a>' + recommendCars[i].vehicleSize + '</a>');
+		                html.push('<span>' + recommendCars[i].vehicleSize + '</span>');
 		                html.push('</p>');
 		                html.push('</div>');
 		                html.push('<p class="recommend">');
-		                html.push('<a href="carView?idx=' + recommendCars[i].cIdx + '" class="btn btn-secondary py-2 ml-1">Details</a>');
+		                html.push('<a href="carView?idx=' + recommendCars[i].cIdx + '" class="btn btn-secondary py-2 ml-1">상세보기</a>');
 		                html.push('</p>');
 		                html.push('</div>');
 		                html.push('</div>');
@@ -464,32 +488,32 @@ var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAtt
 	        }
 	    });
 	}
-	
-	function carDelete(){
-		if(adminCheck == 2){
-			$.ajax({
-				url : "CarDeleteAjaxController", // 서버 서블릿 경로
-				method : "GET", // 요청 방식
-				data : {
-					"idx" : cIdx,
-					"adminCheck" : adminCheck,
-				},
-				success : function(response) {
-					if (response.status === "success") {
-	                    alert(response.message);
-	                    window.location.href = "/carList";
-	                } else {
-	                    // 로그인 실패 시 에러 메시지 출력
-	                    alert(response.message);
-	                }
-				},
-				error : function(xhr, status, error) {
-					console.error('요청 실패: ' + error); // 에러 출력
-				}
-			});
-		}
-	}
 
+    function carDelete(){
+        if(adminCheck == 2){
+            $.ajax({
+                url : "CarDeleteAjaxController", // 서버 서블릿 경로
+                method : "GET", // 요청 방식
+                data : {
+                    "idx" : cIdx,
+                    "adminCheck" : adminCheck,
+                },
+                success : function(response) {
+                    if (response.status === "success") {
+                        alert(response.message);
+                        window.location.href = "/carList";
+                    } else {
+                        // 로그인 실패 시 에러 메시지 출력
+                        alert(response.message);
+                    }
+                },
+                error : function(xhr, status, error) {
+                    console.error('요청 실패: ' + error); // 에러 출력
+                }
+            });
+        }
+    }
+	
 	function getRandomElements(arr, num){
 		 console.log("arr");
 		 console.log(arr);
@@ -503,16 +527,17 @@ var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAtt
 	    // 첫 num개 반환
 	    return shuffle.slice(0, num);
 	}
-	function carMainUpdate(){
-		window.location.href = "/carMainCreate?idx=" + cIdx;
-	}
-	function carDetail1Update(){
-		window.location.href = "/carDetail1Create?idx=" + cIdx;
-	}
-	function carDetail2Update(){
-		window.location.href = "/carDetail2Create?idx=" + cIdx;
-	}
 	
+    function carMainUpdate(){
+        window.location.href = "/carMainCreate?idx=" + cIdx;
+    }
+    function carDetail1Update(){
+        window.location.href = "/carDetail1Create?idx=" + cIdx;
+    }
+    function carDetail2Update(){
+        window.location.href = "/carDetail2Create?idx=" + cIdx;
+    }
+    
 	$(document).ready(function() {
 		init();
 	});
