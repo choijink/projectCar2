@@ -86,7 +86,6 @@ public class BoardDao extends SuperDao {
 
 		try {
 			bean = new BoardBean();
-
 			bean.setbIdx(rs.getInt("b_idx"));
 			bean.setName(rs.getString("Name"));
 			bean.setTitle(rs.getString("title"));
@@ -158,7 +157,16 @@ public class BoardDao extends SuperDao {
 
     public int insertData(BoardBean bean) {
         PreparedStatement pstmt = null;
-        String sql = "INSERT INTO board(m_idx, title, content, regdate) VALUES(?, ?, ?, ?)";
+        String sql = "INSERT INTO board(m_idx, title, content, ";
+	        	if(bean.getImage1() != null) { sql += " image1, "; }
+	        	if(bean.getImage2() != null) { sql += " image2, "; }
+	        	if(bean.getImage3() != null) { sql += " image3, "; }
+        		sql += " regdate)";
+        		sql += " VALUES(?, ?, ?," ;
+        		if(bean.getImage1() != null) { sql += " ?,"; }
+        		if(bean.getImage2() != null) { sql	+= " ?,"; }
+        		if(bean.getImage3() != null) { sql	+= " ?,"; }
+        		sql += " ?)";
 
         int cnt = -99999;
 
@@ -167,10 +175,15 @@ public class BoardDao extends SuperDao {
             conn.setAutoCommit(false);
 
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, bean.getmIdx()); // 회원 식별번호 설정
-            pstmt.setString(2, bean.getTitle());
-            pstmt.setString(3, bean.getContent());
-            pstmt.setString(4, bean.getRegdate());
+            
+            int paramIndex = 1;
+            pstmt.setInt(paramIndex++, bean.getmIdx()); // 회원 식별번호 설정
+            pstmt.setString(paramIndex++, bean.getTitle());
+            pstmt.setString(paramIndex++, bean.getContent());
+            if(bean.getImage1() != null) { pstmt.setString(paramIndex++, bean.getImage1()); }
+            if(bean.getImage2() != null) { pstmt.setString(paramIndex++, bean.getImage2()); }
+            if(bean.getImage3() != null) { pstmt.setString(paramIndex++, bean.getImage3()); }
+            pstmt.setString(paramIndex++, bean.getRegdate());
 
             cnt = pstmt.executeUpdate();
             conn.commit();
@@ -311,5 +324,5 @@ public class BoardDao extends SuperDao {
 
 	    return totalCount;
 	}
-
+	
 }

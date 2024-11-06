@@ -124,7 +124,7 @@
 			</div>
 			<form id="searchForm">
 			    <span class="countSpan"></span>
-			    <span class="right" style="margin-left: 580px;">
+			    <span class="right" style="margin-left: 500px;">
 			        <select id="searchCriteria">
 			            <option value="title">제목</option>
 			            <option value="author">작성자</option>

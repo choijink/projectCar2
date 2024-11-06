@@ -1,5 +1,7 @@
 package com.CarProject.Board;
 
+import javax.servlet.http.Part;
+
 public class BoardBean {
 	private int bIdx ; // 게시판 식별번호
 	private int mIdx ; // 회원 식별번호

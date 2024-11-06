@@ -33,7 +33,8 @@ public class BoardViewAjaxController extends HttpServlet {
 
         try {
             BoardBean board = boardDao.getDataByPk(bIdx); // DAO에서 차량 목록 가져오기
-            
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@");
+            System.out.println(board);
             Gson gson = new Gson();
             String jsonResponse = gson.toJson(board);
             

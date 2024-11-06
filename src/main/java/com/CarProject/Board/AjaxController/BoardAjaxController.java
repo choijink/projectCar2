@@ -37,6 +37,7 @@ public class BoardAjaxController extends HttpServlet {
 
         // 전체 데이터 개수를 가져오는 메소드 호출
         int totalCount = boardDao.getTotalCount(mIdx);
+        System.out.println(totalCount);
 
         // Paging 객체 생성
         Paging paging = new Paging(pageNumber, pageSize, totalCount, "boardController", "", "");

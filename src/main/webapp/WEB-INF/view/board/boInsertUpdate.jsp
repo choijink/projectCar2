@@ -212,27 +212,13 @@ textarea {
     color: white;
 }
 
-/* .hero-wrap .overlay {
-    position: relative !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    content: '' !important;
-    background: #000000 !important;
-    
-} */
-
 </style>
 </head>
-<body style="">
+<body>
 
 <%@ include file="/WEB-INF/view/common/header.jsp"%>
 
-	<section class="hero-wrap hero-wrap-2 js-fullheight"
-		style="background-image: url('images/bg_7.jpg');"
-		data-stellar-background-ratio="0.5">
-		<div class="overlay"></div>
+	<section style="background-image: url('images/bg_7.jpg');" data-stellar-background-ratio="0.5">
 		<div class="container">
 			<div
 				class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
@@ -255,18 +241,13 @@ textarea {
 	        <div class="post-content">
 	        </div>
 	        <div class="button-container">
-	            <!-- <button class="submit-button" onclick="submitForm(event)">등록하기</button> -->
 	            <a href="boList" class="nav-btn">목록으로</a>
 	        </div>
 	    </div>
 	</section>
 
-	
-	<!-- <div class="navigation-buttons" style="display: flex; justify-content: center; margin-top: 2rem; padding: 0 2rem;">
-	    <a href="boList" class="nav-btn">목록으로</a>
-	</div> -->
     <%@ include file="/WEB-INF/view/common/footer.jsp"%>
-</div>
+
 <%@ include file="/WEB-INF/view/common/js.jsp"%>
 </body>
 
@@ -322,14 +303,6 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 
 
 	function boardCreate() {
-		$.ajax({
-	        url: 'getAuthorName', // 작성자 이름을 가져오는 서버 엔드포인트
-	        method: 'GET',
-	        success: function(response) {
-	            $('#authorName').text(response.authorName); // 서버 응답에서 작성자 이름 설정
-	        }
-	    });
-		
 		var html = [];
 	    $("#formTitle").empty();
 	    html.push('<span id="formTitle">등록</span>');
@@ -358,11 +331,11 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 	    htmlContent.push('</div>');
 	    htmlContent.push('<div class="post-images">');
 	    htmlContent.push('    <div class="post-image">');
-	    htmlContent.push('        <input type="file" accept="image/*" onchange="previewImage(event, 1)">');
+	    htmlContent.push('        <input type="file" id="imageUpload1" accept="image/*" onchange="previewImage(event, 1)">');
 	    htmlContent.push('        <img id="preview1" src="" alt="차량 사진 1" style="display:none;">');
 	    htmlContent.push('    </div>');
 	    htmlContent.push('    <div class="post-image">');
-	    htmlContent.push('        <input type="file" accept="image/*" onchange="previewImage(event, 2)">');
+	    htmlContent.push('        <input type="file" id="imageUpload2" accept="image/*" onchange="previewImage(event, 2)">');
 	    htmlContent.push('        <img id="preview2" src="" alt="차량 사진 2" style="display:none;">');
 	    htmlContent.push('    </div>');
 	    htmlContent.push('</div>');
@@ -370,7 +343,7 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 	    
 	    var html = [];
 	    //$(".button-container").empty();
-	    $(".button-container").append('<button class="submit-button" onclick="submitForm(event)">등록하기</button>');
+	    $(".button-container").append('<button class="submit-button" onclick="submitForm()">등록하기</button>');
 	}
 
 	// 이미지 미리보기 함수
@@ -458,21 +431,29 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
         }
     }
 
-    function submitForm(event) {
-        event.preventDefault();
-
-        var formData = {
-		    mIdx: <%=session.getAttribute("mIdx") != null ? session.getAttribute("mIdx") : -1 %>,
-		    title: $('#title').val(),
-		    content: $('#content').val(),
-		    regdate: $('#regdate').val(),
-		};
-
-
+    function submitForm() {
+    	// FormData 객체 생성
+		const formData = new FormData();
+		
+		// 폼 데이터 추가
+		formData.append('mIdx', midx);
+		formData.append('title', $('#title').val());
+		formData.append('content', $('#content').val());
+		formData.append('regdate', $('#regdate').val());
+		
+		// 파일도 포함 (이미지가 업로드된 경우만)
+		const image1 = document.getElementById('imageUpload1').files[0];
+		const image2 = document.getElementById('imageUpload2').files[0];
+		if (image1) formData.append('image1', image1);
+		if (image2) formData.append('image2', image2);
+		
         $.ajax({
             type: "POST", // POST 방식으로 변경
             url: "boCreate", // 보낼 URL
             data: formData,
+            contentType: false, // 필수
+	        processData: false, // 필수
+	        dataType: "json",
             success: function(response) {
                 alert('처리가 완료되었습니다.');
                 window.location.href = "/boList"; // 등록 후 이동할 페이지

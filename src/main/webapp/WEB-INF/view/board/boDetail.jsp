@@ -1,19 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<%@ include file="/WEB-INF/view/common/css.jsp"%>
-<title>게시물 상세보기 | JingkaWingka</title>
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link
-	href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
-	rel="stylesheet">
-<link
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-	rel="stylesheet">
+<%@ include file="/WEB-INF/view/common/css.jsp" %>
+<title>VSCar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <style>
+.container{margin-top: 10px;}
 :root {
 	--primary-color: #01d28e;
 	--secondary-color: #1089ff;
@@ -33,22 +28,16 @@ body {
 .post-container {
 	max-width: 900px;
 	margin: 3rem auto;
-	margin-top: 100px;
 	background: white;
 	border-radius: 15px;
 	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
 	overflow: hidden;
 }
 
-.bg-dark {
-    background-color: #343a40 !important;
-}
-
 .post-header {
-	background-color: #949e85 !important;
+	background-color: #6c757d80 !important;
 	color: white;
 	padding: 2rem;
-	position: relative;
 }
 
 .post-category {
@@ -136,12 +125,14 @@ body {
 }
 
 .comment-section {
-	padding: 2rem;
-	background: white;
-	margin-top: 2rem;
-	border-radius: 15px;
-	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    padding: 2rem;  /* 상하 여백은 1rem, 좌우 여백은 2rem으로 조정 */
+    background: white;
+    margin: 0 auto;
+    max-width: 1200px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
 }
+
 
 .comment-form {
 	margin-bottom: 2rem;
@@ -157,15 +148,11 @@ body {
 }
 
 .comment-list {
-	display: flex;
-	flex-direction: column;
-	gap: 1.5rem;
+    padding: 1rem 2rem;
+    margin: 0 auto;
+    max-width: 1200px;
 }
 
-.comment {
-	display: flex;
-	gap: 1rem;
-}
 
 .comment-avatar {
 	width: 50px;
@@ -211,123 +198,289 @@ body {
 }
 
 .nav-btn {
-	padding: 0.5rem 1rem;
+	padding: 10px 20px;
 	border: 1px solid var(--primary-color);
 	border-radius: 5px;
 	color: var(--primary-color);
 	text-decoration: none;
 	transition: all 0.3s ease;
+	margin-bottom: 20px;
+    margin-left: 30px;
 }
 
 .nav-btn:hover {
 	background-color: var(--primary-color);
 	color: white;
 }
+
+
+.pagination {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 20px 0;
+}
+
+.pagination a {
+	text-decoration: none;
+	padding: 10px 15px;
+	margin: 0 5px;
+	border: 1px solid #a38983;
+	border-radius: 5px;
+	color: #17202a;
+	transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination a:hover {
+	background-color: #7f8c8d;
+	color: white;
+}
+
+.pagination a.active {
+	background-color: #7f8c8d;
+	color: white;
+	border: none;
+}
+
+.pagination a.prev, .pagination a.next {
+	font-weight: bold;
+}
+
 </style>
 </head>
 <body>
-<div style="background-image: url('images/image_5.jpg');"/>
-	<%@ include file="/WEB-INF/view/common/header.jsp"%>
+<%@ include file="/WEB-INF/view/common/header.jsp" %>
+<section style="background-image: url('images/bg_7.jpg'); background-size: cover; background-position: center center; height: 100vh;" data-stellar-background-ratio="0.5">
+    <div class="container">
+        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
+            <div class="col-md-9 ftco-animate pb-5">
+                <p class="breadcrumbs">
+                    <span class="mr-2"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span>community <i class="ion-ios-arrow-forward"></i></span>
+                </p>
+                <h1 class="mb-3 bread">게시물 상세 보기</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
 	<div class="post-container">
 		<div class="post-header">
+			<!-- 게시글 헤더가 여기에 동적으로 들어갑니다 -->
 		</div>
-
 		<div class="post-content">
+			<!-- 게시글 내용이 여기에 동적으로 들어갑니다 -->
 		</div>
-
 	</div>
-
 	<div class="comment-section">
-		<h3>댓글 2개</h3>
-		<div class="comment-form">
-			<textarea class="comment-input" rows="3"
-				placeholder="모든 댓글은 서로 존중하는 마음으로 작성해 주세요. 비방, 욕설, 또는 타인을 상처 입히는 내용은 삼가해 주시기 바랍니다."></textarea>
-			<button class="action-btn"
-				style="background-color: var(--primary-color); color: white;">
-				댓글 작성</button>
+    	<h3>댓글 <span id="commentCount"></span>개</h3>
+    	<div class="comment-form">
+        	<textarea class="comment-input" rows="3" placeholder="댓글을 작성하세요."></textarea>
+        	<button onclick="replyInsert()" class="action-btn" style="background-color: var(--primary-color); color: white;" id="submitComment">댓글 작성</button>
+    	</div>
+    	<div class="comment-list">
+        	<!-- 댓글 목록이 여기에 동적으로 삽입됩니다. -->
+    	</div>
+    	
+    	<div class="pagination" id="paginationContainer">
+		    <!-- 페이지네이션 링크가 동적으로 추가될 곳 -->
 		</div>
-
-		<div class="comment-list">
-			<div class="comment">
-				<div class="comment-avatar">JK</div>
-				<div class="comment-content">
-					<div class="comment-header">
-						<span class="comment-author">김학선</span> <span class="comment-date"></span>
-					</div>
-					<p class="comment-text">말씀하신 증상은 타이밍 벨트 쪽에서 발생하는 소리일 가능성이 높습니다.
-						가까운 정비소에서 점검을 받아보시는 것을 추천드립니다. 방치하시면 더 큰 문제가 될 수 있어요.</p>
-				</div>
-			</div>
-
-			<div class="comment">
-				<div class="comment-avatar">SJ</div>
-				<div class="comment-content">
-					<div class="comment-header">
-						<span class="comment-author">선진우</span> <span class="comment-date">2024-10-15
-							15:45</span>
-					</div>
-					<p class="comment-text">저도 비슷한 경험이 있었는데, 엔진오일 교체 시기가 된 것일 수도
-						있습니다. 주행거리가 어느 정도 되시나요?</p>
-				</div>
-			</div>
-		</div>
+    	
 	</div>
 
 	<div class="navigation-buttons" style="display: flex; justify-content: center; margin-top: 2rem; padding: 0 2rem;">
-	    <a href="boList" class="nav-btn">목록으로</a>
+    	<a href="boList" class="nav-btn">목록으로</a>
 	</div>
+	</section>
 
-
-	<%@ include file="/WEB-INF/view/common/footer.jsp"%>
+	<%@ include file="/WEB-INF/view/common/footer.jsp" %>
+	<%@ include file="/WEB-INF/view/common/js.jsp"%>
 </body>
 <script type="text/javascript">
 	const params = new URLSearchParams(window.location.search);
-	var bIdx = params.get('bIdx');
+	var bIdx = params.get('bIdx'); // 게시글 인덱스
+	
+	// 게시글 내용 초기화 및 표시
 	function init() {
 		$.ajax({
-			url : "boardViewAjaxController", // 서버 서블릿 경로
-			method : "GET", // 요청 방식
-			data : {
-				"idx" : bIdx
+			url: "boardViewAjaxController", // 서버 서블릿 경로
+			method: "GET", // 요청 방식
+			data: {
+				"idx": bIdx // 게시글 인덱스
 			},
-			success : function(response) {
+			success: function(response) {
+				// 게시글 내용 처리
 				var html = [];
 				$(".post-header").empty();
-				console.log(response);
-				
-				html.push('	<span class="post-category">자유게시판</span>');
+				console.log(response); // 서버로부터 받은 데이터 확인
+
+				// 게시글 제목과 메타데이터 표시
+				html.push('<span class="post-category">자유게시판</span>');
 				html.push('	<h1 class="post-title">' + response.title + '</h1>');
 				html.push('	<div class="post-meta">');
 				html.push('		<span><i class="fas fa-user"></i>' + response.name + '</span>');
 				html.push('		<span><i class="fas fa-calendar"></i>' + response.regdate + '</span>');
-				//html.push('		<span><i class="fas fa-comments"></i> 댓글 2</span>');
 				html.push('	</div>');
-				
 				$(".post-header").append(html.join(''));
-				
-				var html = [];
+
+				// 게시글 본문 내용
+				html = [];
 				$(".post-content").empty();
 				html.push('<div class="post-text">');
 				html.push('	<p>' + response.content + '</p>');
-				html.push('</div>');
 				html.push('<div class="post-images">');
-				html.push('	<div class="post-image">');
-				html.push('		<img src="carImage/k9.png" alt="차량 사진 1">');
-				html.push('	</div>');
-				html.push('	<div class="post-image">');
-				html.push('		<img src="images/car-11.jpg" alt="차량 사진 2">');
-				html.push('	</div>');
+				if(response.image1 != null){
+					html.push('	<div class="post-image">');
+					html.push('		<img src="boardImage/' + response.image1 + '" alt="차량 사진 1">');
+					html.push('	</div>');
+				}
+				if(response.image2 != null){
+					html.push('	<div class="post-image">');
+					html.push('		<img src="boardImage/' + response.image2 + '" alt="차량 사진 2">');
+					html.push('	</div>');
+				}
 				html.push('</div>');
 				$(".post-content").append(html.join(''));
+
+				// 댓글 목록 로드
+				loadComments();
 			},
-			error : function(xhr, status, error) {
-			console.error('요청 실패: ' + error); // 에러 출력
+			error: function(xhr, status, error) {
+				console.error('게시글 조회 실패: ' + error);
 			}
 		});
 	}
 
+	// 댓글 삭제 함수
+	function replyDelete(rIdx) {
+	    console.log("삭제하려는 댓글의 rIdx: " + rIdx); // rIdx 값이 잘 출력되는지 확인
+	    $.ajax({
+	        url: '/ReplyAjaxController',  // 댓글 삭제 서블릿 경로
+	        method: 'POST',
+	        data: {
+	            'action': 'deleteReply',
+	            'rIdx': rIdx,
+	            'bIdx': bIdx
+	        },
+	        success: function(response) {
+	            if (response.status === "success") {
+	            	alert(response.message);
+	                loadComments(); // 댓글 목록 갱신
+	            } else {
+	                alert(response.message); // 실패 메시지 출력
+	            }
+	        },
+	        error: function(xhr, status, error) {
+	            console.error('댓글 삭제 실패: ' + error);
+	        }
+	    });
+	}
+	
+	// 댓글 작성 버튼 클릭
+	
+    function replyInsert() {
+        const content = $(".comment-input").val(); // 댓글 내용
+
+        if (!content) {
+            alert("댓글을 입력해주세요.");
+            return;
+        }
+
+        // 댓글 추가 AJAX 요청
+        $.ajax({
+            url: '/ReplyAjaxController',  // 댓글 추가 서블릿 경로
+            method: 'POST',
+            data: {
+                'action': 'addReply',
+                'bIdx': bIdx,
+                'mIdx': midx,
+                'content': content
+            },
+            success: function(response) {
+                if (response.status === "success") {
+                    // 댓글 추가 성공 시 댓글 목록 갱신
+                    loadComments();
+                    $(".comment-input").val(''); // 댓글 입력란 초기화
+                } else {
+                    alert(response.message); // 실패 메시지 출력
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('댓글 작성 실패: ' + error);
+            }
+        });
+    }
+
+    // 댓글 목록 로드 함수
+    function loadComments(pageNumber = 1, pageSize = 5) {
+        $.ajax({
+            url: '/ReplyAjaxController',  // 댓글 목록 조회 서블릿 경로
+            method: 'GET',
+            data: {
+                'action': 'getReplies',
+                'bIdx': bIdx,
+                "pageNumber": pageNumber,
+	            "pageSize": pageSize
+            },
+            success: function(response) {
+            	console.log("댓글");
+            	console.log(response);
+                $(".comment-list").empty();
+                // 댓글 목록을 테이블 형식으로 추가
+                var html = [];
+                html.push('<table class="table">');
+                html.push('	<thead><tr><th>작성자</th><th>댓글 내용</th><th>작성일</th><th>삭제</th></tr></thead>');
+                html.push('	<tbody>');
+
+                // 댓글 목록 동적으로 생성
+                for(var i=0; i < response.reply.length; i++){
+                    html.push('		<tr class="comment" data-ridx="' + response.reply[i].rIdx + '">');
+                    html.push('			<td>' + response.reply[i].name + '</td>');  // mIdx는 작성자 정보로 대체 필요
+                    html.push('			<td>' + response.reply[i].content + '</td>');
+                    html.push('			<td>' + response.reply[i].regdate + '</td>');
+                    html.push('			<td><button class="delete-reply-btn" data-ridx="' + response.reply[i].rIdx + '" onclick="replyDelete(' + response.reply[i].rIdx + ')">삭제</button></td>');
+                    html.push('		</tr>');
+                }
+
+                html.push('	</tbody>');
+                html.push('</table>');
+
+                $(".comment-list").append(html.join(''));
+
+                // 댓글 개수 업데이트
+                $("#commentCount").text(response.totalCount);
+                
+                var totalPages = Math.ceil(response.totalCount / pageSize); // totalCount는 서버에서 받아온 데이터 총 개수
+                // 페이지네이션 렌더링
+                renderPagination(totalPages, pageNumber);
+            },
+            error: function(xhr, status, error) {
+                console.error('댓글 목록 조회 실패: ' + error);
+            }
+        });
+    }
+    
+    function renderPagination(totalPages, currentPage) {
+	    var paginationHtml = '';
+	    $('.pagination').empty();
+	    for (var i = 1; i <= totalPages; i++) {
+	        paginationHtml += '<li class="page-item' + (i === currentPage ? ' active' : '') + '">';
+	        paginationHtml += '<a class="page-link pagination-link" href="#" data-page="' + i + '">' + i + '</a>';
+	        paginationHtml += '</li>';
+	    }
+	    $('.pagination').html(paginationHtml);
+
+	    // 페이지 링크 클릭 이벤트 핸들러 등록 (이벤트 위임 사용)
+	    $('.pagination').on('click', '.pagination-link', function() {
+	        var pageNumber = $(this).data('page');
+	        loadComments(pageNumber, 5); // 10은 페이지 크기 예시
+	    });
+	}
+
 	$(document).ready(function() {
 		init();
+		
 	});
+
 </script>
 </html>
