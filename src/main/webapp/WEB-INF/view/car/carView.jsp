@@ -186,6 +186,8 @@ var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAtt
    var carData = [] ; // 전체 차량 데이터를 저장하는 전역 변수
    var gradeParam = params.get('grade');
    var trimParam = params.get('trim');
+   var grade = "";
+   var trim = "";
    
    function init() {
       view();
@@ -310,6 +312,7 @@ var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAtt
               html.push('<option value="' + trimOptions[i] + '">' + trimOptions[i] + '</option>');
           }
           $('#trimSelectBox').append(html.join(''));
+          grade = selectedValue ;
           if(trimParam != null){
         	  $("#trimSelectBox").val(trimParam);
         	  trimSelect();
@@ -321,6 +324,7 @@ var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAtt
       var selectedGrade = $('#gradeSelectBox').val();
       var selectedTrim = $('#trimSelectBox').val();
       updateTable(selectedGrade, selectedTrim);
+      trim = selectedTrim;
    }
    
    function updateTable(selectedGrade, selectedTrim){
