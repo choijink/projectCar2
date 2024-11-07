@@ -18,6 +18,31 @@
     #buttonset{margin-top: 15px;}
 </style>
 <style>
+/* 삭제 버튼 스타일 */
+button[type="button"] {
+    background-color: #ff4757;  /* 빨간색 배경 */
+    color: white;  /* 글자 색상 흰색 */
+    border: none;  /* 기본 테두리 제거 */
+    padding: 6px 12px;  /* 패딩을 더해서 버튼 크기 조절 */
+    border-radius: 8px;  /* 둥근 모서리 */
+    cursor: pointer;  /* 마우스 커서가 손 모양으로 바뀌게 */
+    font-size: 14px;  /* 글자 크기 설정 */
+    display: inline-block;  /* 버튼을 inline-block으로 설정 */
+    transition: background-color 0.3s ease, transform 0.2s ease;  /* 배경 색상 변화와 크기 변화 효과 */
+    opacity: 0.8;  /* 기본적으로 약간 투명한 효과 */
+}
+
+button[type="button"]:hover {
+    background-color: #ff6b81;  /* 호버 시 밝은 빨간색 배경 */
+    transform: scale(1.1);  /* 호버 시 버튼이 살짝 커지게 */
+    opacity: 1;  /* 호버 시 완전 불투명 */
+}
+
+button[type="button"]:active {
+    transform: scale(0.95);  /* 클릭 시 버튼이 작아지는 효과 */
+}
+
+
 :root {
     --primary-color: #01d28e;
     --secondary-color: #1089ff;
@@ -62,6 +87,7 @@ body {
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 1rem;
+    width: 820px;
 }
 
 .post-meta {
@@ -256,6 +282,10 @@ textarea {
 
 <script type="text/javascript">
 var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name") : ""%>';
+var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAttribute("adminCheck") : ""%>';
+var isImage1Change = false;
+var isImage2Change = false;
+var isImage3Change = false;
 
 	const params = new URLSearchParams(window.location.search);
 	var bIdx = params.get('idx');
@@ -294,6 +324,8 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 			console.log("등록");
 			$(".mb-3.bread").html("게시물 등록")
 			boardCreate(); 
+			$("#deleteImage1").hide();
+			$("#deleteImage2").hide();
 		}
 		else {
 			console.log("수정");
@@ -306,20 +338,18 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 
 
 	function boardCreate() {
-		var html = [];
+	    var html = [];
 	    $("#formTitle").empty();
 	    html.push('<span id="formTitle">등록</span>');
 	    $("#formTitle").append(html.join(''));
-	    
-		var html = [];
+
+	    var html = [];
 	    $(".formTitle2").empty();
 	    html.push('<p class="formTitle2" style="color: white;">게시물을 등록하는 페이지입니다.</p>');
 	    $(".formTitle2").append(html.join(''));
-		
+
 	    var html = [];
 	    $(".post-header").empty();
-	    /* html.push('<h2>게시물 <span id="formTitle">등록</span></h2>');
-	    html.push('<p class="formTitle2">게시물을 등록하는 페이지입니다.</p>'); */
 	    html.push('<span class="post-category">자유게시판</span>');
 	    html.push('<h1 class="post-title"><input type="text" id="title" style="width: 820px;" placeholder="제목을 입력하세요"></h1>');
 	    html.push('<div class="post-meta">');
@@ -336,16 +366,17 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 	    htmlContent.push('    <div class="post-image">');
 	    htmlContent.push('        <input type="file" id="imageUpload1" accept="image/*" onchange="previewImage(event, 1)">');
 	    htmlContent.push('        <img id="preview1" src="" alt="차량 사진 1" style="display:none;">');
+	    htmlContent.push('        <button type="button" id="deleteImage1" onclick="deleteImage(1)">삭제</button>');
 	    htmlContent.push('    </div>');
 	    htmlContent.push('    <div class="post-image">');
 	    htmlContent.push('        <input type="file" id="imageUpload2" accept="image/*" onchange="previewImage(event, 2)">');
 	    htmlContent.push('        <img id="preview2" src="" alt="차량 사진 2" style="display:none;">');
+	    htmlContent.push('        <button type="button" id="deleteImage2" onclick="deleteImage(2)">삭제</button>');
 	    htmlContent.push('    </div>');
 	    htmlContent.push('</div>');
 	    $(".post-content").append(htmlContent.join(''));
-	    
+
 	    var html = [];
-	    //$(".button-container").empty();
 	    $(".button-container").append('<button class="submit-button" onclick="submitForm()">등록하기</button>');
 	}
 
@@ -354,10 +385,57 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 	    var reader = new FileReader();
 	    reader.onload = function() {
 	        var previewId = 'preview' + imageNumber;
+	        var deleteBtnId = 'deleteImage' + imageNumber;
 	        document.getElementById(previewId).src = reader.result;
 	        document.getElementById(previewId).style.display = 'block';
+	     	// 삭제 버튼 보이기
+	        document.getElementById(deleteBtnId).style.display = 'inline-block';
 	    }
 	    reader.readAsDataURL(event.target.files[0]);
+	    if(imageNumber == 1){ isImage1Change = true;}
+	    if(imageNumber == 2){ isImage2Change = true;}
+	}
+
+	// 이미지 삭제 함수
+	function deleteImage(imageNumber) {
+	    var inputId = 'imageUpload' + imageNumber;
+	    var previewId = 'preview' + imageNumber;
+	    var deleteBtnId = 'deleteImage' + imageNumber;
+
+	    if (imageNumber == 1) {
+	        document.getElementById('preview1').style.display = 'none';
+	        document.getElementById('deleteImage1').style.display = 'none';
+	        document.getElementById('imageUpload1').value = null; // 파일 입력 초기화
+	    } else if (imageNumber == 2) {
+	        document.getElementById('preview2').style.display = 'none';
+	        document.getElementById('deleteImage2').style.display = 'none';
+	        document.getElementById('imageUpload2').value = null; // 파일 입력 초기화
+	    }
+	    
+	    // 이미지 변경 여부를 false로 설정
+	    if (imageNumber == 1) {
+	        isImage1Change = true;
+	    }
+	    if (imageNumber == 2) {
+	        isImage2Change = true;
+	    }
+	}
+	
+	// 파일 상태 확인 함수 (파일이 있으면 삭제 버튼 표시)
+	function checkFileStatus() {
+	    // 첫 번째 파일 입력 상태 확인
+	    if (document.getElementById('imageUpload1').files.length > 0 || document.getElementById('preview1').src != "") {
+	        document.getElementById('deleteImage1').style.display = 'inline-block';
+	    } else {
+	        document.getElementById('deleteImage1').style.display = 'none';
+	    }
+
+	    // 두 번째 파일 입력 상태 확인
+	    if (document.getElementById('imageUpload2').files.length > 0 || document.getElementById('preview2').src != "") {
+	        document.getElementById('deleteImage2').style.display = 'inline-block';
+	    } else {
+	        document.getElementById('deleteImage2').style.display = 'none';
+	    }
 	}
 
 
@@ -382,35 +460,49 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 					var html = [];
 					$(".post-header").empty();
 					html.push('	<span class="post-category">자유게시판</span>');
-					//html.push('	<h1 class="post-title">' + response.title + '</h1>');
-					html.push('	<h1 class="post-title"><input type="text" value="' + response.title + '"></h1>');
+					html.push('	<h1 class="post-title"><input type="text" id="title" style="width: inherit;" value="' + response.title + '"></h1>');
 					html.push('	<div class="post-meta">');
 					html.push('		<span><i class="fas fa-user"></i>' + response.name + '</span>');
 					html.push('		<span><i class="fas fa-calendar"></i>' + response.regdate + '</span>');
-					//html.push('		<span><i class="fas fa-comments"></i> 댓글 2</span>');
 					html.push('	</div>');
 					$(".post-header").append(html.join(''));
 					
 					var html = [];
 					$(".post-content").empty();
 					html.push('<div class="post-text">');
-					html.push('<p><textarea class="large-input">' + response.content + '</textarea></p>');
+					html.push('<p><textarea class="large-input" id="content">' + response.content + '</textarea></p>');
 					html.push('</div>');
 					html.push('<div class="post-images">');
-					html.push('	<div class="post-image">');
-					html.push('        <input type="file" accept="image/*" onchange="previewImage(event, 1)">');
-					html.push('        <img id="preview1" src="" alt="차량 사진 1" style="display:none;">');
-					html.push('    </div>');
-					html.push('    <div class="post-image">');
-					html.push('        <input type="file" accept="image/*" onchange="previewImage(event, 2)">');
-					html.push('        <img id="preview2" src="" alt="차량 사진 2" style="display:none;">');
+					// 첫 번째 이미지
+		            html.push('<div class="post-image">');
+		            html.push('    <input type="file" id="imageUpload1" accept="image/*" onchange="previewImage(event, 1)">');
+		            if (response.image1) {
+		                html.push('    <img id="preview1" src="boardImage/' + response.image1 + '" alt="차량 사진 1">');
+		                html.push('    <button type="button" id="deleteImage1" style="display:inline-block;" onclick="deleteImage(1)">삭제</button>');
+		            } else {
+		                html.push('    <img id="preview1" src="" alt="차량 사진 1" style="display:none;">');
+		                html.push('    <button type="button" id="deleteImage1" style="display:none;" onclick="deleteImage(1)">삭제</button>');
+		            }
+		            html.push('</div>');
+
+		            // 두 번째 이미지
+		            html.push('<div class="post-image">');
+		            html.push('    <input type="file" id="imageUpload2" accept="image/*" onchange="previewImage(event, 2)">');
+		            if (response.image2) {
+		                html.push('    <img id="preview2" src="boardImage/' + response.image2 + '" alt="차량 사진 2">');
+		                html.push('    <button type="button" id="deleteImage2" style="display:inline-block;" onclick="deleteImage(2)">삭제</button>');
+		            } else {
+		                html.push('    <img id="preview2" src="" alt="차량 사진 2" style="display:none;">');
+		                html.push('    <button type="button" id="deleteImage2" style="display:none;" onclick="deleteImage(2)">삭제</button>');
+		            }
 					html.push('	</div>');
 					html.push('</div>');
 					$(".post-content").append(html.join(''));
 					
 					var html = [];
-					//$(".button-container").empty();
-				    $(".button-container").append('<button class="submit-button">수정하기</button>');
+				    $(".button-container").append('<button class="submit-button" onclick="updateForm()">수정하기</button>');
+				    if(response.image1 != undefined){ $("#preview1").show(); }
+				    if(response.image2 != undefined){ $("#preview2").show(); }
 				},
 				error : function(xhr, status, error) {
 				console.error('요청 실패: ' + error); // 에러 출력
@@ -428,13 +520,20 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
 
         var content = $('#content').val();
         if(content.length < 5 || content.length > 2500){
-            alert('글 내용은 5글자 이상 2500글자 이하이어야 합니다.');
+            alert('글 내용을 입력해주세요!');
             $('#content').focus();
             return false;
         }
+        return true;
     }
 
     function submitForm() {
+    	// 유효성 검사 추가
+        if (!validCheck()) {
+            return;
+        }
+
+    	
     	// FormData 객체 생성
 		const formData = new FormData();
 		
@@ -466,10 +565,75 @@ var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name
             }
         });
     }
+    
+    function updateForm() {
+    	// 유효성 검사 추가
+        if (!validCheck()) {
+            return;
+        }
+    	
+        // FormData 객체 생성
+        const formData = new FormData();
+
+        // 수정된 제목과 내용 가져오기
+        formData.append('mIdx', midx); // 수정할 게시물의 idx
+        formData.append('bIdx', bIdx); // 수정할 게시물의 idx
+        formData.append('title', $('#title').val());
+        formData.append('content', $('#content').val());
+       	formData.append('isImage1Change', isImage1Change); // 변경 여부를 폼데이터에 담아서 보낸다.
+       	formData.append('isImage2Change', isImage2Change);
+       	formData.append('isImage3Change', isImage3Change);
+       	
+        // 기존 이미지를 제거할 경우 빈 문자열("")을 보냄
+        const image1 = document.getElementById('imageUpload1').files[0];
+        const image2 = document.getElementById('imageUpload2').files[0];
+
+        if (!image1) { // 이미지가 없는 경우
+        	if(isImage1Change){ // 기존에 이미지가 있다가 삭제된 경우
+            	formData.append('image1', ''); // 이미지1 삭제\
+        	} // else는 이미지가 없는 경우에 파일첨부가 되지 않은 경우 입니다.
+        }
+        if(image1){ // 이미지가 있는 경우
+        	if(isImage1Change){ // 이미지가 있고 파일첨부 여부가 True인 경우
+        		formData.append('image1', image1);
+        	} // else는 이미지 파일첨부가 있는데 변경 여부가 False인 경우 >> 있을수가 없다.
+        }
+
+        if (!image2) { // 이미지가 없는 경우
+        	if(isImage2Change){ // 기존에 이미지가 있다가 삭제된 경우
+            	formData.append('image2', ''); // 이미지1 삭제
+        	} // else는 이미지가 없는 경우에 파일첨부가 되지 않은 경우 입니다.
+        }
+        if(image2){ // 이미지가 있는 경우
+        	if(isImage2Change){ // 이미지가 있고 파일첨부 여부가 True인 경우
+        		formData.append('image2', image2);
+        	} // else는 이미지 파일첨부가 있는데 변경 여부가 False인 경우 >> 있을수가 없다.
+        }
+        
+        // 서버로 수정된 데이터 전송
+        $.ajax({
+            type: "POST",
+            url: "boUpdate", // 수정 요청을 보낼 URL
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            success: function(response) {
+                alert('수정이 완료되었습니다.');
+                window.location.href = "/boList"; // 수정 후 목록 페이지로 이동
+            },
+            error: function(xhr, status, error) {
+                console.error('수정 실패: ' + error);
+                alert('수정 중 오류가 발생했습니다.');
+            }
+        });
+    }
+
 
     $(document).ready(function(){
-    	console.log("init타는쪽");
     	init();
+    	// 파일 입력 값이 있을 경우, 삭제 버튼을 보이게 설정
+        if(bIdx > 0) { checkFileStatus(); }
     });
 </script>
 

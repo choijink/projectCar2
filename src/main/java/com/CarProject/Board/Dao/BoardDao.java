@@ -116,44 +116,71 @@ public class BoardDao extends SuperDao {
 		return bean;
 	}
 
-	public int updateData(BoardBean bean) {
-        PreparedStatement pstmt = null;
-        String sql = "UPDATE board SET title = ?, content = ?, regdate = ?, announcement = ? WHERE b_idx = ?";
+	public int updateData(BoardBean bean, String isImage1Change, String isImage2Change, String isImage3Change) {
+	    PreparedStatement pstmt = null;
+	    String sql = "UPDATE board SET title = ?, content = ?, announcement = ? ";
 
-        int cnt = -99999;
+	    if (isImage1Change.equals("true")) {
+	        sql += " , image1 = ? ";
+	    }
+	    if (isImage2Change.equals("true")) {
+	        sql += " , image2 = ? ";
+	    }
+	    if (isImage3Change.equals("true")) {
+	        sql += " , image3 = ? ";
+	    }
 
-        try {
-            Connection conn = super.getConnection();
-            conn.setAutoCommit(false);
+	    sql += " WHERE b_idx = ?";
 
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, bean.getTitle());
-            pstmt.setString(2, bean.getContent());
-            pstmt.setString(3, bean.getRegdate());
-            pstmt.setString(4, bean.getAnnouncement());
-            pstmt.setInt(5, bean.getbIdx()); // 게시판 식별번호 설정
+	    int cnt = -99999;
 
-            cnt = pstmt.executeUpdate();
-            conn.commit();
+	    try {
+	        conn = super.getConnection();
+	        conn.setAutoCommit(false);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
-                conn.rollback();
-            } catch (SQLException e1) {
-                e1.printStackTrace();
-            }
-        } finally {
-            try {
-                if (pstmt != null) pstmt.close();
-                if (conn != null) conn.close();
-            } catch (Exception e2) {
-                e2.printStackTrace();
-            }
-        }
+	        pstmt = conn.prepareStatement(sql);
 
-        return cnt;
-    }
+	        // 매개변수 설정
+	        int parameterIndex = 1;
+	        pstmt.setString(parameterIndex++, bean.getTitle());
+	        pstmt.setString(parameterIndex++, bean.getContent());
+	        pstmt.setString(parameterIndex++, bean.getAnnouncement());
+
+	        // 파일 변경이 있을 경우에만 값을 세팅
+	        if (isImage1Change.equals("true")) {
+	            pstmt.setString(parameterIndex++, bean.getImage1());
+	        }
+	        if (isImage2Change.equals("true")) {
+	            pstmt.setString(parameterIndex++, bean.getImage2());
+	        }
+	        if (isImage3Change.equals("true")) {
+	            pstmt.setString(parameterIndex++, bean.getImage3());
+	        }
+
+	        pstmt.setInt(parameterIndex++, bean.getbIdx());
+
+	        cnt = pstmt.executeUpdate();
+	        conn.commit();
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        try {
+	            if (conn != null) conn.rollback();
+	        } catch (SQLException e1) {
+	            e1.printStackTrace();
+	        }
+	    } finally {
+	        try {
+	            if (pstmt != null) pstmt.close();
+	            if (conn != null) conn.close();
+	        } catch (SQLException e2) {
+	            e2.printStackTrace();
+	        }
+	    }
+
+	    return cnt;
+	}
+
 
     public int insertData(BoardBean bean) {
         PreparedStatement pstmt = null;
