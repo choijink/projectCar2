@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>vsCAR : 자유게시판</title>
+<title>vsCAR : 게시물 등록</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <%@ include file="/WEB-INF/view/common/css.jsp"%>
@@ -325,6 +325,7 @@ var isImage3Change = false;
 		}
 		else {
 			console.log("수정");
+			document.title = "vsCAR : 게시물 수정";
 			$(".mb-3.bread").html("게시물 수정")
 			boardUpdate(); 
 		}
@@ -508,14 +509,14 @@ var isImage3Change = false;
 	
     function validCheck(){
         var title = $('#title').val();
-        if(title.length < 3 || title.length > 20){
-            alert('글 제목은 3글자 이상 20글자 이하이어야 합니다.');
+        if(title.length < 1 || title.length > 30){
+            alert('글 제목은 1글자 이상 30글자 이하이어야 합니다.');
             $('#title').focus();
             return false;
         }
 
         var content = $('#content').val();
-        if(content.length < 5 || content.length > 2500){
+        if(content.length < 1 || content.length > 2500){
             alert('글 내용을 입력해주세요!');
             $('#content').focus();
             return false;
