@@ -253,6 +253,20 @@ body {
     height: 500px;
 }
 
+/* 성공 메시지 스타일 */
+.alert-success {
+    background-color: #28a745;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+
 </style>
 </head>
 <body>
@@ -409,6 +423,9 @@ style="background-image: url('images/bg_9.jpg');
                     // 댓글 추가 성공 시 댓글 목록 갱신
                     loadComments();
                     $(".comment-input").val(''); // 댓글 입력란 초기화
+                 	
+                 	// 댓글 등록 완료 메시지 표시
+                    showMessage("댓글이 등록되었습니다.");
                 } else {
                     alert(response.message); // 실패 메시지 출력
                 }
@@ -417,6 +434,17 @@ style="background-image: url('images/bg_9.jpg');
                 console.error('댓글 작성 실패: ' + error);
             }
         });
+    }
+	
+ 	// 메시지를 화면에 띄우는 함수
+    function showMessage(message) {
+        var messageBox = $('<div class="alert alert-success" role="alert"></div>').text(message);
+        $(".comment-section").prepend(messageBox); // 메시지를 댓글 섹션 맨 위에 추가
+        setTimeout(function() {
+            messageBox.fadeOut(500, function() {
+                $(this).remove(); // 메시지 박스를 숨기고 제거
+            });
+        }, 2000); // 2초 후 메시지를 사라지게 함
     }
 
     // 댓글 목록 로드 함수
