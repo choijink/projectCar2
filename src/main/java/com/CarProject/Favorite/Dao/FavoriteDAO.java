@@ -76,6 +76,65 @@ public class FavoriteDAO extends SuperDao {
 	   return lists;
     }
 
+    public List<FavoriteBean> selectFavoriteCheck(String mIdxString, String cIdxString) {
+    	List<FavoriteBean> lists = new ArrayList<>();
+    	PreparedStatement pstmt = null;
+    	ResultSet rs = null;
+    	int mIdx = 0;
+    	int cIdx = 0;
+    	if (mIdxString != null) {
+    		mIdx = Integer.parseInt(mIdxString);
+    	}
+    	if (cIdxString != null) {
+    		cIdx = Integer.parseInt(cIdxString);
+    	}
+    	
+    	String sql = "SELECT T1.cf_idx, T1.m_idx, T1.c_idx, T2.name, T3.Brand, T3.CarName, T3.CarImage " +
+    			"FROM carfavorites AS T1 " +
+    			"INNER JOIN Member AS T2 ON T2.m_idx = T1.m_idx " +
+    			"INNER JOIN CarMain AS T3 ON T3.c_idx = T1.c_idx " +
+    			"WHERE 1=1";
+    	
+    	if (mIdx > 0) {
+    		sql += " AND T2.m_idx = ?";
+    	}
+    	if (cIdx > 0) {
+    		sql += " AND T3.c_idx = ?";
+    	}
+    	
+    	System.out.println(sql);
+    	try {
+    		conn = super.getConnection();
+    		pstmt = conn.prepareStatement(sql);
+    		int parameterIndex = 1;
+    		
+    		if (mIdx > 0) {
+    			pstmt.setInt(parameterIndex++, mIdx);
+    		}
+    		if (cIdx > 0) {
+    			pstmt.setInt(parameterIndex++, cIdx);
+    		}
+    		
+    		rs = pstmt.executeQuery();
+    		while (rs.next()) {
+    			lists.add(getBeanData(rs)); // CarBean 객체로 변환
+    		}
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    	} finally {
+    		// 리소스 정리
+    		try {
+    			if (rs != null) rs.close();
+    			if (pstmt != null) pstmt.close();
+    			if (conn != null) conn.close();
+    		} catch (SQLException e) {
+    			e.printStackTrace();
+    		}
+    	}
+    	System.out.println(lists);
+    	return lists;
+    }
+
     private FavoriteBean getBeanData(ResultSet rs) {
         FavoriteBean bean = new FavoriteBean();
         try {

@@ -452,21 +452,19 @@ label {display: inline-block;margin-bottom: unset;}
 	}
 	
 	function favoriteCheck(cIdx){
+		console.log(cIdx);
 		$.ajax({
-			url : "favoriteController", // 서버 서블릿 경로
+			url : "favoriteCheckAjaxController", // 서버 서블릿 경로
 			method : "GET", // 요청 방식
 			data : {
 				"mIdx" : midx,
 				"cIdx" : cIdx,
-				"pageNumber": 0,
-	            "pageSize": 0
 			},
 			success : function(response) {
 				if(response.length > 0){
 					$('.d-block.favorite_' + response[0].cIdx).empty();
 					var html = [];
-					html.push('				<a href="carView?idx=' + response[0].cIdx + '" class="btn btn-light py-2 mr-1"');
-					html.push('					style="color: black !important;">상세보기</a>');
+					html.push('				<a href="carView?idx=' + response[0].cIdx + '" class="btn btn-light py-2 mr-1" style="color: black !important;">상세보기</a>');
 					html.push('<a href="javascript:carFavoriteDelete(' + response[0].cIdx + ');" class="btn btn-danger favorite_' + response[0].cIdx + '" style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">찜 삭제</a>');
 					$('.d-block.favorite_' + response[0].cIdx).append(html.join(''));
 				}
@@ -546,6 +544,9 @@ label {display: inline-block;margin-bottom: unset;}
 			if (response.length < pageSize) {
 				$("#loadMoreBtn").hide(); // 더 이상 로드할 데이터가 없을 때 버튼 숨김
 			}
+			for (var i = 0; i < response.length; i++) {
+				favoriteCheck(response[i].cIdx);
+			}
 		});
 	}
 	
@@ -563,7 +564,7 @@ label {display: inline-block;margin-bottom: unset;}
 			html.push('			<div class="d-flex mb-3">');
 			html.push('				<p class="price ml-auto">'+ response[i].brand + '</p>');
 			html.push('			</div>');
-			html.push('			<p class="d-flex mb-0 d-block">');
+			html.push('			<p class="d-flex mb-0 d-block favorite_' + response[i].cIdx + '"">');
 			html.push('				<a href="carView?idx=' + response[i].cIdx + '" class="btn btn-light py-2 mr-1" style="color: black !important;">상세보기</a>');
 			if(adminCheck == 2){ html.push('<a href="javascript:carDelete(' + response[i].cIdx + ');" class="btn btn-danger" style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">삭제하기</a>'); }
 			else{ html.push('<a href="javascript:carFavorite(' + response[i].cIdx + ');" class="btn btn-danger style="font-size: 0.8rem !important; border: 1px solid !important; border-width: 1px !important;">찜하기</a>'); }
