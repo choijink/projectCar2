@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>vsCAR : VS Pick</title>
+<title>vsCAR : Pick 10</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -110,12 +110,7 @@
 			<div
 				class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
 				<div class="col-md-9 ftco-animate pb-5">
-					<p class="breadcrumbs">
-						<span class="mr-2"><a href="index.html">Home <i
-								class="ion-ios-arrow-forward"></i></a></span> <span>community <i
-							class="ion-ios-arrow-forward"></i></span>
-					</p>
-					<h1 class="mb-3 bread">자유 게시판</h1>
+					<h1 class="mb-3 bread">Pick 10</h1>
 				</div>
 			</div>
 		</div>
@@ -250,7 +245,7 @@
 					
 				}
 				$(".countSpan").empty();
-				$(".countSpan").html("▷ 총 20개의 순위를 보여드립니다.");
+				$(".countSpan").html("▷ 총 10개의 순위를 보여드립니다.");
 				
 				$(".table-responsive .table .tbody").append(html.join(''));
 			},

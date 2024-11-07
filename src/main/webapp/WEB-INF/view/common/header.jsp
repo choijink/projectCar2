@@ -14,7 +14,7 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item"><a href="carList" class="nav-link">차량 목록</a></li>
                 <li class="nav-item"><a href="/carCompare" class="nav-link">비교</a></li>
-                <li class="nav-item"><a href="/popularityRanking" class="nav-link">VS Pick</a></li>
+                <li class="nav-item"><a href="/popularityRanking" class="nav-link">Pick 10</a></li>
                 <li class="nav-item"><a href="/boList" class="nav-link">커뮤니티</a></li>
             </ul>
         </div>

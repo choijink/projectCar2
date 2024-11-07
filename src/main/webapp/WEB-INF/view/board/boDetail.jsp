@@ -308,12 +308,11 @@ style="background-image: url('images/bg_9.jpg');
     	<div class="pagination" id="paginationContainer">
 		    <!-- 페이지네이션 링크가 동적으로 추가될 곳 -->
 		</div>
-    	
+		<div class="navigation-buttons" style="display: flex; justify-content: left; margin-top: 2rem; padding: unset;">
+	    	<a href="boList" class="nav-btn">목록으로</a>
+		</div>
 	</div>
 
-	<div class="navigation-buttons" style="display: flex; justify-content: center; margin-top: 2rem; padding: 0 2rem;">
-    	<a href="boList" class="nav-btn">목록으로</a>
-	</div>
 </section>
 
 	<%@ include file="/WEB-INF/view/common/footer.jsp" %>

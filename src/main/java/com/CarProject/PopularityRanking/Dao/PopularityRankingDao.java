@@ -41,7 +41,7 @@ public class PopularityRankingDao extends SuperDao {
 		}
 		if(orderType == 1) { sql += " desc"; }
 		if(orderType == 2) { sql += " asc"; }
-		sql += " limit 0,20";
+		sql += " limit 0,10";
 
 		System.out.println(sql);
 		try {
