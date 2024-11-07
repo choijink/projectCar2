@@ -179,11 +179,11 @@ nav.open ~ .overlay {
 							<i class="bx bx-home-alt icon"></i> <span class="link">회원
 								정보</span>
 					</a></li>
-					<li class="list"><a href="/myFavoreteCar"
+					<li class="list"><a href="/myFavoriteCar"
 						class="nav-link FavoriteCar"> <i class="bx bx-home-alt icon"></i>
 							<span class="link">찜 목록 차량</span>
 					</a></li>
-					<li class="list"><a href="/myFavoreteCar"
+					<li class="list"><a href="/myboard"
 						class="nav-link board"> <i class="bx bx-home-alt icon"></i> <span
 							class="link">내가 쓴 게시글</span>
 					</a></li>
@@ -220,10 +220,6 @@ nav.open ~ .overlay {
 <script>
 	const params = new URLSearchParams(window.location.search);
 	var mIdx = params.get('midx');
-	console.log(mIdx);
-	$(".FavoriteCar").attr("href", "/myFavoriteCar?midx=" + mIdx);
-	$(".mypage").attr("href", "/mypage?midx=" + mIdx);
-	$(".board").attr("href", "/myboard?midx=" + mIdx);
 
 	function init() {
 		$.ajax({

@@ -10,6 +10,9 @@
 <%@ include file="/WEB-INF/view/common/css.jsp"%>
 
 <style>
+.container {
+    max-width: 1400px;
+}
 .active {
 	color: #28a745;
 }
@@ -124,13 +127,21 @@
 			</div>
 			<form id="searchForm">
 			    <span class="countSpan"></span>
-			    <span class="right" style="margin-left: 500px;">
-			        <select id="searchCriteria">
-			            <option value="title">제목</option>
-			            <option value="author">작성자</option>
+			    <span class="right" style="margin-left: 770px;">
+			        <select id="searchFuelType" onchange="selectFuelType()">
+			            <option value="1">가솔린 / 디젤 / LPI</option>
+			            <option value="2">전기</option>
 			        </select>
-			        <input type="text" id="searchInput" placeholder="검색어를 입력하세요">
-			        <input type="button" class="search-btn" value="검색">
+			        <select id="searchViewMode" onchange="selectViewMode()">
+			            <option value="연비">연비</option>
+			            <option value="가격">가격</option>
+			            <option value="최고 출력">최고 출력</option>
+			            <option value="배기량">배기량</option>
+			        </select>
+			        <select id="searchOrderType" onchange="selectOrderType()">
+			            <option value="1">내림차순</option>
+			            <option value="2">오름차순</option>
+			        </select>
 			    </span>
 			</form>
 
@@ -138,10 +149,17 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th style="width: 8%">번호</th>
-							<th style="width: 15%">작성자</th>
-							<th style="width: 40%">제목</th>
-							<th style="width: 15%">작성일</th>
+							<th style="width: 50px;">순위</th>
+							<th style="width: 90px;">차량 이름</th>
+							<th style="width: 90px;">등급</th>
+							<th class="FuelType" style="width: 100px;">연료 종류</th>
+							<th class="EngineType" style="width: 100px;">엔진 형식</th>
+							<th style="width: 80px;">배기량</th>
+							<th style="width: 50px;">연비</th>
+							<th style="width: 100px;">최고 출력</th>
+							<th style="width: 100px;">공차 중량</th>
+							<th style="width: 50px;">트림</th>
+							<th style="width: 100px;">가격</th>
 						</tr>
 					</thead>
 					<tbody class="tbody"></tbody>
@@ -151,10 +169,6 @@
 			<div class="under" style="display:grid; grid-template-columns:1fr 110px;">
 				<div class="pagination" id="paginationContainer">
 				    <!-- 페이지네이션 링크가 동적으로 추가될 곳 -->
-				</div>
-
-				<div class="btn-class" style="display: flex; justify-content: center; align-items: center; margin: 20px 0;">
-				<button onclick="boInsertUpdate(0)" id="btn-insert">게시물 등록</button>
 				</div>
 			</div>
 		</div>
@@ -176,56 +190,65 @@
 
 </body>
 <script type="text/javascript">
-	var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAttribute("adminCheck") : ""%>';
-	var midx = '<%=session.getAttribute("mIdx") != null ? session.getAttribute("mIdx") : 0%>';
-	/* var isAdmin = true; // 이 값을 서버에서 가져온 실제 사용자 권한으로 설정해야 합니다.
+	var fuelType = 1;
+	var viewMode = "연비";
+    var orderCheck = 1;
+    
+	function selectFuelType(){
+		fuelType = $("#searchFuelType").val();
+		init();
+		if(fuelType == 2){
+			$(".FuelType").hide();
+			$(".EngineType").hide();
+		} else {
+			$(".FuelType").show();
+			$(".EngineType").show();
+		}
+	}
 	
-	if (!isAdmin) {
-	    document.querySelector('.admin-management').style.display = 'none';
-	} */
-	
-	function init(pageNumber = 1, pageSize = 5) {
+	function selectViewMode(){
+		viewMode = $("#searchViewMode").val();
+		init();
+	}
+
+	function selectOrderType(){
+		orderCheck = $("#searchOrderType").val();
+		init();
+	}
+
+	function init() {
 		$.ajax({
-			url : "boardAjaxController", // 서버 서블릿 경로
+			url : "popularityRankingAjaxController", // 서버 서블릿 경로
 			method : "GET", // 요청 방식
 			data : {
-				"pageNumber": pageNumber,
-	            "pageSize": pageSize
+				"fuelType": fuelType,
+				"viewMode": viewMode,
+	            "orderCheck": orderCheck
 			},
 			success : function(response) {
 				var html= [];
 				$(".table-responsive .table .tbody").empty();
 				console.log(response);
-				for (var i = 0; i < response.boards.length; i++) {
+				for (var i = 0; i < response.popular.length; i++) {
 					html.push('<tr>');
-					html.push('	<td>' + (response.totalCount - (pageNumber - 1) * pageSize - i) + '</td>');
-					html.push('	<td>' + response.boards[i].name + '</td>');
-					html.push('	<td><a href="boDetail?bIdx=' + response.boards[i].bIdx + '" class="post-title">' + response.boards[i].title + '</a>');
-					html.push('		<span class="badge bg-secondary"></span>');
-					html.push('	</td>');
-					html.push('	<td>' + response.boards[i].regdate + '</td>');
-					if (adminCheck == 2) {
-						var html2 = [];
-						$(".table-responsive .table thead tr").empty();
-						html2.push('<th style="width: 8%">번호</th>');
-						html2.push('<th style="width: 15%">작성자</th>');
-						html2.push('<th style="width: 40%">제목</th>');
-						html2.push('<th style="width: 15%">작성일</th>');
-						html2.push('<th class="admin-management" style="width: 12%">관리</th>');
-						$(".table-responsive .table thead tr").append(html2.join(''));
-						
-						html.push('	<td>');
-						html.push('		<button class="btn btn-sm btn-outline-primary" onclick="boInsertUpdate('+ response.boards[i].bIdx +')">수정</button>');
-						html.push('		<button class="btn btn-sm btn-outline-danger" onclick="boDelete('+ response.boards[i].bIdx +')">삭제</button>');
-						html.push('	</td>');
-					} 
+					html.push('	<td>' + (i+1) + '</td>');
+					html.push('	<td>' + response.popular[i].carName + '</td>');
+					html.push('	<td>' + response.popular[i].grade + '</td>');
+					html.push('	<td>' + response.popular[i].fuelType + '</td>');
+					if(fuelType == 1){
+						html.push('	<td>' + response.popular[i].engineType + '</td>');
+						html.push('	<td>' + response.popular[i].displacement + '</td>');
+					}
+					html.push('	<td>' + response.popular[i].fuelEfficiency + '</td>');
+					html.push('	<td>' + response.popular[i].maxPower + '</td>');
+					html.push('	<td>' + response.popular[i].curbWeight + '</td>');
+					html.push('	<td>' + response.popular[i].trim + '</td>');
+					html.push('	<td>' + response.popular[i].price + '</td>');
 					html.push('</tr>');
 					
 				}
 				$(".countSpan").empty();
-				$(".countSpan").html("▷ 총 " + response.totalCount + "개의 게시물이 있습니다.");
-				var totalPages = Math.ceil(response.totalCount / pageSize); // totalCount는 서버에서 받아온 데이터 총 개수
-	            renderPagination(totalPages, pageNumber);
+				$(".countSpan").html("▷ 총 20개의 순위를 보여드립니다.");
 				
 				$(".table-responsive .table .tbody").append(html.join(''));
 			},
@@ -235,101 +258,9 @@
 		});
 	}
 	
-	function renderPagination(totalPages, currentPage) {
-	    var paginationHtml = '';
-	    $('.pagination').empty();
-	    for (var i = 1; i <= totalPages; i++) {
-	        paginationHtml += '<li class="page-item' + (i === currentPage ? ' active' : '') + '">';
-	        paginationHtml += '<a class="page-link pagination-link" href="#" data-page="' + i + '">' + i + '</a>';
-	        paginationHtml += '</li>';
-	    }
-	    $('.pagination').html(paginationHtml);
-
-	    // 페이지 링크 클릭 이벤트 핸들러 등록 (이벤트 위임 사용)
-	    $('.pagination').on('click', '.pagination-link', function() {
-	        var pageNumber = $(this).data('page');
-	        init(pageNumber, 5); // 10은 페이지 크기 예시
-	    });
-	}
-	
-	function boInsertUpdate(idx){
-		if(midx == 0){
-			alert("로그인이 필요한 서비스 입니다.");
-			window.location.href= "/memberLogin";
-		} else {
-			if(idx == 0){ window.location.href = "/boCreate"}
-			else { window.location.href = "/boUpdate?idx=" + idx;} // 서블릿 경로로 수정
-		}
-	}
-	
-	function boDelete(bIdx) {
-	    if (confirm("정말로 이 게시물을 삭제하시겠습니까?")) {
-	        $.ajax({
-	            url: "boDelete", // 삭제 요청을 처리할 서블릿 경로
-	            method: "GET",
-	            data: { bIdx: bIdx }, // 삭제할 게시물의 ID
-	            success: function(response) {
-	                if (response.success) {
-	                    alert("게시물이 삭제되었습니다.");
-	                    init(); // 목록을 다시 불러와서 삭제된 게시물 반영
-	                } else {
-	                    alert("게시물 삭제에 실패했습니다.");
-	                }
-	            },
-	            error: function(xhr, status, error) {
-	                console.error('요청 실패: ' + error);
-	                alert("삭제 요청 중 오류가 발생했습니다.");
-	            }
-	        });
-	    }
-	}
 
 	$(document).ready(function() {
 	    init();
-	    
-	    $('.search-btn').click(function() {
-	        performSearch();
-	    });
-
-	    $('#searchInput').keyup(function(event) {
-	        if (event.key === "Enter") { // 엔터 키가 눌렸을 때
-	        	event.preventDefault(); // 기본 동작 방지
-	            performSearch();
-	        }
-	    });
-	    
-	 	// 폼 제출 시 기본 동작 방지
-	    $('form').submit(function(event) {
-	        event.preventDefault(); // 폼 제출 방지
-	    });
 	});
-	
-	function performSearch() {
-	    var criteria = $('#searchCriteria').val();
-	    var query = $('#searchInput').val().toLowerCase();
-	    filterPosts(criteria, query);
-	}
-	
-	function filterPosts(criteria, query) {
-	    $(".tbody tr").each(function() {
-	        var title = $(this).find("td:nth-child(3) a").text().toLowerCase(); // 제목
-	        var author = $(this).find("td:nth-child(2)").text().toLowerCase(); // 작성자
-
-	        if (criteria === "title" && title.includes(query)) {
-	            $(this).show(); // 제목이 검색어를 포함하면 표시
-	        } else if (criteria === "author" && author.includes(query)) {
-	            $(this).show(); // 작성자가 검색어를 포함하면 표시
-	        } else {
-	            $(this).hide(); // 검색 결과에 맞지 않으면 숨김
-	        }
-	    });
-
-	    updateCount(); // 필터링 후 게시물 수 업데이트
-	}
-
-	function updateCount() {
-	    var visibleCount = $(".tbody tr:visible").length;
-	    $(".countSpan").html("▷ 총 " + visibleCount + "개의 게시물이 있습니다.");
-	}
 </script>
 </html>

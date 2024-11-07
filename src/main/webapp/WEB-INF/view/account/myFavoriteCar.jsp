@@ -10,112 +10,129 @@
 <%@ include file="/WEB-INF/view/common/css.jsp"%>
 </head>
 <style>
-.car-list{
-	overflow-x : unset;
+.car-list {
+	overflow-x: unset;
 }
 
 .table th, .table td {
-    border-top: unset;
+	border-top: unset;
 }
-.carName{
-	color:black;
+
+.carName {
+	color: black;
 }
-.ftco-section.ftco-cart{
-	display:grid;
+
+.ftco-section.ftco-cart {
+	display: grid;
 	grid-template-columns: 300px 1fr;
 }
-.table .thead-primary tr th{
+
+.table .thead-primary tr th {
 	color: black !important;
 }
-.table tbody tr td{
+
+.table tbody tr td {
 	text-align: center;
 }
 
-
 /* Google Fonts - Poppins */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+@import
+	url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap")
+	;
 
 nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 70px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 70px;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
 }
+
 nav .logo {
-  display: flex;
-  align-items: center;
-  margin: 0 24px;
+	display: flex;
+	align-items: center;
+	margin: 0 24px;
 }
+
 .logo .menu-icon {
-  color: #333;
-  font-size: 24px;
-  margin-right: 14px;
-  cursor: pointer;
+	color: #333;
+	font-size: 24px;
+	margin-right: 14px;
+	cursor: pointer;
 }
+
 .logo .logo-name {
-  color: #333;
-  font-size: 22px;
-  font-weight: 500;
+	color: #333;
+	font-size: 22px;
+	font-weight: 500;
 }
+
 nav .sidebar {
-  position: fixed;
-  top: 0;
-  left: -100%;
-  height: 100%;
-  width: 260px;
-  padding: 20px 0;
-  box-shadow: 0 5px 1px rgba(0, 0, 0, 0.1);
-  transition: all 0.4s ease;
+	position: fixed;
+	top: 0;
+	left: -100%;
+	height: 100%;
+	width: 260px;
+	padding: 20px 0;
+	box-shadow: 0 5px 1px rgba(0, 0, 0, 0.1);
+	transition: all 0.4s ease;
 }
+
 nav.open .sidebar {
-  left: 0;
+	left: 0;
 }
+
 .sidebar .sidebar-content {
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 30px 16px;
+	display: flex;
+	height: 100%;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 30px 16px;
 }
+
 .sidebar-content .list {
-  list-style: none;
+	list-style: none;
 }
+
 .list .nav-link {
-  display: flex;
-  align-items: center;
-  margin: 8px 0;
-  padding: 14px 12px;
-  border-radius: 8px;
-  text-decoration: none;
+	display: flex;
+	align-items: center;
+	margin: 8px 0;
+	padding: 14px 12px;
+	border-radius: 8px;
+	text-decoration: none;
 }
+
 .nav-link .icon {
-  margin-right: 14px;
-  font-size: 20px;
-  color: #707070;
+	margin-right: 14px;
+	font-size: 20px;
+	color: #707070;
 }
+
 .nav-link .link {
-  font-size: 16px;
-  color: #707070;
-  font-weight: 400;
+	font-size: 16px;
+	color: #707070;
+	font-weight: 400;
 }
+
 .overlay {
-  position: fixed;
-  top: 0;
-  left: -100%;
-  height: 1000vh;
-  width: 200%;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.4s ease;
+	position: fixed;
+	top: 0;
+	left: -100%;
+	height: 1000vh;
+	width: 200%;
+	opacity: 0;
+	pointer-events: none;
+	transition: all 0.4s ease;
 }
+
 nav.open ~ .overlay {
-  opacity: 1;
-  left: 260px;
-  pointer-events: auto;
+	opacity: 1;
+	left: 260px;
+	pointer-events: auto;
 }
 </style>
 <body>
@@ -138,33 +155,26 @@ nav.open ~ .overlay {
 
 	<section class="ftco-section ftco-cart">
 		<div class="sidebar">
-	        <div class="logo">
-	          <i class="bx bx-menu menu-icon"></i>
-	          <span class="log`o-name">Mypage</span>
-	        </div>
-	        <div class="sidebar-content">
-	          <ul class="lists">
-	            <li class="list">
-	              <a href="/mypage" class="nav-link mypage">
-	                <i class="bx bx-home-alt icon"></i>
-	                <span class="link">회원 정보</span>
-	              </a>
-	            </li>
-	            <li class="list">
-	              <a href="/myFavoriteCar" class="nav-link FavoriteCar">
-	                <i class="bx bx-home-alt icon"></i>
-	                <span class="link">찜 목록 차량</span>
-	              </a>
-	            </li>
-	            <li class="list">
-	              <a href="/myBoard" class="nav-link board">
-	                <i class="bx bx-home-alt icon"></i>
-	                <span class="link">내가 쓴 게시글</span>
-	              </a>
-	            </li>
-	          </ul>
-	        </div>
-      	</div>
+			<div class="logo">
+				<i class="bx bx-menu menu-icon"></i> <span class="log`o-name">Mypage</span>
+			</div>
+			<div class="sidebar-content">
+				<ul class="lists">
+					<li class="list"><a href="/mypage" class="nav-link mypage">
+							<i class="bx bx-home-alt icon"></i> <span class="link">회원
+								정보</span>
+					</a></li>
+					<li class="list"><a href="/myFavoriteCar"
+						class="nav-link FavoriteCar"> <i class="bx bx-home-alt icon"></i>
+							<span class="link">찜 목록 차량</span>
+					</a></li>
+					<li class="list"><a href="/myboard" class="nav-link board">
+							<i class="bx bx-home-alt icon"></i> <span class="link">내가
+								쓴 게시글</span>
+					</a></li>
+				</ul>
+			</div>
+		</div>
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12 ftco-animate">
@@ -182,7 +192,7 @@ nav.open ~ .overlay {
 					</div>
 					<!-- 페이지네이션 링크를 위한 div 추가 -->
 					<div class="pagination-links">
-					    <ul class="pagination"></ul>
+						<ul class="pagination"></ul>
 					</div>
 				</div>
 			</div>
