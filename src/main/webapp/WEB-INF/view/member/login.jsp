@@ -5,6 +5,7 @@
 <head>
 <%@ include file="/WEB-INF/view/common/css.jsp"%>
 <%@ include file="/WEB-INF/view/common/header.jsp"%>
+<%@ include file="/WEB-INF/view/common/favicon.jsp" %>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>vsCAR : 로그인</title>

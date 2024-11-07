@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
 <%@ include file="/WEB-INF/view/common/css.jsp" %>
+<%@ include file="/WEB-INF/view/common/favicon.jsp" %>
 <title>vsCAR : 상세 보기</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
