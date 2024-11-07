@@ -510,10 +510,8 @@ let userEmailDomain = "";
 
 	function verifyCode() {
 		
-		const emailLocal = document.getElementById("emailLocal").value;
-	    const emailDomain = document.getElementById("domainSelect").value === "direct" 
-	        ? document.getElementById("emailDomain").value 
-	        : document.getElementById("domainSelect").value;
+		const emailLocal = tempFormData.emailLocal;
+	    const emailDomain = tempFormData.emailDomain;
 	        
 		const email = emailLocal + "@" + emailDomain;
 	    var code = document.getElementById("verificationCode").value;
