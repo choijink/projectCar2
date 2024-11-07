@@ -118,6 +118,36 @@ input.text {
 	margin-bottom: 10px;
 }
 
+.spinner-container {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0; /* 오른쪽 끝까지 덮음 */
+  bottom: 0; /* 아래쪽 끝까지 덮음 */
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.spinner {
+  border: 7px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
 /* 숨겨진 요소 */
 .hidden {
 	display: none;
@@ -125,6 +155,9 @@ input.text {
 </style>
 </head>
 <body>
+	<div class="spinner-container" id="spinner-container">
+   		 <div class="spinner"></div>
+	</div>
 	<video autoplay muted loop>
 		<source src="../../../videos/login.mp4" type="video/mp4">
 		Your browser does not support the video tag.
@@ -177,9 +210,16 @@ function init() {
     
     $('.findPasswordClass').append(html.join(''));
     
-    // 이벤트 핸들러 등록
-    //initEventHandlers();
 }
+
+	//스피너 열고닫기 
+	function showSpinner() {
+		  document.getElementById("spinner-container").style.display = "flex";
+		}
+	
+	function hideSpinner() {
+		  document.getElementById("spinner-container").style.display = "none";
+		}
 
 	function initEventHandlers() {
 		// 인증번호 전송 버튼 클릭 이벤트
@@ -195,6 +235,7 @@ function init() {
 	        alert('아이디와 이메일을 모두 입력해주세요.');
 	        return;
 	    }
+	    showSpinner();
 	    
 	    // 서버로 인증번호 전송 요청
 	    $.ajax({
@@ -216,12 +257,14 @@ function init() {
 	            } else {
 	                alert(response.message);
 	            }
+	            hideSpinner();
 	        },
 	        error: function(xhr, status, error) {
 	            console.log('AJAX 에러:', error);
 	            console.log('상태:', xhr.status);
 	            console.log('응답:', xhr.responseText);
 	            alert('인증번호 전송에 실패했습니다. 다시 시도해주세요.');
+	            hideSpinner();
 	        }
 	    });
 	}
@@ -238,7 +281,7 @@ function init() {
 	        alert("인증번호를 입력해주세요.");
 	        return;
 	    }
-    	
+    	showSpinner();
     	$.ajax({
 	        url: "verifyEmailCodeAjaxController",
 	        type: "POST",
@@ -256,9 +299,11 @@ function init() {
 	                alert('인증번호가 일치하지 않습니다.');
 	                $('#verificationInput').val('').focus();
 	            }
+	            hideSpinner();
 	        },
 	        error: function(xhr, status, error) {
 	            alert('인증 확인 중 오류가 발생했습니다.');
+	            hideSpinner();
 	        }
 	    });
 	}

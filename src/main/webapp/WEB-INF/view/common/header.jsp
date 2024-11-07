@@ -46,8 +46,8 @@
         transition: transform 0.3s ease, filter 0.3s ease;
     }
     .logo-img:hover {
-        transform: scale(1.1); /* 확대 효과 */
-        filter: invert(10%); /* 색상 반전 */
+        transform: scale(1.2); /* 확대 효과 */
+        
     }
 </style>
 
