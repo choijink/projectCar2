@@ -194,7 +194,8 @@ nav.open ~ .overlay {
 			</table>
 		</div>
 	</section>
-	<div class="under" style="display:grid; grid-template-columns:1fr 110px;">
+	<div class="under" style="display:grid; grid-template-columns:300px 1fr">
+		<div></div>
 		<div class="pagination" id="paginationContainer">
 		    <!-- 페이지네이션 링크가 동적으로 추가될 곳 -->
 		</div>
