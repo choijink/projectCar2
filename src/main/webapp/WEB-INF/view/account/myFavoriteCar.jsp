@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Carbook - Free Bootstrap 4 Template by Colorlib</title>
+<title>vsCAR : MyFavorite</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -273,7 +273,7 @@ nav.open ~ .overlay {
 			method : "GET", // 요청 방식
 			data : {
 				"cIdx" : idx,
-				"mIdx" : mIdx
+				"mIdx" : midx
 			},
 			success : function(response) {
 				if (response.status === "success") {

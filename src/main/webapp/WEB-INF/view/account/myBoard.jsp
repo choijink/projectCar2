@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Carbook - Free Bootstrap 4 Template by Colorlib</title>
+<title>vsCAR : MyBoard</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -216,9 +216,6 @@ nav.open ~ .overlay {
 
 </body>
 <script>
-	var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAttribute("adminCheck") : ""%>';
-	var midx = '<%=session.getAttribute("mIdx") != null ? session.getAttribute("mIdx") : 0%>';
-
 	function init(pageNumber = 1, pageSize = 5) {
 		$.ajax({
 			url : "boardAjaxController", // 서버 서블릿 경로

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Community</title>
+<title>vsCAR : VS Pick</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -232,6 +232,7 @@
 				for (var i = 0; i < response.popular.length; i++) {
 					html.push('<tr>');
 					html.push('	<td>' + (i+1) + '</td>');
+					//html.push('	<td><a href="/carView?idx=' + response.popular[i].cIdx + '&grade=' + response.popular[i].grade + '&trim=' + response.popular[i].trim + '">' + response.popular[i].carName + '</a></td>');
 					html.push('	<td>' + response.popular[i].carName + '</td>');
 					html.push('	<td>' + response.popular[i].grade + '</td>');
 					html.push('	<td>' + response.popular[i].fuelType + '</td>');

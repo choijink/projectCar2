@@ -16,7 +16,7 @@ public class PopularityRankingDao extends SuperDao {
 		ResultSet rs = null;
 
 		// 기본 쿼리
-		String sql = "select T1.c_idx, T1.carName, T2.Grade, T2.fuelType, T2.EngineType, T2.Displacement, T2.FuelEfficiency, T2.MaxPower, T2.CurbWeight, T3.Trim, T3.Price from carmain AS T1";
+		String sql = "select T1.c_idx, T1.carName, T2.cd1_idx, T2.Grade, T2.fuelType, T2.EngineType, T2.Displacement, T2.FuelEfficiency, T2.MaxPower, T2.CurbWeight, T3.cd2_idx, T3.Trim, T3.Price from carmain AS T1";
 		sql += " inner join carDetail1 as t2 on t2.c_idx = t1.c_Idx";
 		sql += " inner join carDetail2 as t3 on T3.cd1_idx = t2.cd1_idx";
 		if(fuelType == 1) {
@@ -73,6 +73,8 @@ public class PopularityRankingDao extends SuperDao {
 		try {
 			bean = new CarBean();
 			bean.setcIdx(rs.getInt("c_idx"));
+			bean.setCd1Idx(rs.getInt("cd1_idx"));
+			bean.setCd2Idx(rs.getInt("cd2_idx"));
 			bean.setCarName(rs.getString("CarName"));
 			bean.setGrade(rs.getString("Grade"));
 			bean.setFuelType(rs.getString("FuelType"));
