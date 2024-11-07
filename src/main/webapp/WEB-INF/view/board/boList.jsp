@@ -176,8 +176,9 @@
 
 </body>
 <script type="text/javascript">
-	var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAttribute("adminCheck") : ""%>';
-	var midx = '<%=session.getAttribute("mIdx") != null ? session.getAttribute("mIdx") : 0%>';
+var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name") : ""%>';
+var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAttribute("adminCheck") : ""%>';
+var midx = '<%=session.getAttribute("mIdx") != null ? session.getAttribute("mIdx") : 0%>';
 	/* var isAdmin = true; // 이 값을 서버에서 가져온 실제 사용자 권한으로 설정해야 합니다.
 	
 	if (!isAdmin) {
@@ -204,7 +205,7 @@
 					html.push('		<span class="badge bg-secondary"></span>');
 					html.push('	</td>');
 					html.push('	<td>' + response.boards[i].regdate + '</td>');
-					if (adminCheck == 2) {
+					if (midx == response.boards[i].mIdx) {
 						var html2 = [];
 						$(".table-responsive .table thead tr").empty();
 						html2.push('<th style="width: 8%">번호</th>');
@@ -218,7 +219,20 @@
 						html.push('		<button class="btn btn-sm btn-outline-primary" onclick="boInsertUpdate('+ response.boards[i].bIdx +')">수정</button>');
 						html.push('		<button class="btn btn-sm btn-outline-danger" onclick="boDelete('+ response.boards[i].bIdx +')">삭제</button>');
 						html.push('	</td>');
-					} 
+					} else if(adminCheck == 2){
+						var html2 = [];
+						$(".table-responsive .table thead tr").empty();
+						html2.push('<th style="width: 8%">번호</th>');
+						html2.push('<th style="width: 15%">작성자</th>');
+						html2.push('<th style="width: 40%">제목</th>');
+						html2.push('<th style="width: 15%">작성일</th>');
+						html2.push('<th class="admin-management" style="width: 12%">관리</th>');
+						$(".table-responsive .table thead tr").append(html2.join(''));
+						
+						html.push('	<td>');
+						html.push('		<button class="btn btn-sm btn-outline-danger" onclick="boDelete('+ response.boards[i].bIdx +')">삭제</button>');
+						html.push('	</td>');
+					}
 					html.push('</tr>');
 					
 				}

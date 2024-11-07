@@ -24,7 +24,7 @@ public class BoardDao extends SuperDao {
 	        mIdx = Integer.parseInt(mIdxString);
 	    }
 	    
-	    String sql = "SELECT T1.b_idx, T1.title, T1.content, DATE_FORMAT(T1.regdate, '%Y-%m-%d') AS regdate, T2.name "
+	    String sql = "SELECT T1.b_idx, T1.title, T1.content, DATE_FORMAT(T1.regdate, '%Y-%m-%d') AS regdate, T2.m_idx, T2.name "
 	               + "FROM board AS T1 "
 	               + "INNER JOIN Member AS T2 ON T2.m_idx = T1.m_idx "
 	               + "WHERE 1=1";
@@ -61,6 +61,7 @@ public class BoardDao extends SuperDao {
 	            board.setContent(rs.getString("content")); // 내용
 	            board.setRegdate(rs.getString("regdate")); // 등록일
 	            board.setName(rs.getString("name")); // 작성자 이름
+	            board.setmIdx(rs.getInt("m_idx")); // 작성자 이름
 	            boardList.add(board);
 	        }
 	    } catch (SQLException e) {

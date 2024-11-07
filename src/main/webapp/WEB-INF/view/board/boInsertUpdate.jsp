@@ -281,6 +281,7 @@ textarea {
 </body>
 
 <script type="text/javascript">
+var midx = '<%=session.getAttribute("mIdx") != null ? session.getAttribute("mIdx") : 0%>';
 var name = '<%=session.getAttribute("name") != null ? session.getAttribute("name") : ""%>';
 var adminCheck = '<%=session.getAttribute("adminCheck") != null ? session.getAttribute("adminCheck") : ""%>';
 var isImage1Change = false;

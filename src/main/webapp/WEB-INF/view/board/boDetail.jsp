@@ -91,8 +91,8 @@ body {
 
 .post-image img {
 	width: 100%;
-	height: 200px;
-	object-fit: cover;
+	height: 500px;
+	object-fit: contain;
 }
 
 .post-actions {
