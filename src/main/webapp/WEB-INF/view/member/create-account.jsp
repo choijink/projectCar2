@@ -18,17 +18,6 @@ body, html {
 	align-items: center;
 }
 
-video {
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	width: 100vw; /* 화면 너비에 맞춤 */
-	height: 100vh; /* 화면 높이에 맞춤 */
-	transform: translate(-50%, -50%); /* 비디오를 중앙에 위치시키기 */
-	z-index: -1; /* 비디오를 뒤로 배치 */
-	object-fit: cover; /* 화면에 맞추어 비디오 자르기 */
-}
-
 table {
 	width: 300px;
 	border-spacing: 0px; /* 각 항목 사이의 간격 조정 */
@@ -167,9 +156,52 @@ input[type="radio"]:checked+.gender-btn {
 	background-color: rgb(164, 199, 255); /* 선택된 버튼의 배경 색 */
 	border: 1px solid rgb(61, 135, 255); /* 선택된 버튼의 테두리 색 */
 }
+
+video {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	width: 100vw; /* 화면 너비에 맞춤 */
+	height: 100vh; /* 화면 높이에 맞춤 */
+	transform: translate(-50%, -50%); /* 비디오를 중앙에 위치시키기 */
+	z-index: -1; /* 비디오를 뒤로 배치 */
+	object-fit: cover; /* 화면에 맞추어 비디오 자르기 */
+}
+
+.spinner-container {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0; /* 오른쪽 끝까지 덮음 */
+  bottom: 0; /* 아래쪽 끝까지 덮음 */
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.spinner {
+  border: 7px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 </style>
 </head>
 <body>
+	<div class="spinner-container" id="spinner-container">
+   		 <div class="spinner"></div>
+	</div>
 	<video autoplay muted loop>
 		<source src="../../../videos/create-account.mp4" type="video/mp4">
 		Your browser does not support the video tag.
@@ -178,7 +210,7 @@ input[type="radio"]:checked+.gender-btn {
 		<table class="memberClass">
 		</table>
 	</form>
-
+	
 	<script
 		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
@@ -265,6 +297,15 @@ let userEmailDomain = "";
 	        checkedId = "";		
 		});
 	}
+	
+	// 스피너 열고닫기 
+	function showSpinner() {
+		  document.getElementById("spinner-container").style.display = "flex";
+		}
+
+	function hideSpinner() {
+		  document.getElementById("spinner-container").style.display = "none";
+		}
 
 	function sample6_execDaumPostcode() {
 		new daum.Postcode({
@@ -321,6 +362,22 @@ let userEmailDomain = "";
 	        return false;
 	    }
 	    
+	    // 성별 선택 여부 체크 - 수정된 부분
+	    var genderInputs = document.getElementsByName("gender");
+	    var genderSelected = false;
+	    
+	    for(var i = 0; i < genderInputs.length; i++) {
+	        if(genderInputs[i].checked) {
+	            genderSelected = true;
+	            break;
+	        }
+	    }
+	    
+	    if(!genderSelected) {
+	        alert("성별을 선택해주세요.");
+	        return false;
+	    }
+	    
 	    if (password !== passwordConfirm) {
 	        alert("비밀번호가 일치하지 않습니다.");
 	        return false;
@@ -369,7 +426,7 @@ let userEmailDomain = "";
 			return;
 		}
 		if (!/^(?=.*[a-zA-Z0-9])[a-zA-Z0-9]{4,16}$/.test(id)) {
-	        alert("아이디는 4~16글자로 입력해주세요.");
+	        alert("아이디는 4~16글자(알파벳/숫자)로 입력해주세요.");
 	        return;
 	    }
 		
@@ -430,10 +487,13 @@ let userEmailDomain = "";
 	    	    };
 	        
 	        // 이메일 인증 프로세스 시작
+	        showSpinner();
 	        sendVerificationEmail();
 	    }
 	    return false;
 	}
+	
+	
 	    
 
 	function sendVerificationEmail() {
@@ -472,10 +532,12 @@ let userEmailDomain = "";
 	            } else {
 	                alert('이미 존재하는 이메일입니다.');
 	            }
+	            hideSpinner();
 	        },
 	        error: function(xhr, status, error) {
 	            console.error("에러 상세:", xhr.responseText);
 	            alert('이메일 발송 중 오류가 발생했습니다.');
+	            hideSpinner();
 	        }
 	    });
 	}
@@ -511,7 +573,7 @@ let userEmailDomain = "";
 	}
 
 	function verifyCode() {
-		
+		showSpinner();
 		const emailLocal = tempFormData.emailLocal;
 	    const emailDomain = tempFormData.emailDomain;
 	        
@@ -536,10 +598,13 @@ let userEmailDomain = "";
 	            } else {
 	                alert('인증번호가 일치하지 않습니다.');
 	            }
+	            hideSpinner();
 	        },
 	        error: function(xhr, status, error) {
 	            alert('인증 확인 중 오류가 발생했습니다.');
+	            hideSpinner();
 	        }
+	        
 	    });
 	}
 
