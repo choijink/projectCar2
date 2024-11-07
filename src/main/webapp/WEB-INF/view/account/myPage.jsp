@@ -218,15 +218,12 @@ nav.open ~ .overlay {
 
 </body>
 <script>
-	const params = new URLSearchParams(window.location.search);
-	var mIdx = params.get('midx');
-
 	function init() {
 		$.ajax({
 			url : "memberAjaxController", 
 			method : "GET", 
 			data : {
-				"idx" : mIdx,
+				"idx" : midx,
 			},
 			success : function(response) {
 				console.log(response);

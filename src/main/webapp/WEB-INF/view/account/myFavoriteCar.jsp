@@ -214,8 +214,6 @@ nav.open ~ .overlay {
 
 </body>
 <script>
-	var midx = '<%=session.getAttribute("mIdx") != null ? session.getAttribute("mIdx") : 0%>';
-	
 	function init(pageNumber = 1, pageSize = 3){
 		$.ajax({
 			url : "favoriteController", // 서버 서블릿 경로
