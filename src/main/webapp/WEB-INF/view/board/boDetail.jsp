@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <%@ include file="/WEB-INF/view/common/css.jsp" %>
-<title>VSCar</title>
+<title>vsCAR : 자유게시판</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
