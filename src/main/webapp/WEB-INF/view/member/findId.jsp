@@ -40,23 +40,24 @@ table {
 }
 
 h1 {
-    font-weight: bold;
-    font-family: 'Nanum Gothic', sans-serif;
-    font-style: italic;
-    color: hotpink;
-    font-size: 40px;
-    margin-bottom: 5px;
-    margin-top: 0;
+	font-family: 'Nanum Gothic', sans-serif;
+	font-weight: bold;
+	font-size: 50px;
+	margin-bottom: 5px;
+	margin-top: 0;
 }
 
 a {
-    color: hotpink;
-    text-decoration: none;
+	color: #4169E1; /* 기본 링크 색상 */
+	text-decoration: none; /* 밑줄 제거 */
+	
 }
 
 a:hover {
-    color: hotpink;
-    text-decoration: none;
+	color: hotpink; /* 마우스 오버 시 색상 유지 */
+	text-decoration: none; /* 마우스 오버 시에도 밑줄 제거 */
+	transition: transform 0.4s ease;
+
 }
 
 h2 {

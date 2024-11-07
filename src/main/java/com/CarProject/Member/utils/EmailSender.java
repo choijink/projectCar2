@@ -76,7 +76,7 @@ public class EmailSender {
                 "<p>안녕하세요. vsCAR입니다.</p>" +
                 "<p>요청하신 인증번호는 다음과 같습니다:</p>" +
                 "<h3 style='background-color: #f8f9fa; padding: 10px; color: #333; border-radius: 3px;'>%s</h3>" +
-                "<p>이 인증번호는 5분간 유효합니다.</p>" +
+                "<p>이 인증번호는 1분간 유효합니다.</p>" +
                 "<p>vsCAR를 이용해 주셔서 감사합니다.</p>" +
                 "</div>",
                 verificationCode
