@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>vsCAR : MyFavorite</title>
+<title>vsCAR : 찜 목록 차량</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -214,7 +214,7 @@ nav.open ~ .overlay {
 
 </body>
 <script>
-	function init(pageNumber = 1, pageSize = 3){
+	function init(pageNumber = 1, pageSize = 5){
 		$.ajax({
 			url : "favoriteController", // 서버 서블릿 경로
 			method : "GET", // 요청 방식
@@ -262,7 +262,7 @@ nav.open ~ .overlay {
 	    // 페이지 링크 클릭 이벤트 핸들러 등록 (이벤트 위임 사용)
 	    $('.pagination').on('click', '.pagination-link', function() {
 	        var pageNumber = $(this).data('page');
-	        init(pageNumber, 3); // 10은 페이지 크기 예시
+	        init(pageNumber, 5); // 10은 페이지 크기 예시
 	    });
 	}
 

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>vsCAR - 차량 등록하기</title>
+<title>vsCAR : 차량 등록하기</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <%@ include file="/WEB-INF/view/common/css.jsp"%>
@@ -193,7 +193,7 @@ th {
 	function init() {
 		if(cIdx > 0){
 			carView();
-			document.title = "vsCAR - 차량 수정하기";
+			document.title = "vsCAR : 차량 수정하기";
 			$(".mb-3.bread").html("차량 수정하기");
 			$(".gridClass1 h2").html("차량 제원 수정하기");
 			$(".buttonClass").empty();

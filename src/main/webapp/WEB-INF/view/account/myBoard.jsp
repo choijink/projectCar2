@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>vsCAR : MyBoard</title>
+<title>vsCAR : 내가 쓴 게시글</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -169,7 +169,7 @@ nav.open ~ .overlay {
 						class="nav-link FavoriteCar"> <i class="bx bx-home-alt icon"></i>
 							<span class="link">찜 목록 차량</span>
 					</a></li>
-					<li class="list"><a href="/myBoard"
+					<li class="list"><a href="/myboard"
 						class="nav-link board"> <i class="bx bx-home-alt icon"></i> <span
 							class="link">내가 쓴 게시글</span>
 					</a></li>
