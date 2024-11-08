@@ -461,12 +461,25 @@ style="background-image: url('images/bg_9.jpg');
             success: function(response) {
             	console.log("댓글");
             	console.log(response);
+            	console.log(midx);
+            	console.log(response.mIdx);
                 $(".comment-list").empty();
                 // 댓글 목록을 테이블 형식으로 추가
                 var html = [];
                 html.push('<table class="table">');
-                html.push('	<thead><tr><th>작성자</th><th>댓글 내용</th><th>작성일</th><th>삭제</th></tr></thead>');
-                html.push('	<tbody>');
+                html.push('	<thead>');
+           		html.push('		<tr>');
+  				html.push('			<th>작성자</th>');
+				html.push('			<th>댓글 내용</th>');
+				html.push('			<th>작성일</th>');
+				for(var i=0; i < response.reply.length; i++){
+					if (midx == response.reply[i].mIdx || adminCheck == 2) {
+						html.push('			<th>삭제</th>');
+					}
+				}
+				html.push('		</tr>');
+				html.push('	</thead>');
+                html.push('<tbody>');
 
                 // 댓글 목록 동적으로 생성
                 for(var i=0; i < response.reply.length; i++){
@@ -474,7 +487,11 @@ style="background-image: url('images/bg_9.jpg');
                     html.push('			<td>' + response.reply[i].name + '</td>');  // mIdx는 작성자 정보로 대체 필요
                     html.push('			<td>' + response.reply[i].content + '</td>');
                     html.push('			<td>' + response.reply[i].regdate + '</td>');
-                    html.push('			<td><button class="delete-reply-btn" data-ridx="' + response.reply[i].rIdx + '" onclick="replyDelete(' + response.reply[i].rIdx + ')">삭제</button></td>');
+                    if (midx == response.reply[i].mIdx || adminCheck == 2) {
+                    	html.push('			<td><button class="delete-reply-btn" data-ridx="' + response.reply[i].rIdx + '" onclick="replyDelete(' + response.reply[i].rIdx + ')">삭제</button></td>');
+                    }else{
+                    	html.push('<td></td>');
+                    }
                     html.push('		</tr>');
                 }
 
