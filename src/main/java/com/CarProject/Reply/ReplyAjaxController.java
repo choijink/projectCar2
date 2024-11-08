@@ -100,7 +100,7 @@ public class ReplyAjaxController extends HttpServlet {
             int rIdx = Integer.parseInt(request.getParameter("rIdx"));
 
             // 댓글 삭제
-            boolean result = replyDao.deleteReply(rIdx);  // int 반환값으로 유지
+            boolean result = replyDao.deleteReply(rIdx, 0);  // int 반환값으로 유지
 
             // 응답 객체 생성
             Gson gson = new Gson();

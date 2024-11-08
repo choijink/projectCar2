@@ -30,16 +30,22 @@ public class ReplyDao extends SuperDao {
 	}
 
 	// 댓글 삭제
-	public Boolean deleteReply(int rIdx) {
+	public Boolean deleteReply(int rIdx, int bIdx) {
 		Connection conn = null;
 	    PreparedStatement pstmt = null;
-	    String sql = "DELETE FROM reply WHERE r_idx = ?";
+	    String sql = "DELETE FROM reply WHERE 1=1";
+	    		if(rIdx > 0) sql += " AND r_idx = ? ";
+	    		if(bIdx > 0) sql += " AND b_idx = ? ";
 	    boolean success = false;
 
 	    try {
 	        conn = super.getConnection();
 	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setInt(1, rIdx);
+	        int paramIndex = 1;
+	        
+	        if(rIdx > 0)pstmt.setInt(paramIndex++, rIdx);
+	        if(bIdx > 0)pstmt.setInt(paramIndex++, bIdx);
+	        
 	        int rowsAffected = pstmt.executeUpdate();
 	        success = (rowsAffected > 0); // 삭제가 성공했는지 여부
 	    } catch (Exception e) {
