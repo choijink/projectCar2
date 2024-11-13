@@ -15,8 +15,8 @@ public class EmailSender {
     private static final String GOOGLE_EMAIL = "seokun1229@gmail.com"; 
     private static final String GOOGLE_PASSWORD = "slmh utyz seau avib";
     
-    private static final String NAVER_EMAIL = "tjrdns1229@naver.com"; 
-    private static final String NAVER_PASSWORD = "qudtls123$"; 
+    private static final String NAVER_EMAIL = "naver@naver.com";  // 프로젝트끝나서, 삭제함.
+    private static final String NAVER_PASSWORD = "12341234";  // 동일
 
     public static boolean sendVerificationEmail(String recipientEmail, String verificationCode) {
         Properties props = new Properties();
